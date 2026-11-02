@@ -111,6 +111,9 @@ body[data-theme="dark"] .experience-section { background: #172522; }
 body[data-theme="dark"] .experience-list { border-color: var(--line); }
 .experience-item { display: grid; grid-template-columns: .78fr 1.22fr; gap: 45px; padding: 26px 0; border-bottom: 1px solid #bfc9bc; }
 body[data-theme="dark"] .experience-item { border-color: var(--line); }
+.experience-meta-top { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
+.experience-logo { display: grid; width: 104px; height: 42px; place-items: center; padding: 7px 9px; overflow: hidden; border: 1px solid var(--line); border-radius: 9px; background: #fff; }
+.experience-logo img { display: block; max-width: 100%; max-height: 26px; object-fit: contain; }
 .experience-period { color: #738a68; font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .experience-meta h3 { margin: 8px 0 2px; font-size: 22px; }
 .experience-meta p { margin: 0; color: var(--muted); font-size: 11px; }

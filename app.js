@@ -46,7 +46,22 @@
     const experience = data.experience;
     const card = make("article", "experience-item reveal");
     const meta = make("div", "experience-meta");
-    meta.append(make("span", "experience-period", experience.period || "Period — To Be Added"));
+    const metaTop = make("div", "experience-meta-top");
+    metaTop.append(make("span", "experience-period", experience.period || "Period — To Be Added"));
+    if (/jbm/i.test(experience.organization || "")) {
+      const logoLink = make("a", "experience-logo");
+      logoLink.href = "https://www.jbmgroup.com/";
+      logoLink.target = "_blank";
+      logoLink.rel = "noopener noreferrer";
+      logoLink.setAttribute("aria-label", "JBM Group official website");
+      const logo = make("img");
+      logo.src = "assets/jbm-group-logo.png";
+      logo.alt = "JBM Group logo";
+      logo.loading = "lazy";
+      logoLink.append(logo);
+      metaTop.append(logoLink);
+    }
+    meta.append(metaTop);
     meta.append(make("h3", "", experience.title || "Role — To Be Added"));
     meta.append(make("p", "", experience.organization || "Organization — To Be Added"));
     const body = make("div", "experience-content");
