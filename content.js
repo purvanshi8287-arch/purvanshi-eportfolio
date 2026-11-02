@@ -35,10 +35,11 @@ window.PORTFOLIO = {
       process: "I identified the problem, collected evidence, built my own chatbot prototype using ChatGPT, and stress-tested it. Each team member built an individual bot; the team then compared them.",
       outcome: "My bot was not selected as the team’s final choice. I continued refining it into a GitHub-hosted academic prototype. I report that it passed all 12 stress scenarios, but the uploaded results sheet is blank, so that result is self-reported and not independently verifiable. It has not been used in a live business decision.",
       evidence: [
-        { label: "Open prototype", href: "https://purvanshi8287-arch.github.io/byjus-spend-review-chatbot/" },
+        { label: "Open prototype", href: "https://purvanshi8287-arch.github.io/byjus-spend-review-chatbot/proposal-review.html" },
         { label: "View source repository", href: "https://github.com/purvanshi8287-arch/byjus-spend-review-chatbot" },
         { label: "Evidence source pack", href: "https://github.com/purvanshi8287-arch/byjus-spend-review-chatbot/blob/main/web-evidence-pack.md" }
       ],
+      evidenceNote: "Stress-test result is self-reported; the uploaded results sheet is blank, so it cannot be independently verified. The team selected another bot; no live business use is claimed.",
       status: "Academic prototype"
     },
     {
@@ -48,6 +49,7 @@ window.PORTFOLIO = {
       process: "The standalone dashboard includes charts, selectors, navigation and a sources/definitions section. It notes that no Capitaline export was present and its source notes identify Screener, Titan Company and NSE materials.",
       outcome: "A runnable dashboard is included with this portfolio. Personal contribution, project context and specific methods used — To Be Added.",
       evidence: [{ label: "Open the dashboard", href: "projects/titan-company-financial-dashboard.html" }],
+      evidenceNote: "The dashboard notes that no Capitaline export was present and identifies its sources. Personal contribution and project context remain To Be Added.",
       status: "Financial analysis"
     },
     { title: "Project 3 — To Be Added", placeholder: true }
