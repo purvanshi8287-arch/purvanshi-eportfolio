@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a1019">
+<title>Titan Company Limited | Financial Dashboard</title>
+<style>
+:root{--bg:#09111c;--bg2:#0e1927;--panel:#111e2d;--panel2:#152435;--ink:#f4f1e9;--muted:#a6b0bd;--line:rgba(190,205,220,.12);--gold:#d8b36b;--gold2:#f1d99e;--teal:#7fc9bd;--blue:#8caee0;--violet:#b3a1df;--coral:#e69a7a;--lime:#a9c68e;--shadow:0 22px 70px rgba(0,0,0,.22)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(1000px 620px at 88% -5%,rgba(179,161,223,.12),transparent 62%),radial-gradient(760px 520px at 10% 18%,rgba(216,179,107,.10),transparent 60%),linear-gradient(180deg,#09111c 0%,#0b1420 40%,#08111a 100%);color:var(--ink);font:15px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;min-width:320px}
+a{color:var(--gold2);text-decoration:none}a:hover{text-decoration:underline}
+button,select{font:inherit;color:inherit}
+button:focus-visible,select:focus-visible,a:focus-visible{outline:2px solid var(--gold2);outline-offset:3px}
+.shell{max-width:1440px;margin:auto;padding:0 34px 52px}
+.topbar{height:76px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:relative;z-index:2}
+.brand{display:flex;align-items:center;gap:12px;letter-spacing:.15em;font-size:12px;font-weight:700}
+.brand-mark{height:32px;width:32px;border:1px solid rgba(216,179,107,.55);border-radius:50%;display:grid;place-items:center;color:var(--gold2);font-size:15px;background:linear-gradient(145deg,rgba(216,179,107,.15),rgba(216,179,107,.02))}
+.brand small{display:block;color:var(--muted);font-size:9px;letter-spacing:.22em;font-weight:500;margin-top:1px}
+.nav{display:flex;gap:7px;align-items:center}
+.nav a{color:#b7c0cc;padding:8px 12px;border-radius:999px;font-size:12px}
+.nav a:hover{background:rgba(255,255,255,.06);text-decoration:none;color:var(--ink)}
+.asof{color:var(--muted);font-size:11px;border:1px solid var(--line);border-radius:999px;padding:8px 12px}
+.hero{position:relative;overflow:hidden;min-height:295px;margin:28px 0 26px;padding:42px 46px;border:1px solid rgba(216,179,107,.18);border-radius:25px;background:linear-gradient(115deg,rgba(22,34,47,.96),rgba(17,29,43,.94) 55%,rgba(30,38,50,.9));box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-between}
+.hero:before,.hero:after{content:"";position:absolute;border:1px solid rgba(216,179,107,.13);border-radius:50%;pointer-events:none}
+.hero:before{width:520px;height:520px;right:-90px;top:-205px;box-shadow:0 0 0 32px rgba(216,179,107,.025),0 0 0 74px rgba(216,179,107,.018)}
+.hero:after{width:350px;height:350px;right:-10px;top:-120px}
+.hero-copy{max-width:660px;position:relative;z-index:1}
+.eyebrow{color:var(--gold);font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;margin:0 0 10px}
+h1{font-weight:500;letter-spacing:-.055em;line-height:1.04;font-size:clamp(38px,5vw,67px);margin:0}
+h1 span{color:var(--gold2)}
+.hero-copy>p:last-child{color:#c0c8d0;max-width:570px;font-size:15px;margin:18px 0 0}
+.hero-aside{z-index:1;position:relative;width:270px;text-align:right}
+.hero-price-label{color:var(--muted);font-size:11px;letter-spacing:.13em;text-transform:uppercase}
+.hero-price{font-size:38px;font-weight:500;letter-spacing:-.04em;margin:2px 0 12px}
+.hero-price small{font-size:14px;color:var(--gold);letter-spacing:0}
+.range-head{display:flex;justify-content:space-between;color:var(--muted);font-size:10px;margin:20px 0 7px}
+.range-track{height:5px;background:rgba(255,255,255,.12);border-radius:8px;position:relative}
+.range-fill{height:100%;width:50%;background:linear-gradient(90deg,#9d804c,var(--gold2));border-radius:8px}
+.range-dot{position:absolute;top:50%;left:50%;height:13px;width:13px;background:var(--gold2);border:3px solid #172535;box-shadow:0 0 0 1px var(--gold);border-radius:50%;transform:translate(-50%,-50%)}
+.range-caption{color:#c0c8d0;font-size:11px;margin-top:8px}
+.hero-tags{display:flex;gap:9px;flex-wrap:wrap;margin-top:24px}
+.tag{border:1px solid var(--line);border-radius:999px;padding:6px 10px;color:#c5cdd5;font-size:10px;background:rgba(255,255,255,.025)}
+section{scroll-margin-top:90px;margin-top:46px}
+.section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:18px;margin:0 1px 18px}
+.section-head h2{font-size:24px;line-height:1.15;margin:0;letter-spacing:-.035em;font-weight:500}
+.section-head p{margin:7px 0 0;color:var(--muted);font-size:12px}
+.section-meta{color:var(--muted);font-size:11px}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.kpi{padding:18px 20px;border:1px solid var(--line);border-radius:17px;background:linear-gradient(150deg,rgba(22,35,50,.86),rgba(14,25,38,.8));min-height:114px;box-shadow:0 10px 32px rgba(0,0,0,.11)}
+.kpi-label{font-size:11px;color:var(--muted);letter-spacing:.04em}
+.kpi-value{font-size:27px;line-height:1.15;margin:7px 0 4px;font-weight:500;letter-spacing:-.03em}
+.kpi-foot{font-size:10px;color:#a9b5c0}
+.kpi-foot strong{font-weight:600;color:var(--teal)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:15px}
+.panel{background:linear-gradient(150deg,rgba(19,32,47,.9),rgba(14,25,38,.88));border:1px solid var(--line);border-radius:18px;padding:19px 20px 17px;box-shadow:0 12px 36px rgba(0,0,0,.12);min-width:0}
+.panel.wide{grid-column:1/-1}
+.panel-head{display:flex;align-items:flex-start;justify-content:space-between;gap:15px;margin-bottom:11px}
+.panel-head h3{font-size:15px;margin:0;font-weight:500;letter-spacing:-.01em}
+.panel-head p{font-size:10px;color:var(--muted);margin:4px 0 0}
+.unit-pill{color:#c2ccd6;border:1px solid var(--line);padding:5px 9px;border-radius:999px;font-size:10px;white-space:nowrap}
+.controls{display:flex;gap:7px;align-items:center;flex-wrap:wrap}
+.toggle{background:transparent;border:1px solid var(--line);border-radius:999px;padding:7px 11px;color:#aab5c1;font-size:10px;cursor:pointer}
+.toggle:hover{border-color:rgba(216,179,107,.5);color:var(--ink)}
+.toggle.active{background:rgba(216,179,107,.14);border-color:rgba(216,179,107,.5);color:var(--gold2)}
+.select{background:#142335;border:1px solid rgba(190,205,220,.18);border-radius:9px;padding:8px 28px 8px 10px;font-size:11px;color:var(--ink);max-width:100%;cursor:pointer}
+.control-label{display:block;font-size:9px;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin:0 0 5px}
+.control-wrap{display:grid;gap:0}
+.chart{width:100%;min-height:235px;position:relative}
+.chart svg{display:block;width:100%;height:auto;overflow:visible}
+.chart.short{min-height:195px}
+.chart.tall{min-height:290px}
+.legend{display:flex;gap:11px;flex-wrap:wrap;align-items:center;margin:3px 0 8px}
+.legend-item{display:inline-flex;align-items:center;gap:6px;color:#b7c1cb;font-size:10px}
+.swatch{width:8px;height:8px;border-radius:2px;display:inline-block}
+.note{font-size:10px;color:#99a7b4;margin:8px 1px 0}
+.chart-empty{padding:55px 10px;text-align:center;color:var(--muted);font-size:12px}
+.viz-label{fill:#aab5c1;font-size:10px;font-family:inherit}
+.viz-label.strong{fill:#e9e5dc}
+.viz-grid{stroke:rgba(190,205,220,.12);stroke-width:1}
+.viz-axis{stroke:rgba(190,205,220,.24);stroke-width:1}
+.bar{opacity:.9}
+.split-line{height:1px;background:var(--line);margin:15px 0}
+.snapshot{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+.snapshot-item{padding:12px;border-radius:12px;background:rgba(255,255,255,.03);border:1px solid rgba(190,205,220,.08)}
+.snapshot-item span{display:block;color:var(--muted);font-size:9px;letter-spacing:.04em}
+.snapshot-item strong{display:block;font-size:16px;font-weight:500;margin-top:4px}
+.rangebox{margin-top:12px}
+.range-scale{height:7px;border-radius:99px;background:linear-gradient(90deg,#795d3b,#d3ad67 55%,#7fc9bd);position:relative;margin:12px 0 6px}
+.range-scale i{position:absolute;width:14px;height:14px;border-radius:50%;background:#f6f0df;border:3px solid #172536;top:50%;transform:translate(-50%,-50%);box-shadow:0 0 0 1px #f1d99e}
+.range-ends{display:flex;justify-content:space-between;color:var(--muted);font-size:10px}
+.ownership-stack{height:15px;border-radius:10px;overflow:hidden;display:flex;margin:15px 0 9px;background:#1c2a38}
+.ownership-stack span{height:100%}
+.growth-groups{display:grid;gap:13px;margin-top:9px}
+.growth-row{display:grid;grid-template-columns:110px 1fr 40px;align-items:center;gap:10px}
+.growth-name{color:#bdc6d0;font-size:10px}
+.growth-bars{display:grid;gap:4px}
+.growth-bar-row{display:grid;grid-template-columns:45px 1fr 34px;align-items:center;gap:6px}
+.growth-horizon{color:#8e9aa7;font-size:9px}
+.growth-track{height:6px;background:rgba(255,255,255,.07);border-radius:99px;overflow:hidden}
+.growth-track b{height:100%;display:block;border-radius:99px;background:linear-gradient(90deg,#9c804d,var(--gold2))}
+.growth-value{font-size:9px;color:#cbd3dc;text-align:right}
+.growth-max{font-size:9px;color:#7f8e9c;text-align:right}
+.source-box{background:linear-gradient(130deg,rgba(216,179,107,.09),rgba(22,35,50,.75));border:1px solid rgba(216,179,107,.2);padding:16px 18px;border-radius:15px;color:#c4cdd5;font-size:11px;margin:15px 0}
+.source-box strong{color:var(--gold2);font-weight:600}
+details{border-top:1px solid var(--line);margin-top:12px;padding-top:13px}
+summary{cursor:pointer;color:#d5dce2;font-size:11px}
+.source-list{margin:12px 0 0;padding:0;list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px 22px}
+.source-list li{font-size:10px;color:var(--muted);line-height:1.5}
+.source-list a{font-size:10px}
+.footer{border-top:1px solid var(--line);padding:20px 0 0;margin-top:45px;color:#7e8c9a;font-size:10px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.reveal{animation:rise .5s ease both}
+@keyframes rise{from{opacity:0;transform:translateY(7px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:960px){.shell{padding-left:22px;padding-right:22px}.nav{display:none}.hero{padding:34px 30px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:680px){.shell{padding:0 14px 35px}.topbar{height:64px}.asof{font-size:9px;padding:7px 9px}.hero{min-height:0;padding:29px 23px;align-items:flex-start}.hero-aside{display:none}.hero:before{right:-290px}.hero:after{right:-230px}.hero-copy>p:last-child{font-size:13px}.section-head{align-items:flex-start;flex-direction:column}.section-head h2{font-size:21px}.kpis{gap:9px}.kpi{padding:14px 14px;min-height:104px}.kpi-value{font-size:22px}.grid{grid-template-columns:1fr;gap:11px;margin-top:11px}.panel{padding:16px 13px}.panel.wide{grid-column:auto}.panel-head{flex-direction:column}.panel-head .controls{width:100%}.select{min-width:0}.chart{min-height:200px}.snapshot{grid-template-columns:repeat(2,minmax(0,1fr))}.growth-row{grid-template-columns:83px 1fr 30px;gap:6px}.source-list{grid-template-columns:1fr}.unit-pill{align-self:flex-start}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.reveal{animation:none}}
+</style>
+</head>
+<body>
+<script id="dashboard-data" type="application/json">{"annual_financials":[{"period":"Mar 2015","sales_cr":"11913","expenses_cr":"10761","operating_profit_cr":"1153","opm_pct":"10","other_income_cr":"67","interest_cr":"81","depreciation_cr":"90","pbt_cr":"1049","tax_pct":"22","net_profit_cr":"816","eps_rs":"9.19","dividend_payout_pct":"25"},{"period":"Mar 2016","sales_cr":"11276","expenses_cr":"10337","operating_profit_cr":"939","opm_pct":"8","other_income_cr":"69","interest_cr":"42","depreciation_cr":"98","pbt_cr":"868","tax_pct":"22","net_profit_cr":"675","eps_rs":"7.60","dividend_payout_pct":"29"},{"period":"Mar 2017","sales_cr":"13261","expenses_cr":"12097","operating_profit_cr":"1164","opm_pct":"9","other_income_cr":"-42","interest_cr":"38","depreciation_cr":"111","pbt_cr":"973","tax_pct":"28","net_profit_cr":"697","eps_rs":"8.01","dividend_payout_pct":"32"},{"period":"Mar 2018","sales_cr":"16120","expenses_cr":"14476","operating_profit_cr":"1644","opm_pct":"10","other_income_cr":"70","interest_cr":"53","depreciation_cr":"131","pbt_cr":"1530","tax_pct":"28","net_profit_cr":"1102","eps_rs":"12.73","dividend_payout_pct":"29"},{"period":"Mar 2019","sales_cr":"19779","expenses_cr":"17785","operating_profit_cr":"1994","opm_pct":"10","other_income_cr":"178","interest_cr":"53","depreciation_cr":"163","pbt_cr":"1957","tax_pct":"29","net_profit_cr":"1389","eps_rs":"15.82","dividend_payout_pct":"32"},{"period":"Mar 2020","sales_cr":"21052","expenses_cr":"18589","operating_profit_cr":"2463","opm_pct":"12","other_income_cr":"153","interest_cr":"166","depreciation_cr":"348","pbt_cr":"2102","tax_pct":"29","net_profit_cr":"1493","eps_rs":"16.91","dividend_payout_pct":"24"},{"period":"Mar 2021","sales_cr":"21644","expenses_cr":"19919","operating_profit_cr":"1725","opm_pct":"8","other_income_cr":"180","interest_cr":"203","depreciation_cr":"375","pbt_cr":"1327","tax_pct":"27","net_profit_cr":"974","eps_rs":"10.96","dividend_payout_pct":"37"},{"period":"Mar 2022","sales_cr":"28799","expenses_cr":"25455","operating_profit_cr":"3344","opm_pct":"12","other_income_cr":"177","interest_cr":"218","depreciation_cr":"399","pbt_cr":"2904","tax_pct":"24","net_profit_cr":"2198","eps_rs":"24.48","dividend_payout_pct":"31"},{"period":"Mar 2023","sales_cr":"40575","expenses_cr":"35693","operating_profit_cr":"4882","opm_pct":"12","other_income_cr":"306","interest_cr":"300","depreciation_cr":"441","pbt_cr":"4447","tax_pct":"26","net_profit_cr":"3274","eps_rs":"36.61","dividend_payout_pct":"27"},{"period":"Mar 2024","sales_cr":"51084","expenses_cr":"45792","operating_profit_cr":"5292","opm_pct":"10","other_income_cr":"534","interest_cr":"619","depreciation_cr":"584","pbt_cr":"4623","tax_pct":"24","net_profit_cr":"3496","eps_rs":"39.38","dividend_payout_pct":"28"},{"period":"Mar 2025","sales_cr":"60456","expenses_cr":"54762","operating_profit_cr":"5694","opm_pct":"9","other_income_cr":"487","interest_cr":"953","depreciation_cr":"693","pbt_cr":"4535","tax_pct":"26","net_profit_cr":"3337","eps_rs":"37.59","dividend_payout_pct":"29"},{"period":"Mar 2026","sales_cr":"87584","expenses_cr":"79227","operating_profit_cr":"8357","opm_pct":"10","other_income_cr":"450","interest_cr":"1180","depreciation_cr":"826","pbt_cr":"6801","tax_pct":"25","net_profit_cr":"5073","eps_rs":"57.14","dividend_payout_pct":"26"},{"period":"TTM Jun 2026","sales_cr":"92417","expenses_cr":"83001","operating_profit_cr":"9416","opm_pct":"10","other_income_cr":"495","interest_cr":"1262","depreciation_cr":"898","pbt_cr":"7751","tax_pct":"","net_profit_cr":"5760","eps_rs":"64.89","dividend_payout_pct":""}],"quarterly_financials":[{"period":"Jun 2023","sales_cr":"11897","expenses_cr":"10772","operating_profit_cr":"1125","opm_pct":"9","other_income_cr":"114","interest_cr":"109","depreciation_cr":"128","pbt_cr":"1002","tax_pct":"25","net_profit_cr":"756","eps_rs":"8.48"},{"period":"Sep 2023","sales_cr":"12529","expenses_cr":"11118","operating_profit_cr":"1411","opm_pct":"11","other_income_cr":"125","interest_cr":"140","depreciation_cr":"144","pbt_cr":"1252","tax_pct":"27","net_profit_cr":"916","eps_rs":"10.31"},{"period":"Dec 2023","sales_cr":"14164","expenses_cr":"12599","operating_profit_cr":"1565","opm_pct":"11","other_income_cr":"136","interest_cr":"169","depreciation_cr":"154","pbt_cr":"1378","tax_pct":"24","net_profit_cr":"1053","eps_rs":"11.86"},{"period":"Mar 2024","sales_cr":"12494","expenses_cr":"11303","operating_profit_cr":"1191","opm_pct":"10","other_income_cr":"159","interest_cr":"201","depreciation_cr":"158","pbt_cr":"991","tax_pct":"22","net_profit_cr":"771","eps_rs":"8.68"},{"period":"Jun 2024","sales_cr":"13266","expenses_cr":"12019","operating_profit_cr":"1247","opm_pct":"9","other_income_cr":"120","interest_cr":"230","depreciation_cr":"164","pbt_cr":"973","tax_pct":"27","net_profit_cr":"715","eps_rs":"8.05"},{"period":"Sep 2024","sales_cr":"14534","expenses_cr":"13298","operating_profit_cr":"1236","opm_pct":"8","other_income_cr":"123","interest_cr":"240","depreciation_cr":"171","pbt_cr":"948","tax_pct":"26","net_profit_cr":"704","eps_rs":"7.93"},{"period":"Dec 2024","sales_cr":"17740","expenses_cr":"16066","operating_profit_cr":"1674","opm_pct":"9","other_income_cr":"128","interest_cr":"231","depreciation_cr":"175","pbt_cr":"1396","tax_pct":"25","net_profit_cr":"1047","eps_rs":"11.79"},{"period":"Mar 2025","sales_cr":"14916","expenses_cr":"13379","operating_profit_cr":"1537","opm_pct":"10","other_income_cr":"116","interest_cr":"252","depreciation_cr":"183","pbt_cr":"1218","tax_pct":"28","net_profit_cr":"871","eps_rs":"9.81"},{"period":"Jun 2025","sales_cr":"16523","expenses_cr":"14693","operating_profit_cr":"1830","opm_pct":"11","other_income_cr":"105","interest_cr":"271","depreciation_cr":"184","pbt_cr":"1480","tax_pct":"26","net_profit_cr":"1091","eps_rs":"12.29"},{"period":"Sep 2025","sales_cr":"18725","expenses_cr":"16850","operating_profit_cr":"1875","opm_pct":"10","other_income_cr":"113","interest_cr":"277","depreciation_cr":"189","pbt_cr":"1522","tax_pct":"26","net_profit_cr":"1120","eps_rs":"12.62"},{"period":"Dec 2025","sales_cr":"25416","expenses_cr":"22703","operating_profit_cr":"2713","opm_pct":"11","other_income_cr":"-1","interest_cr":"282","depreciation_cr":"207","pbt_cr":"2223","tax_pct":"24","net_profit_cr":"1684","eps_rs":"18.97"},{"period":"Mar 2026","sales_cr":"26920","expenses_cr":"24982","operating_profit_cr":"1938","opm_pct":"7","other_income_cr":"235","interest_cr":"350","depreciation_cr":"246","pbt_cr":"1577","tax_pct":"25","net_profit_cr":"1179","eps_rs":"13.28"},{"period":"Jun 2026","sales_cr":"21356","expenses_cr":"18466","operating_profit_cr":"2890","opm_pct":"14","other_income_cr":"148","interest_cr":"353","depreciation_cr":"256","pbt_cr":"2429","tax_pct":"27","net_profit_cr":"1777","eps_rs":"20.02"}],"balance_sheet":[{"period":"Mar 2015","equity_capital_cr":"89","reserves_cr":"2995","borrowings_cr":"100","other_liabilities_cr":"2684","total_liabilities_cr":"5868","fixed_assets_cr":"699","cwip_cr":"55","investments_cr":"3","other_assets_cr":"5111","total_assets_cr":"5868"},{"period":"Mar 2016","equity_capital_cr":"89","reserves_cr":"3418","borrowings_cr":"113","other_liabilities_cr":"2723","total_liabilities_cr":"6342","fixed_assets_cr":"771","cwip_cr":"107","investments_cr":"30","other_assets_cr":"5434","total_assets_cr":"6342"},{"period":"Mar 2017","equity_capital_cr":"89","reserves_cr":"4144","borrowings_cr":"1882","other_liabilities_cr":"2293","total_liabilities_cr":"8408","fixed_assets_cr":"1189","cwip_cr":"152","investments_cr":"431","other_assets_cr":"6636","total_assets_cr":"8408"},{"period":"Mar 2018","equity_capital_cr":"89","reserves_cr":"5001","borrowings_cr":"1691","other_liabilities_cr":"2740","total_liabilities_cr":"9521","fixed_assets_cr":"1474","cwip_cr":"43","investments_cr":"36","other_assets_cr":"7968","total_assets_cr":"9521"},{"period":"Mar 2019","equity_capital_cr":"89","reserves_cr":"5981","borrowings_cr":"2393","other_liabilities_cr":"3247","total_liabilities_cr":"11710","fixed_assets_cr":"1567","cwip_cr":"32","investments_cr":"108","other_assets_cr":"10003","total_assets_cr":"11710"},{"period":"Mar 2020","equity_capital_cr":"89","reserves_cr":"6580","borrowings_cr":"3562","other_liabilities_cr":"3313","total_liabilities_cr":"13544","fixed_assets_cr":"2633","cwip_cr":"18","investments_cr":"158","other_assets_cr":"10735","total_assets_cr":"13544"},{"period":"Mar 2021","equity_capital_cr":"89","reserves_cr":"7408","borrowings_cr":"5638","other_liabilities_cr":"3309","total_liabilities_cr":"16444","fixed_assets_cr":"2523","cwip_cr":"32","investments_cr":"2824","other_assets_cr":"11065","total_assets_cr":"16444"},{"period":"Mar 2022","equity_capital_cr":"89","reserves_cr":"9214","borrowings_cr":"7275","other_liabilities_cr":"4610","total_liabilities_cr":"21188","fixed_assets_cr":"2544","cwip_cr":"85","investments_cr":"294","other_assets_cr":"18265","total_assets_cr":"21188"},{"period":"Mar 2023","equity_capital_cr":"89","reserves_cr":"11762","borrowings_cr":"9367","other_liabilities_cr":"5802","total_liabilities_cr":"27020","fixed_assets_cr":"2998","cwip_cr":"144","investments_cr":"2515","other_assets_cr":"21363","total_assets_cr":"27020"},{"period":"Mar 2024","equity_capital_cr":"89","reserves_cr":"9304","borrowings_cr":"15528","other_liabilities_cr":"6626","total_liabilities_cr":"31547","fixed_assets_cr":"3709","cwip_cr":"97","investments_cr":"2345","other_assets_cr":"25396","total_assets_cr":"31547"},{"period":"Mar 2025","equity_capital_cr":"89","reserves_cr":"11535","borrowings_cr":"20777","other_liabilities_cr":"8244","total_liabilities_cr":"40645","fixed_assets_cr":"4062","cwip_cr":"105","investments_cr":"1988","other_assets_cr":"34490","total_assets_cr":"40645"},{"period":"Mar 2026","equity_capital_cr":"89","reserves_cr":"15614","borrowings_cr":"30621","other_liabilities_cr":"14237","total_liabilities_cr":"60561","fixed_assets_cr":"6878","cwip_cr":"163","investments_cr":"3506","other_assets_cr":"50014","total_assets_cr":"60561"}],"cash_flow":[{"period":"Mar 2015","cfo_cr":"503","cfi_cr":"-118","cff_cr":"-1005","net_cash_flow_cr":"-620","free_cash_flow_cr":"296","cfo_to_operating_profit_pct":"65"},{"period":"Mar 2016","cfo_cr":"576","cfi_cr":"-159","cff_cr":"-505","net_cash_flow_cr":"-88","free_cash_flow_cr":"324","cfo_to_operating_profit_pct":"83"},{"period":"Mar 2017","cfo_cr":"1712","cfi_cr":"-953","cff_cr":"-166","net_cash_flow_cr":"594","free_cash_flow_cr":"1461","cfo_to_operating_profit_pct":"171"},{"period":"Mar 2018","cfo_cr":"-51","cfi_cr":"98","cff_cr":"-252","net_cash_flow_cr":"-206","free_cash_flow_cr":"-350","cfo_to_operating_profit_pct":"25"},{"period":"Mar 2019","cfo_cr":"1243","cfi_cr":"-797","cff_cr":"-489","net_cash_flow_cr":"-43","free_cash_flow_cr":"980","cfo_to_operating_profit_pct":"94"},{"period":"Mar 2020","cfo_cr":"-348","cfi_cr":"235","cff_cr":"-242","net_cash_flow_cr":"-355","free_cash_flow_cr":"-693","cfo_to_operating_profit_pct":"8"},{"period":"Mar 2021","cfo_cr":"4139","cfi_cr":"-2799","cff_cr":"-1234","net_cash_flow_cr":"106","free_cash_flow_cr":"4000","cfo_to_operating_profit_pct":"256"},{"period":"Mar 2022","cfo_cr":"-724","cfi_cr":"1165","cff_cr":"-403","net_cash_flow_cr":"38","free_cash_flow_cr":"-940","cfo_to_operating_profit_pct":"2"},{"period":"Mar 2023","cfo_cr":"1370","cfi_cr":"-1814","cff_cr":"457","net_cash_flow_cr":"13","free_cash_flow_cr":"950","cfo_to_operating_profit_pct":"52"},{"period":"Mar 2024","cfo_cr":"1695","cfi_cr":"-189","cff_cr":"-1329","net_cash_flow_cr":"177","free_cash_flow_cr":"1024","cfo_to_operating_profit_pct":"54"},{"period":"Mar 2025","cfo_cr":"-541","cfi_cr":"546","cff_cr":"-7","net_cash_flow_cr":"-2","free_cash_flow_cr":"-1011","cfo_to_operating_profit_pct":"10"},{"period":"Mar 2026","cfo_cr":"5590","cfi_cr":"-2965","cff_cr":"-2159","net_cash_flow_cr":"466","free_cash_flow_cr":"4713","cfo_to_operating_profit_pct":"88"}],"ratios":[{"period":"Mar 2015","debtor_days":"6","inventory_days":"169","days_payable":"81","cash_conversion_cycle_days":"94","working_capital_days":"59","roce_pct":"35"},{"period":"Mar 2016","debtor_days":"6","inventory_days":"198","days_payable":"74","cash_conversion_cycle_days":"131","working_capital_days":"74","roce_pct":"27"},{"period":"Mar 2017","debtor_days":"6","inventory_days":"189","days_payable":"30","cash_conversion_cycle_days":"165","working_capital_days":"42","roce_pct":"23"},{"period":"Mar 2018","debtor_days":"7","inventory_days":"185","days_payable":"27","cash_conversion_cycle_days":"164","working_capital_days":"60","roce_pct":"25"},{"period":"Mar 2019","debtor_days":"8","inventory_days":"178","days_payable":"23","cash_conversion_cycle_days":"163","working_capital_days":"55","roce_pct":"26"},{"period":"Mar 2020","debtor_days":"5","inventory_days":"195","days_payable":"14","cash_conversion_cycle_days":"186","working_capital_days":"69","roce_pct":"24"},{"period":"Mar 2021","debtor_days":"6","inventory_days":"187","days_payable":"18","cash_conversion_cycle_days":"176","working_capital_days":"36","roce_pct":"13"},{"period":"Mar 2022","debtor_days":"7","inventory_days":"230","days_payable":"22","cash_conversion_cycle_days":"215","working_capital_days":"68","roce_pct":"21"},{"period":"Mar 2023","debtor_days":"6","inventory_days":"199","days_payable":"15","cash_conversion_cycle_days":"191","working_capital_days":"51","roce_pct":"25"},{"period":"Mar 2024","debtor_days":"7","inventory_days":"176","days_payable":"13","cash_conversion_cycle_days":"171","working_capital_days":"42","roce_pct":"23"},{"period":"Mar 2025","debtor_days":"6","inventory_days":"217","days_payable":"15","cash_conversion_cycle_days":"208","working_capital_days":"35","roce_pct":"19"},{"period":"Mar 2026","debtor_days":"4","inventory_days":"222","days_payable":"15","cash_conversion_cycle_days":"211","working_capital_days":"28","roce_pct":"21"}],"growth_metrics":[{"metric":"Sales growth","horizon":"10 years","value":"23","unit":"percent CAGR"},{"metric":"Sales growth","horizon":"5 years","value":"32","unit":"percent CAGR"},{"metric":"Sales growth","horizon":"3 years","value":"29","unit":"percent CAGR"},{"metric":"Sales growth","horizon":"TTM","value":"45","unit":"percent"},{"metric":"Profit growth","horizon":"10 years","value":"22","unit":"percent CAGR"},{"metric":"Profit growth","horizon":"5 years","value":"40","unit":"percent CAGR"},{"metric":"Profit growth","horizon":"3 years","value":"17","unit":"percent CAGR"},{"metric":"Profit growth","horizon":"TTM","value":"57","unit":"percent"},{"metric":"Share price CAGR","horizon":"10 years","value":"28","unit":"percent CAGR"},{"metric":"Share price CAGR","horizon":"5 years","value":"13","unit":"percent CAGR"},{"metric":"Share price CAGR","horizon":"3 years","value":"12","unit":"percent CAGR"},{"metric":"Share price CAGR","horizon":"1 year","value":"18","unit":"percent CAGR"},{"metric":"Return on equity","horizon":"10 years","value":"29","unit":"percent"},{"metric":"Return on equity","horizon":"5 years","value":"32","unit":"percent"},{"metric":"Return on equity","horizon":"3 years","value":"34","unit":"percent"},{"metric":"Return on equity","horizon":"Last year","value":"38","unit":"percent"}],"profile":[{"metric":"Market capitalisation","value":"393684","unit":"₹ crore","as_of":"2026-10-30"},{"metric":"Share price","value":"4434","unit":"₹ per share","as_of":"2026-10-30"},{"metric":"52-week high","value":"5187","unit":"₹ per share","as_of":"2026-10-30"},{"metric":"52-week low","value":"3667","unit":"₹ per share","as_of":"2026-10-30"},{"metric":"Stock P/E","value":"67.5","unit":"times","as_of":"2026-10-30"},{"metric":"Book value","value":"177","unit":"₹ per share","as_of":"2026-10-30"},{"metric":"Dividend yield","value":"0.34","unit":"percent","as_of":"2026-10-30"},{"metric":"ROCE","value":"20.5","unit":"percent","as_of":"2026-10-30"},{"metric":"ROE","value":"37.7","unit":"percent","as_of":"2026-10-30"},{"metric":"Face value","value":"1","unit":"₹ per share","as_of":"2026-10-30"}],"segment_reported":[{"period":"Q2 FY25","period_type":"Quarter","period_order":"1","segment":"Watches","revenue_cr":"1304","segment_result_cr":"196"},{"period":"Q2 FY25","period_type":"Quarter","period_order":"1","segment":"Jewellery","revenue_cr":"12771","segment_result_cr":"974"},{"period":"Q2 FY25","period_type":"Quarter","period_order":"1","segment":"Eyecare","revenue_cr":"202","segment_result_cr":"22"},{"period":"Q2 FY25","period_type":"Quarter","period_order":"1","segment":"Others","revenue_cr":"301","segment_result_cr":"-4"},{"period":"Q2 FY25","period_type":"Quarter","period_order":"1","segment":"Corporate (unallocated)","revenue_cr":"78","segment_result_cr":"0"},{"period":"Q2 FY25","period_type":"Quarter","period_order":"1","segment":"Total reported","revenue_cr":"14656","segment_result_cr":"1188"},{"period":"Q3 FY25","period_type":"Quarter","period_order":"2","segment":"Watches","revenue_cr":"1137","segment_result_cr":"108"},{"period":"Q3 FY25","period_type":"Quarter","period_order":"2","segment":"Jewellery","revenue_cr":"16134","segment_result_cr":"1490"},{"period":"Q3 FY25","period_type":"Quarter","period_order":"2","segment":"Eyecare","revenue_cr":"196","segment_result_cr":"20"},{"period":"Q3 FY25","period_type":"Quarter","period_order":"2","segment":"Others","revenue_cr":"312","segment_result_cr":"1"},{"period":"Q3 FY25","period_type":"Quarter","period_order":"2","segment":"Corporate (unallocated)","revenue_cr":"89","segment_result_cr":"8"},{"period":"Q3 FY25","period_type":"Quarter","period_order":"2","segment":"Total reported","revenue_cr":"17868","segment_result_cr":"1627"},{"period":"Q4 FY25","period_type":"Quarter","period_order":"3","segment":"Watches","revenue_cr":"1134","segment_result_cr":"133"},{"period":"Q4 FY25","period_type":"Quarter","period_order":"3","segment":"Jewellery","revenue_cr":"13253","segment_result_cr":"1333"},{"period":"Q4 FY25","period_type":"Quarter","period_order":"3","segment":"Eyecare","revenue_cr":"193","segment_result_cr":"19"},{"period":"Q4 FY25","period_type":"Quarter","period_order":"3","segment":"Others","revenue_cr":"385","segment_result_cr":"26"},{"period":"Q4 FY25","period_type":"Quarter","period_order":"3","segment":"Corporate (unallocated)","revenue_cr":"67","segment_result_cr":"-41"},{"period":"Q4 FY25","period_type":"Quarter","period_order":"3","segment":"Total reported","revenue_cr":"15032","segment_result_cr":"1470"},{"period":"Q1 FY26","period_type":"Quarter","period_order":"4","segment":"Watches","revenue_cr":"1273","segment_result_cr":"287"},{"period":"Q1 FY26","period_type":"Quarter","period_order":"4","segment":"Jewellery","revenue_cr":"14647","segment_result_cr":"1408"},{"period":"Q1 FY26","period_type":"Quarter","period_order":"4","segment":"Eyecare","revenue_cr":"238","segment_result_cr":"20"},{"period":"Q1 FY26","period_type":"Quarter","period_order":"4","segment":"Others","revenue_cr":"415","segment_result_cr":"61"},{"period":"Q1 FY26","period_type":"Quarter","period_order":"4","segment":"Corporate (unallocated)","revenue_cr":"55","segment_result_cr":"-25"},{"period":"Q1 FY26","period_type":"Quarter","period_order":"4","segment":"Total reported","revenue_cr":"16628","segment_result_cr":"1751"},{"period":"Q2 FY26","period_type":"Quarter","period_order":"5","segment":"Watches","revenue_cr":"1477","segment_result_cr":"238"},{"period":"Q2 FY26","period_type":"Quarter","period_order":"5","segment":"Jewellery","revenue_cr":"16522","segment_result_cr":"1506"},{"period":"Q2 FY26","period_type":"Quarter","period_order":"5","segment":"Eyecare","revenue_cr":"220","segment_result_cr":"12"},{"period":"Q2 FY26","period_type":"Quarter","period_order":"5","segment":"Others","revenue_cr":"557","segment_result_cr":"70"},{"period":"Q2 FY26","period_type":"Quarter","period_order":"5","segment":"Corporate (unallocated)","revenue_cr":"61","segment_result_cr":"-27"},{"period":"Q2 FY26","period_type":"Quarter","period_order":"5","segment":"Total reported","revenue_cr":"18837","segment_result_cr":"1799"},{"period":"Q3 FY26","period_type":"Quarter","period_order":"6","segment":"Watches","revenue_cr":"1295","segment_result_cr":"156"},{"period":"Q3 FY26","period_type":"Quarter","period_order":"6","segment":"Jewellery","revenue_cr":"23492","segment_result_cr":"2475"},{"period":"Q3 FY26","period_type":"Quarter","period_order":"6","segment":"Eyecare","revenue_cr":"231","segment_result_cr":"24"},{"period":"Q3 FY26","period_type":"Quarter","period_order":"6","segment":"Others","revenue_cr":"457","segment_result_cr":"10"},{"period":"Q3 FY26","period_type":"Quarter","period_order":"6","segment":"Corporate (unallocated)","revenue_cr":"92","segment_result_cr":"-8"},{"period":"Q3 FY26","period_type":"Quarter","period_order":"6","segment":"Total reported","revenue_cr":"25567","segment_result_cr":"2657"},{"period":"Q4 FY26","period_type":"Quarter","period_order":"7","segment":"Watches","revenue_cr":"1222","segment_result_cr":"143"},{"period":"Q4 FY26","period_type":"Quarter","period_order":"7","segment":"Jewellery","revenue_cr":"24999","segment_result_cr":"1820"},{"period":"Q4 FY26","period_type":"Quarter","period_order":"7","segment":"Eyecare","revenue_cr":"227","segment_result_cr":"21"},{"period":"Q4 FY26","period_type":"Quarter","period_order":"7","segment":"Others","revenue_cr":"577","segment_result_cr":"32"},{"period":"Q4 FY26","period_type":"Quarter","period_order":"7","segment":"Corporate (unallocated)","revenue_cr":"79","segment_result_cr":"-141"},{"period":"Q4 FY26","period_type":"Quarter","period_order":"7","segment":"Total reported","revenue_cr":"27104","segment_result_cr":"1875"},{"period":"Q1 FY27","period_type":"Quarter","period_order":"8","segment":"Watches","revenue_cr":"1543","segment_result_cr":"295"},{"period":"Q1 FY27","period_type":"Quarter","period_order":"8","segment":"Jewellery","revenue_cr":"19002","segment_result_cr":"2360"},{"period":"Q1 FY27","period_type":"Quarter","period_order":"8","segment":"Eyecare","revenue_cr":"289","segment_result_cr":"24"},{"period":"Q1 FY27","period_type":"Quarter","period_order":"8","segment":"Others","revenue_cr":"566","segment_result_cr":"104"},{"period":"Q1 FY27","period_type":"Quarter","period_order":"8","segment":"Corporate (unallocated)","revenue_cr":"102","segment_result_cr":"-1"},{"period":"Q1 FY27","period_type":"Quarter","period_order":"8","segment":"Total reported","revenue_cr":"21502","segment_result_cr":"2782"},{"period":"FY25","period_type":"Annual","period_order":"1","segment":"Watches","revenue_cr":"4598","segment_result_cr":"548"},{"period":"FY25","period_type":"Annual","period_order":"1","segment":"Jewellery","revenue_cr":"53966","segment_result_cr":"4899"},{"period":"FY25","period_type":"Annual","period_order":"1","segment":"Eyecare","revenue_cr":"801","segment_result_cr":"80"},{"period":"FY25","period_type":"Annual","period_order":"1","segment":"Others","revenue_cr":"1275","segment_result_cr":"8"},{"period":"FY25","period_type":"Annual","period_order":"1","segment":"Corporate (unallocated)","revenue_cr":"302","segment_result_cr":"-47"},{"period":"FY25","period_type":"Annual","period_order":"1","segment":"Total reported","revenue_cr":"60942","segment_result_cr":"5488"},{"period":"FY26","period_type":"Annual","period_order":"2","segment":"Watches","revenue_cr":"5267","segment_result_cr":"824"},{"period":"FY26","period_type":"Annual","period_order":"2","segment":"Jewellery","revenue_cr":"79660","segment_result_cr":"7209"},{"period":"FY26","period_type":"Annual","period_order":"2","segment":"Eyecare","revenue_cr":"916","segment_result_cr":"77"},{"period":"FY26","period_type":"Annual","period_order":"2","segment":"Others","revenue_cr":"2006","segment_result_cr":"173"},{"period":"FY26","period_type":"Annual","period_order":"2","segment":"Corporate (unallocated)","revenue_cr":"287","segment_result_cr":"-201"},{"period":"FY26","period_type":"Annual","period_order":"2","segment":"Total reported","revenue_cr":"88136","segment_result_cr":"8082"}],"segment_resources":[{"period":"Q1 FY26","period_type":"Quarter","period_order":"1","segment":"Watches","assets_cr":"4467","liabilities_cr":"1376"},{"period":"Q1 FY26","period_type":"Quarter","period_order":"1","segment":"Jewellery","assets_cr":"29897","liabilities_cr":"19710"},{"period":"Q1 FY26","period_type":"Quarter","period_order":"1","segment":"Eyecare","assets_cr":"697","liabilities_cr":"403"},{"period":"Q1 FY26","period_type":"Quarter","period_order":"1","segment":"Others","assets_cr":"1742","liabilities_cr":"886"},{"period":"Q1 FY26","period_type":"Quarter","period_order":"1","segment":"Corporate (unallocated)","assets_cr":"4785","liabilities_cr":"6492"},{"period":"Q1 FY26","period_type":"Quarter","period_order":"1","segment":"Total reported","assets_cr":"41588","liabilities_cr":"28867"},{"period":"Q2 FY26","period_type":"Quarter","period_order":"2","segment":"Watches","assets_cr":"4715","liabilities_cr":"1549"},{"period":"Q2 FY26","period_type":"Quarter","period_order":"2","segment":"Jewellery","assets_cr":"39375","liabilities_cr":"27890"},{"period":"Q2 FY26","period_type":"Quarter","period_order":"2","segment":"Eyecare","assets_cr":"706","liabilities_cr":"401"},{"period":"Q2 FY26","period_type":"Quarter","period_order":"2","segment":"Others","assets_cr":"1859","liabilities_cr":"933"},{"period":"Q2 FY26","period_type":"Quarter","period_order":"2","segment":"Corporate (unallocated)","assets_cr":"5375","liabilities_cr":"8454"},{"period":"Q2 FY26","period_type":"Quarter","period_order":"2","segment":"Total reported","assets_cr":"52030","liabilities_cr":"39227"},{"period":"Q3 FY26","period_type":"Quarter","period_order":"3","segment":"Watches","assets_cr":"4546","liabilities_cr":"1542"},{"period":"Q3 FY26","period_type":"Quarter","period_order":"3","segment":"Jewellery","assets_cr":"39527","liabilities_cr":"28932"},{"period":"Q3 FY26","period_type":"Quarter","period_order":"3","segment":"Eyecare","assets_cr":"698","liabilities_cr":"430"},{"period":"Q3 FY26","period_type":"Quarter","period_order":"3","segment":"Others","assets_cr":"1905","liabilities_cr":"972"},{"period":"Q3 FY26","period_type":"Quarter","period_order":"3","segment":"Corporate (unallocated)","assets_cr":"6412","liabilities_cr":"6670"},{"period":"Q3 FY26","period_type":"Quarter","period_order":"3","segment":"Total reported","assets_cr":"53088","liabilities_cr":"38546"},{"period":"Q4 FY26","period_type":"Quarter","period_order":"4","segment":"Watches","assets_cr":"4970","liabilities_cr":"1528"},{"period":"Q4 FY26","period_type":"Quarter","period_order":"4","segment":"Jewellery","assets_cr":"47325","liabilities_cr":"33753"},{"period":"Q4 FY26","period_type":"Quarter","period_order":"4","segment":"Eyecare","assets_cr":"728","liabilities_cr":"440"},{"period":"Q4 FY26","period_type":"Quarter","period_order":"4","segment":"Others","assets_cr":"1910","liabilities_cr":"940"},{"period":"Q4 FY26","period_type":"Quarter","period_order":"4","segment":"Corporate (unallocated)","assets_cr":"5628","liabilities_cr":"8197"},{"period":"Q4 FY26","period_type":"Quarter","period_order":"4","segment":"Total reported","assets_cr":"60561","liabilities_cr":"44858"},{"period":"Q1 FY27","period_type":"Quarter","period_order":"5","segment":"Watches","assets_cr":"5367","liabilities_cr":"1502"},{"period":"Q1 FY27","period_type":"Quarter","period_order":"5","segment":"Jewellery","assets_cr":"49692","liabilities_cr":"31537"},{"period":"Q1 FY27","period_type":"Quarter","period_order":"5","segment":"Eyecare","assets_cr":"726","liabilities_cr":"446"},{"period":"Q1 FY27","period_type":"Quarter","period_order":"5","segment":"Others","assets_cr":"2050","liabilities_cr":"979"},{"period":"Q1 FY27","period_type":"Quarter","period_order":"5","segment":"Corporate (unallocated)","assets_cr":"6049","liabilities_cr":"11932"},{"period":"Q1 FY27","period_type":"Quarter","period_order":"5","segment":"Total reported","assets_cr":"63884","liabilities_cr":"46396"},{"period":"FY25","period_type":"Annual","period_order":"1","segment":"Watches","assets_cr":"4208","liabilities_cr":"1225"},{"period":"FY25","period_type":"Annual","period_order":"1","segment":"Jewellery","assets_cr":"30219","liabilities_cr":"18820"},{"period":"FY25","period_type":"Annual","period_order":"1","segment":"Eyecare","assets_cr":"667","liabilities_cr":"402"},{"period":"FY25","period_type":"Annual","period_order":"1","segment":"Others","assets_cr":"1446","liabilities_cr":"671"},{"period":"FY25","period_type":"Annual","period_order":"1","segment":"Corporate (unallocated)","assets_cr":"4107","liabilities_cr":"7905"},{"period":"FY25","period_type":"Annual","period_order":"1","segment":"Total reported","assets_cr":"40647","liabilities_cr":"29023"},{"period":"FY26","period_type":"Annual","period_order":"2","segment":"Watches","assets_cr":"4970","liabilities_cr":"1528"},{"period":"FY26","period_type":"Annual","period_order":"2","segment":"Jewellery","assets_cr":"47325","liabilities_cr":"33753"},{"period":"FY26","period_type":"Annual","period_order":"2","segment":"Eyecare","assets_cr":"728","liabilities_cr":"440"},{"period":"FY26","period_type":"Annual","period_order":"2","segment":"Others","assets_cr":"1910","liabilities_cr":"940"},{"period":"FY26","period_type":"Annual","period_order":"2","segment":"Corporate (unallocated)","assets_cr":"5628","liabilities_cr":"8197"},{"period":"FY26","period_type":"Annual","period_order":"2","segment":"Total reported","assets_cr":"60561","liabilities_cr":"44858"}],"business_view":[{"period":"FY25","comparison_group":"Annual","level":"Division","category":"Jewellery (domestic)","total_income_cr":"48722","ebit_cr":"4962","ebit_margin_pct":"10.2","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Business view; excludes bullion and digi-gold sales"},{"period":"FY25","comparison_group":"Annual","level":"Division","category":"Watches","total_income_cr":"4465","ebit_cr":"556","ebit_margin_pct":"12.5","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Business view"},{"period":"FY25","comparison_group":"Annual","level":"Division","category":"EyeCare","total_income_cr":"791","ebit_cr":"85","ebit_margin_pct":"10.8","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Business view"},{"period":"FY25","comparison_group":"Annual","level":"Division","category":"Emerging Businesses","total_income_cr":"406","ebit_cr":"-123","ebit_margin_pct":"-30.4","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Business view"},{"period":"FY25","comparison_group":"Annual","level":"Division","category":"International Business","total_income_cr":"1784","ebit_cr":"-58","ebit_margin_pct":"-3.3","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Jewellery, watches and EyeCare outside India"},{"period":"FY25","comparison_group":"Annual","level":"Division","category":"Titan Engineering \u0026 Automation (TEAL)","total_income_cr":"870","ebit_cr":"132","ebit_margin_pct":"15.2","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Business view"},{"period":"FY25","comparison_group":"Annual","level":"Division","category":"Corporate / unallocated / other adjustments","total_income_cr":"301","ebit_cr":"-65","ebit_margin_pct":"","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Not a standalone operating division"},{"period":"FY25","comparison_group":"Annual","level":"Division","category":"Bullion \u0026 Digi-gold","total_income_cr":"3603","ebit_cr":"","ebit_margin_pct":"","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Revenue only; no EBIT allocated"},{"period":"FY25","comparison_group":"Annual","level":"Brand","category":"Tanishq, Mia, Zoya and beYon","total_income_cr":"45221","ebit_cr":"4671","ebit_margin_pct":"10.3","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Included within Jewellery (domestic)"},{"period":"FY25","comparison_group":"Annual","level":"Brand","category":"CaratLane","total_income_cr":"3501","ebit_cr":"291","ebit_margin_pct":"8.3","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Included within Jewellery (domestic)"},{"period":"FY25","comparison_group":"Annual","level":"Summary","category":"Consumer Businesses","total_income_cr":"56167","ebit_cr":"5422","ebit_margin_pct":"9.7","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":""},{"period":"FY25","comparison_group":"Annual","level":"Summary","category":"Domestic Businesses","total_income_cr":"54384","ebit_cr":"5480","ebit_margin_pct":"10.1","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":""},{"period":"FY25","comparison_group":"Annual","level":"Summary","category":"Businesses total","total_income_cr":"57037","ebit_cr":"5553","ebit_margin_pct":"9.7","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":""},{"period":"FY25","comparison_group":"Annual","level":"Summary","category":"Consolidated excluding bullion and digi-gold","total_income_cr":"57339","ebit_cr":"5488","ebit_margin_pct":"9.6","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":""},{"period":"FY25","comparison_group":"Annual","level":"Summary","category":"Reported consolidated","total_income_cr":"60942","ebit_cr":"5488","ebit_margin_pct":"","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Includes bullion and digi-gold"},{"period":"FY26","comparison_group":"Annual","level":"Division","category":"Jewellery (domestic)","total_income_cr":"64345","ebit_cr":"7146","ebit_margin_pct":"11.1","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Business view; excludes bullion and digi-gold sales"},{"period":"FY26","comparison_group":"Annual","level":"Division","category":"Watches","total_income_cr":"5105","ebit_cr":"827","ebit_margin_pct":"16.2","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Business view"},{"period":"FY26","comparison_group":"Annual","level":"Division","category":"EyeCare","total_income_cr":"898","ebit_cr":"81","ebit_margin_pct":"9.0","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Business view"},{"period":"FY26","comparison_group":"Annual","level":"Division","category":"Emerging Businesses","total_income_cr":"508","ebit_cr":"-114","ebit_margin_pct":"-22.4","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Business view"},{"period":"FY26","comparison_group":"Annual","level":"Division","category":"International Business","total_income_cr":"3434","ebit_cr":"56","ebit_margin_pct":"1.6","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Includes Damas from Q4FY26"},{"period":"FY26","comparison_group":"Annual","level":"Division","category":"Titan Engineering \u0026 Automation (TEAL)","total_income_cr":"1499","ebit_cr":"287","ebit_margin_pct":"19.1","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Business view"},{"period":"FY26","comparison_group":"Annual","level":"Division","category":"Corporate / unallocated / other adjustments","total_income_cr":"290","ebit_cr":"-200","ebit_margin_pct":"","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Not a standalone operating division"},{"period":"FY26","comparison_group":"Annual","level":"Division","category":"Bullion \u0026 Digi-gold","total_income_cr":"12058","ebit_cr":"","ebit_margin_pct":"","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Revenue only; no EBIT allocated"},{"period":"FY26","comparison_group":"Annual","level":"Brand","category":"Tanishq, Mia, Zoya and beYon","total_income_cr":"59643","ebit_cr":"6681","ebit_margin_pct":"11.2","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Included within Jewellery (domestic)"},{"period":"FY26","comparison_group":"Annual","level":"Brand","category":"CaratLane","total_income_cr":"4702","ebit_cr":"466","ebit_margin_pct":"9.9","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Included within Jewellery (domestic)"},{"period":"FY26","comparison_group":"Annual","level":"Summary","category":"Consumer Businesses","total_income_cr":"74289","ebit_cr":"7996","ebit_margin_pct":"10.8","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":""},{"period":"FY26","comparison_group":"Annual","level":"Summary","category":"Domestic Businesses","total_income_cr":"70855","ebit_cr":"7940","ebit_margin_pct":"11.2","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":""},{"period":"FY26","comparison_group":"Annual","level":"Summary","category":"Businesses total","total_income_cr":"75788","ebit_cr":"8282","ebit_margin_pct":"10.9","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":""},{"period":"FY26","comparison_group":"Annual","level":"Summary","category":"Consolidated excluding bullion and digi-gold","total_income_cr":"76078","ebit_cr":"8082","ebit_margin_pct":"10.6","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":""},{"period":"FY26","comparison_group":"Annual","level":"Summary","category":"Reported consolidated","total_income_cr":"88136","ebit_cr":"8082","ebit_margin_pct":"","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Includes bullion and digi-gold"},{"period":"Q1 FY26","comparison_group":"Quarter YoY","level":"Division","category":"Jewellery","total_income_cr":"12797","ebit_cr":"1408","ebit_margin_pct":"11.0","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Business total income; excludes bullion and digi-gold"},{"period":"Q1 FY26","comparison_group":"Quarter YoY","level":"Division","category":"Watches","total_income_cr":"1273","ebit_cr":"287","ebit_margin_pct":"22.6","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Business total income"},{"period":"Q1 FY26","comparison_group":"Quarter YoY","level":"Division","category":"EyeCare","total_income_cr":"238","ebit_cr":"20","ebit_margin_pct":"8.4","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Business total income"},{"period":"Q1 FY26","comparison_group":"Quarter YoY","level":"Division","category":"Other Businesses","total_income_cr":"415","ebit_cr":"61","ebit_margin_pct":"14.7","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Emerging businesses and TEAL; business view"},{"period":"Q1 FY26","comparison_group":"Quarter YoY","level":"Summary","category":"Consolidated excluding bullion and digi-gold","total_income_cr":"14778","ebit_cr":"1751","ebit_margin_pct":"11.8","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":""},{"period":"Q1 FY27","comparison_group":"Quarter YoY","level":"Division","category":"Jewellery","total_income_cr":"18253","ebit_cr":"2360","ebit_margin_pct":"12.9","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Business total income; excludes bullion and digi-gold; includes international jewellery"},{"period":"Q1 FY27","comparison_group":"Quarter YoY","level":"Division","category":"Watches","total_income_cr":"1543","ebit_cr":"295","ebit_margin_pct":"19.1","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Business total income"},{"period":"Q1 FY27","comparison_group":"Quarter YoY","level":"Division","category":"EyeCare","total_income_cr":"289","ebit_cr":"24","ebit_margin_pct":"8.3","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Business total income"},{"period":"Q1 FY27","comparison_group":"Quarter YoY","level":"Division","category":"Other Businesses","total_income_cr":"566","ebit_cr":"104","ebit_margin_pct":"18.4","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Emerging businesses plus TEAL; combined from reported business values"},{"period":"Q1 FY27","comparison_group":"Quarter YoY","level":"Summary","category":"Consolidated excluding bullion and digi-gold","total_income_cr":"20753","ebit_cr":"2782","ebit_margin_pct":"13.4","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Includes ₹407 crore custom-duty gains in reported profit; see adjusted jewellery figures"},{"period":"Q1 FY27","comparison_group":"Jewellery detail","level":"Detail","category":"Jewellery - India","total_income_cr":"16943","ebit_cr":"2368","ebit_margin_pct":"14.0","adjusted_ebit_cr":"1961","adjusted_margin_pct":"11.6","notes":"Adjusted EBIT excludes ₹407 crore custom-duty gains"},{"period":"Q1 FY27","comparison_group":"Jewellery detail","level":"Detail","category":"Tanishq / Mia / Zoya - India","total_income_cr":"15502","ebit_cr":"2202","ebit_margin_pct":"14.2","adjusted_ebit_cr":"1816","adjusted_margin_pct":"11.7","notes":"Included within Jewellery - India; adjusted EBIT excludes ₹386 crore custom-duty gains"},{"period":"Q1 FY27","comparison_group":"Jewellery detail","level":"Detail","category":"CaratLane - India","total_income_cr":"1441","ebit_cr":"166","ebit_margin_pct":"11.5","adjusted_ebit_cr":"145","adjusted_margin_pct":"10.1","notes":"Included within Jewellery - India; adjusted EBIT excludes ₹21 crore custom-duty gains"},{"period":"Q1 FY27","comparison_group":"Jewellery detail","level":"Detail","category":"International jewellery","total_income_cr":"1309","ebit_cr":"-8","ebit_margin_pct":"-0.6","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Jewellery business; Damas included post acquisition"},{"period":"Q1 FY27","comparison_group":"Jewellery detail","level":"Detail","category":"Tanishq / Mia / CaratLane - international","total_income_cr":"913","ebit_cr":"59","ebit_margin_pct":"6.5","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Included within international jewellery"},{"period":"Q1 FY27","comparison_group":"Jewellery detail","level":"Detail","category":"Damas core","total_income_cr":"396","ebit_cr":"-67","ebit_margin_pct":"-16.9","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"Included within international jewellery"},{"period":"Q1 FY27","comparison_group":"Other detail","level":"Detail","category":"Emerging Businesses","total_income_cr":"128","ebit_cr":"-39","ebit_margin_pct":"-30.5","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":"SKINN, IRTH and Taneira combined"},{"period":"Q1 FY27","comparison_group":"Other detail","level":"Detail","category":"Titan Engineering \u0026 Automation (TEAL)","total_income_cr":"438","ebit_cr":"143","ebit_margin_pct":"32.6","adjusted_ebit_cr":"","adjusted_margin_pct":"","notes":""}],"shareholding_annual":[{"period":"Mar 2017","promoters_pct":"53.05","fiis_pct":"21.13","diis_pct":"5.03","government_pct":"0.35","public_pct":"20.44","others_pct":"0.00","shareholders":"109516"},{"period":"Mar 2018","promoters_pct":"52.91","fiis_pct":"20.72","diis_pct":"6.11","government_pct":"0.17","public_pct":"20.10","others_pct":"0.00","shareholders":"131620"},{"period":"Mar 2019","promoters_pct":"52.91","fiis_pct":"19.24","diis_pct":"7.21","government_pct":"0.17","public_pct":"20.47","others_pct":"0.00","shareholders":"180710"},{"period":"Mar 2020","promoters_pct":"52.91","fiis_pct":"17.74","diis_pct":"10.87","government_pct":"0.23","public_pct":"18.26","others_pct":"0.00","shareholders":"322928"},{"period":"Mar 2021","promoters_pct":"52.90","fiis_pct":"18.10","diis_pct":"11.13","government_pct":"0.35","public_pct":"17.53","others_pct":"0.00","shareholders":"355774"},{"period":"Mar 2022","promoters_pct":"52.90","fiis_pct":"18.40","diis_pct":"10.21","government_pct":"0.16","public_pct":"18.33","others_pct":"0.00","shareholders":"578252"},{"period":"Mar 2023","promoters_pct":"52.90","fiis_pct":"17.51","diis_pct":"11.23","government_pct":"0.17","public_pct":"18.19","others_pct":"0.00","shareholders":"719167"},{"period":"Mar 2024","promoters_pct":"52.90","fiis_pct":"19.01","diis_pct":"10.29","government_pct":"0.17","public_pct":"17.57","others_pct":"0.08","shareholders":"749319"},{"period":"Mar 2025","promoters_pct":"52.90","fiis_pct":"17.82","diis_pct":"12.01","government_pct":"0.19","public_pct":"17.01","others_pct":"0.08","shareholders":"855126"},{"period":"Mar 2026","promoters_pct":"52.90","fiis_pct":"15.65","diis_pct":"14.84","government_pct":"0.19","public_pct":"16.34","others_pct":"0.08","shareholders":"735599"},{"period":"Sep 2026","promoters_pct":"52.90","fiis_pct":"16.37","diis_pct":"14.42","government_pct":"0.00","public_pct":"16.20","others_pct":"0.10","shareholders":"724298"}],"shareholding_quarterly":[{"period":"Dec 2023","promoters_pct":"52.90","fiis_pct":"18.89","diis_pct":"10.25","government_pct":"0.17","public_pct":"17.77","others_pct":"0.00","shareholders":"710646"},{"period":"Mar 2024","promoters_pct":"52.90","fiis_pct":"19.01","diis_pct":"10.29","government_pct":"0.17","public_pct":"17.57","others_pct":"0.08","shareholders":"749319"},{"period":"Jun 2024","promoters_pct":"52.90","fiis_pct":"18.21","diis_pct":"10.68","government_pct":"0.19","public_pct":"17.94","others_pct":"0.08","shareholders":"880587"},{"period":"Sep 2024","promoters_pct":"52.90","fiis_pct":"18.23","diis_pct":"11.28","government_pct":"0.19","public_pct":"17.33","others_pct":"0.08","shareholders":"824661"},{"period":"Dec 2024","promoters_pct":"52.90","fiis_pct":"18.11","diis_pct":"11.37","government_pct":"0.19","public_pct":"17.35","others_pct":"0.08","shareholders":"875901"},{"period":"Mar 2025","promoters_pct":"52.90","fiis_pct":"17.82","diis_pct":"12.01","government_pct":"0.19","public_pct":"17.01","others_pct":"0.08","shareholders":"855126"},{"period":"Jun 2025","promoters_pct":"52.90","fiis_pct":"17.54","diis_pct":"12.59","government_pct":"0.19","public_pct":"16.69","others_pct":"0.08","shareholders":"792131"},{"period":"Sep 2025","promoters_pct":"52.90","fiis_pct":"16.11","diis_pct":"13.99","government_pct":"0.19","public_pct":"16.76","others_pct":"0.08","shareholders":"795466"},{"period":"Dec 2025","promoters_pct":"52.90","fiis_pct":"15.55","diis_pct":"14.83","government_pct":"0.19","public_pct":"16.45","others_pct":"0.08","shareholders":"749373"},{"period":"Mar 2026","promoters_pct":"52.90","fiis_pct":"15.65","diis_pct":"14.84","government_pct":"0.19","public_pct":"16.34","others_pct":"0.08","shareholders":"735599"},{"period":"Jun 2026","promoters_pct":"52.90","fiis_pct":"15.39","diis_pct":"15.15","government_pct":"0.19","public_pct":"16.31","others_pct":"0.05","shareholders":"733428"},{"period":"Sep 2026","promoters_pct":"52.90","fiis_pct":"16.37","diis_pct":"14.42","government_pct":"0.00","public_pct":"16.20","others_pct":"0.10","shareholders":"724298"}],"sources":[{"source_id":"S1","source_title":"Screener Titan consolidated profile","source_url":"https://www.screener.in/company/TITAN/consolidated/","as_of_or_period":"Page observed 30 Oct 2026","used_for":"Profile market metrics quarterly and annual financial tables ratios shareholding growth metrics and Screener notes"},{"source_id":"S2","source_title":"Titan Q4 FY26 consolidated financial results","source_url":"https://www.titancompany.in/sites/default/files/2026-05/Q4FY26%20-%20Financial%20results%20Uploaded.pdf","as_of_or_period":"FY25 FY26 Q4FY25 and Q4FY26","used_for":"Reportable segment revenue segment results assets and liabilities"},{"source_id":"S3","source_title":"Titan Q1 FY27 outcome and consolidated financial results","source_url":"https://www.titancompany.in/sites/default/files/2026-08/Outcome%207%20Aug%2026.pdf","as_of_or_period":"Q1 FY27 and Q1 FY26 comparative","used_for":"Reportable segments and Q1FY27 consolidated financial statement"},{"source_id":"S4","source_title":"Titan Q1 FY27 earnings presentation","source_url":"https://www.titancompany.in/sites/default/files/2026-08/SEearningpresentationQ127.pdf","as_of_or_period":"Q1 FY27","used_for":"Management business performance view and segment detail"},{"source_id":"S5","source_title":"Titan FY26 business and reported financials presentation","source_url":"https://www.titancompany.in/sites/default/files/2026-05/Q4FY26%20Earnings%20Presentation%20-%20Uploaded.pdf","as_of_or_period":"FY25 and FY26","used_for":"Annual management business-view income and EBIT including bullion bridge"},{"source_id":"S6","source_title":"Titan Q1 FY26 earnings presentation","source_url":"https://www.titancompany.in/sites/default/files/2025-08/Titan%20Earnings%20Presentation%20-%20Q1FY26.pdf","as_of_or_period":"Q1 FY26","used_for":"Management-view Q1 segment total income and EBIT comparison"},{"source_id":"S7","source_title":"Titan Q2 FY26 consolidated results filed with NSE","source_url":"https://nsearchives.nseindia.com/corporate/TITAN_03112025181921_SEoutcomeBMQ2.pdf","as_of_or_period":"Q2 FY26 and Q2 FY25 comparative","used_for":"Reportable segment quarter results and segment assets and liabilities"},{"source_id":"S8","source_title":"Titan Q3 FY26 consolidated results filed with NSE","source_url":"https://nsearchives.nseindia.com/corporate/TITAN_10022026172026_SEoutcomeofBMQ3.pdf","as_of_or_period":"Q3 FY26 and Q3 FY25 comparative","used_for":"Reportable segment quarter results and segment assets and liabilities"},{"source_id":"S9","source_title":"Titan corporate announcements","source_url":"https://www.titancompany.in/investors/corporate-announcements","as_of_or_period":"Page observed 30 Oct 2026","used_for":"Official filing directory and upcoming Q2 FY27 board meeting date"}]}</script>
+<div class="shell">
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">✦</span><span>TITAN<small>COMPANY LIMITED</small></span></div>
+    <nav class="nav" aria-label="Dashboard sections"><a href="#overview">Overview</a><a href="#segments">Segments</a><a href="#capital">Cash &amp; capital</a><a href="#ownership">Ownership</a></nav>
+    <div class="asof">Data through 30 Oct 2026</div>
+  </header>
+
+  <main>
+    <section class="hero reveal" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">NSE · TITAN · COMPANY PERFORMANCE</p>
+        <h1 id="hero-title">Titan Company<br><span>Limited</span></h1>
+        <p>Financial momentum, operating mix and capital signals across annual and quarterly reporting periods.</p>
+        <div class="hero-tags"><span class="tag">Latest quarter · Q1 FY27</span><span class="tag">Consolidated view</span><span class="tag">₹ crore unless noted</span></div>
+      </div>
+      <div class="hero-aside" aria-label="Share price and 52-week range">
+        <div class="hero-price-label">Share price · 30 Oct 2026</div>
+        <div class="hero-price" id="heroPrice">— <small>₹ / share</small></div>
+        <div class="range-head"><span id="heroLow">—</span><span>52-week range</span><span id="heroHigh">—</span></div>
+        <div class="range-track"><div class="range-fill" id="heroRangeFill"></div><i class="range-dot" id="heroRangeDot"></i></div>
+        <div class="range-caption" id="heroRangeCaption"></div>
+      </div>
+    </section>
+
+    <section id="overview">
+      <div class="section-head">
+        <div><p class="eyebrow">01 · Financial overview</p><h2>Growth is accelerating</h2><p>Long-run scale, latest trailing performance and the earnings bridge.</p></div>
+        <div class="section-meta">Annual history: FY15–FY26 · Quarterly: Jun 2023–Jun 2026</div>
+      </div>
+      <div class="kpis" id="kpiGrid" aria-live="polite"></div>
+      <div class="grid">
+        <article class="panel wide">
+          <div class="panel-head">
+            <div><h3>Revenue, expenses &amp; net profit</h3><p>Sales and expenses use the left scale; net profit uses the right scale.</p></div>
+            <div class="controls" role="group" aria-label="Financial trend period">
+              <button class="toggle active" type="button" data-grain="annual" aria-pressed="true">Annual</button>
+              <button class="toggle" type="button" data-grain="quarterly" aria-pressed="false">Quarterly</button>
+              <button class="toggle active" type="button" data-range="all" aria-pressed="true">All history</button>
+              <button class="toggle" type="button" data-range="recent" aria-pressed="false">Recent</button>
+            </div>
+          </div>
+          <div class="legend" id="performanceLegend"></div>
+          <div id="performanceChart" class="chart tall" role="img" aria-label="Revenue, expenses and net profit over time"></div>
+          <p class="note" id="performanceNote"></p>
+        </article>
+        <article class="panel">
+          <div class="panel-head">
+            <div><h3>Profitability trend</h3><p>Operating margin and net margin, based on reported amounts.</p></div>
+            <span class="unit-pill">Percent</span>
+          </div>
+          <div class="legend" id="marginLegend"></div>
+          <div id="profitabilityChart" class="chart"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head">
+            <div><h3>Operating profit to net profit</h3><p id="bridgeSubtitle">Selected period</p></div>
+            <div class="control-wrap"><label class="control-label" for="statementPeriod">Statement period</label><select class="select" id="statementPeriod" aria-label="Statement period"></select></div>
+          </div>
+          <div class="snapshot" id="bridgeMeta"></div>
+          <div id="waterfallChart" class="chart short" role="img" aria-label="Earnings bridge from operating profit to net profit"></div>
+          <p class="note">Tax amount is derived as profit before tax less net profit. The displayed tax rate comes from the source where available.</p>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><h3>Growth across horizons</h3><p>Sales, profit, share price and return on equity.</p></div><span class="unit-pill">% · source horizon</span></div>
+          <div id="growthChart" class="growth-groups" role="img" aria-label="Growth metrics by time horizon"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><h3>Market snapshot</h3><p>Market data and return ratios as of 30 Oct 2026.</p></div><span class="unit-pill">₹ per share unless noted</span></div>
+          <div id="marketSnapshot" class="snapshot"></div>
+          <div class="rangebox">
+            <div class="control-label">52-week price position</div>
+            <div class="range-scale"><i id="marketRangeDot"></i></div>
+            <div class="range-ends"><span id="marketLow"></span><span id="marketHigh"></span></div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="segments">
+      <div class="section-head">
+        <div><p class="eyebrow">02 · Segment analysis</p><h2>Where performance is coming from</h2><p>Switch between filed segment results, management business views, brands and Q1 FY27 detail.</p></div>
+        <div class="section-meta">Revenue and segment result are shown separately from management EBIT.</div>
+      </div>
+      <div class="grid">
+        <article class="panel wide">
+          <div class="panel-head">
+            <div><h3 id="segmentTitle">Reported segment revenue mix</h3><p id="segmentSubtitle">Filed revenue by reporting segment · ₹ crore</p></div>
+            <div class="control-wrap"><label class="control-label" for="segmentMode">Segment view</label>
+              <select class="select" id="segmentMode">
+                <option value="reported-q">Reported segments · quarterly</option>
+                <option value="reported-a">Reported segments · annual</option>
+                <option value="business-a">Management divisions · FY25–FY26</option>
+                <option value="business-q">Management divisions · Q1 FY26–Q1 FY27</option>
+                <option value="brands">Jewellery brands · FY25–FY26</option>
+                <option value="summary">Management summary · annual</option>
+                <option value="detail">Q1 FY27 business detail</option>
+              </select>
+            </div>
+          </div>
+          <div class="legend" id="segmentLegend"></div>
+          <div id="segmentRevenueChart" class="chart tall" role="img" aria-label="Titan segment revenue comparison"></div>
+          <p class="note" id="segmentNote"></p>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><h3 id="segmentMarginTitle">Segment result margin</h3><p id="segmentMarginSubtitle">Reported segment result divided by revenue.</p></div><span class="unit-pill">Percent</span></div>
+          <div class="legend" id="segmentMarginLegend"></div>
+          <div id="segmentMarginChart" class="chart"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head">
+            <div><h3>Segment assets &amp; liabilities</h3><p>Filed resources by segment.</p></div>
+            <div class="control-wrap"><label class="control-label" for="resourcePeriod">Reporting period</label><select class="select" id="resourcePeriod"></select></div>
+          </div>
+          <div class="legend" id="resourceLegend"></div>
+          <div id="resourceChart" class="chart tall"></div>
+          <p class="note">Corporate and unallocated balances are retained as a separate reporting line.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="capital">
+      <div class="section-head">
+        <div><p class="eyebrow">03 · Cash &amp; capital</p><h2>Cash generation and balance sheet</h2><p>Cash flows, asset mix, funding mix and operating efficiency.</p></div>
+      </div>
+      <div class="grid">
+        <article class="panel wide">
+          <div class="panel-head"><div><h3>Cash flow profile</h3><p>Operating, investing, financing, free cash flow and net cash flow.</p></div><div class="controls" role="group" aria-label="Cash flow history"><button class="toggle active" data-cash-range="all" aria-pressed="true" type="button">All history</button><button class="toggle" data-cash-range="recent" aria-pressed="false" type="button">Recent</button></div></div>
+          <div class="legend" id="cashLegend"></div>
+          <div id="cashChart" class="chart tall"></div>
+          <div class="snapshot" id="cashSnapshot"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><h3>Asset composition</h3><p>Fixed assets, work in progress, investments and other assets.</p></div><span class="unit-pill">₹ crore</span></div>
+          <div class="legend" id="assetLegend"></div>
+          <div id="assetChart" class="chart"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><h3>Funding composition</h3><p>Equity, reserves, borrowings and other liabilities.</p></div><span class="unit-pill">₹ crore</span></div>
+          <div class="legend" id="fundingLegend"></div>
+          <div id="fundingChart" class="chart"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><h3>Working capital cycle</h3><p>Receivables, inventory, payables and cash conversion.</p></div><span class="unit-pill">Days</span></div>
+          <div class="legend" id="workingLegend"></div>
+          <div id="workingChart" class="chart"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><h3>Return on capital employed</h3><p>Annual return on capital employed.</p></div><span class="unit-pill">Percent</span></div>
+          <div id="roceChart" class="chart"></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="ownership">
+      <div class="section-head">
+        <div><p class="eyebrow">04 · Ownership</p><h2>Shareholding and investor mix</h2><p>Promoter, FII, DII, government, public and other holdings.</p></div>
+        <div class="control-wrap"><label class="control-label" for="ownershipGrain">Shareholding history</label><select class="select" id="ownershipGrain"><option value="quarterly">Quarterly</option><option value="annual">Annual</option></select></div>
+      </div>
+      <div class="grid">
+        <article class="panel wide">
+          <div class="panel-head"><div><h3>Ownership trend</h3><p>Share of equity by investor group.</p></div><span class="unit-pill">Percent of equity</span></div>
+          <div class="legend" id="ownershipLegend"></div>
+          <div id="ownershipChart" class="chart tall"></div>
+          <div id="ownershipLatest"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><h3>Shareholder base</h3><p>Number of shareholders reported each period.</p></div><span class="unit-pill">Accounts</span></div>
+          <div id="shareholderChart" class="chart"></div>
+        </article>
+        <article class="panel">
+          <div class="panel-head"><div><h3>Coverage and definitions</h3><p>How to read the figures.</p></div></div>
+          <div class="source-box"><strong>Capitaline source check.</strong> No Capitaline export was present in the available project files. This dashboard uses the supplied data bundle, whose source notes cite Screener consolidated data and Titan/NSE filings and presentations.</div>
+          <p class="note">Annual financials cover Mar 2015–Mar 2026; quarterly statements cover Jun 2023–Jun 2026; shareholding extends to Sep 2026. Company segment results and management business views use different reporting bases and are kept separate in the selectors.</p>
+        </article>
+      </div>
+      <article class="panel" style="margin-top:15px">
+        <div class="panel-head"><div><h3>Sources</h3><p>Links to the pages and filings listed in the input data pack.</p></div></div>
+        <details><summary>Show source references</summary><ul class="source-list" id="sourceList"></ul></details>
+      </article>
+    </section>
+  </main>
+  <footer class="footer"><span>Titan Company Limited · Financial analysis dashboard</span><span>Figures are rounded as supplied; calculations are identified where derived.</span></footer>
+</div>
+
+<script>
+(() => {
+  "use strict";
+  const D = JSON.parse(document.getElementById("dashboard-data").textContent);
+  const C = ["#d8b36b","#7fc9bd","#8caee0","#b3a1df","#e69a7a","#a9c68e","#d0a7b9","#90b9c3"];
+  const $ = (id) => document.getElementById(id);
+  const num = (row,key) => { const v = parseFloat(row && row[key]); return Number.isFinite(v) ? v : null; };
+  const money = (v,dec=0) => v == null ? "—" : "₹" + Number(v).toLocaleString("en-IN",{minimumFractionDigits:dec,maximumFractionDigits:dec});
+  const cr = (v) => v == null ? "—" : money(v) + " cr";
+  const short = (v) => { if(v == null) return "—"; const a=Math.abs(v); return (v<0?"−":"")+(a>=10000?(a/1000).toFixed(a>=100000?0:1)+"k":a>=1000?(a/1000).toFixed(1)+"k":Math.round(a).toString()); };
+  const pct = (v,d=1) => v == null ? "—" : Number(v).toFixed(d)+"%";
+  const esc = (s) => String(s == null ? "" : s).replace(/[&<>"]/g, m => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+  const rows = (key) => (D[key] || []).map(r => Object.assign({},r));
+  const text = (el,value) => { if(el) el.textContent=value; };
+  const colorFor = (i) => C[i % C.length];
+  const labelPeriod = (s) => {
+    if(!s) return "";
+    if(/^Mar \d{4}$/.test(s)) return "FY"+s.slice(-2);
+    if(/^TTM/.test(s)) return "TTM";
+    return s.replace(" ","\n");
+  };
+  const legend = (id,items) => { const el=$(id); if(!el)return; el.innerHTML=items.map((x,i)=>'<span class="legend-item"><i class="swatch" style="background:'+esc(x.color||colorFor(i))+'"></i>'+esc(x.label)+'</span>').join(""); };
+  const palette = (series) => series.map((s,i)=>Object.assign({color:colorFor(i)},s));
+
+  function svgStart(w,h,label){
+    return '<svg viewBox="0 0 '+w+' '+h+'" role="img" aria-label="'+esc(label)+'" xmlns="http://www.w3.org/2000/svg"><title>'+esc(label)+'</title>';
+  }
+  function chartScale(min,max){
+    if(min===max){min-=1;max+=1;}
+    const pad=(max-min)*.08 || 1;
+    return [min-pad,max+pad];
+  }
+  function renderLineChart(id,data,series,opts={}){
+    const el=$(id); if(!el)return;
+    if(!data.length){el.innerHTML='<div class="chart-empty">No data available for this view.</div>';return;}
+    const w=Math.max(340,Math.floor(el.clientWidth||650)),h=opts.h||250;
+    const m={l:52,r:18,t:17,b:45},pw=w-m.l-m.r,ph=h-m.t-m.b;
+    const values=[];
+    data.forEach(r=>series.forEach(s=>{const v=s.value(r);if(v!=null)values.push(v);}));
+    let [lo,hi]=chartScale(opts.min===undefined?Math.min(0,...values):Math.min(opts.min,...values),opts.max===undefined?Math.max(...values):Math.max(opts.max,...values));
+    const y=v=>m.t+(hi-v)/(hi-lo)*ph, x=i=>m.l+(data.length===1?pw/2:i*pw/(data.length-1));
+    let out=svgStart(w,h,opts.label||"Trend chart");
+    for(let t=0;t<=4;t++){const val=lo+(hi-lo)*t/4, yy=y(val);out+='<line class="viz-grid" x1="'+m.l+'" y1="'+yy+'" x2="'+(w-m.r)+'" y2="'+yy+'"/><text class="viz-label" x="'+(m.l-8)+'" y="'+(yy+3)+'" text-anchor="end">'+esc(opts.tick?opts.tick(val):short(val))+'</text>';}
+    out+='<line class="viz-axis" x1="'+m.l+'" y1="'+m.t+'" x2="'+m.l+'" y2="'+(h-m.b)+'"/>';
+    data.forEach((r,i)=>{if(data.length<=9||i%2===0||i===data.length-1){out+='<text class="viz-label" x="'+x(i)+'" y="'+(h-16)+'" text-anchor="middle">'+esc(labelPeriod(opts.xLabel?opts.xLabel(r):r.period))+'</text>';}})
+    series.forEach((s,si)=>{
+      let pts=[];data.forEach((r,i)=>{const v=s.value(r);if(v!=null)pts.push([x(i),y(v),v,r]);});
+      if(!pts.length)return;
+      out+='<path d="'+pts.map((p,i)=>(i?"L":"M")+p[0].toFixed(1)+" "+p[1].toFixed(1)).join(" ")+'" fill="none" stroke="'+s.color+'" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';
+      pts.forEach(p=>{out+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="4" fill="'+s.color+'" stroke="#101b28" stroke-width="2"><title>'+esc(s.label)+' · '+esc(p[3].period||"")+' · '+esc(opts.point?opts.point(p[2]):p[2])+'</title></circle>';});
+    });
+    out+='</svg>';el.innerHTML=out;
+  }
+
+  function renderPerformance(){
+    const isAnnual=state.grain==="annual";
+    let data=rows(isAnnual?"annual_financials":"quarterly_financials");
+    data=data.filter(r=>!/^TTM/.test(r.period||""));
+    if(state.range==="recent")data=data.slice(isAnnual?-6:-8);
+    const el=$("performanceChart");
+    const series=[{key:"sales_cr",label:"Revenue",color:C[0]},{key:"expenses_cr",label:"Expenses",color:"#52687d"}];
+    legend("performanceLegend",[{label:"Revenue",color:C[0]},{label:"Expenses",color:"#52687d"},{label:"Net profit",color:C[1]}]);
+    if(!data.length){el.innerHTML='<div class="chart-empty">No financial history available.</div>';return;}
+    const w=Math.max(460,Math.floor(el.clientWidth||900)),h=300,m={l:54,r:57,t:18,b:48},pw=w-m.l-m.r,ph=h-m.t-m.b;
+    const maxSales=Math.max(...data.map(r=>num(r,"sales_cr")||0))*1.14||1;
+    const maxProfit=Math.max(...data.map(r=>num(r,"net_profit_cr")||0))*1.18||1;
+    const y=v=>m.t+ph-v/maxSales*ph, yp=v=>m.t+ph-v/maxProfit*ph, step=pw/data.length, bw=Math.min(18,step*.32);
+    let out=svgStart(w,h,"Revenue, expenses and net profit by "+(isAnnual?"fiscal year":"quarter"));
+    for(let t=0;t<=4;t++){const v=maxSales*t/4,yy=y(v);out+='<line class="viz-grid" x1="'+m.l+'" y1="'+yy+'" x2="'+(w-m.r)+'" y2="'+yy+'"/><text class="viz-label" x="'+(m.l-8)+'" y="'+(yy+3)+'" text-anchor="end">'+short(v)+'</text><text class="viz-label" x="'+(w-m.r+8)+'" y="'+(yy+3)+'">'+short(maxProfit*t/4)+'</text>';}
+    out+='<line class="viz-axis" x1="'+m.l+'" y1="'+m.t+'" x2="'+m.l+'" y2="'+(h-m.b)+'"/><line class="viz-axis" x1="'+(w-m.r)+'" y1="'+m.t+'" x2="'+(w-m.r)+'" y2="'+(h-m.b)+'"/>';
+    let profitPts=[];
+    data.forEach((r,i)=>{
+      const cx=m.l+step*(i+.5),rev=num(r,"sales_cr")||0,exp=num(r,"expenses_cr")||0,profit=num(r,"net_profit_cr");
+      const x1=cx-bw-2,x2=cx+2, y1=y(rev), y2=y(exp);
+      out+='<rect class="bar" x="'+x1+'" y="'+y1+'" width="'+bw+'" height="'+Math.max(1,m.t+ph-y1)+'" rx="3" fill="'+C[0]+'"><title>'+esc(r.period)+' · Revenue '+esc(cr(rev))+'</title></rect>';
+      out+='<rect class="bar" x="'+x2+'" y="'+y2+'" width="'+bw+'" height="'+Math.max(1,m.t+ph-y2)+'" rx="3" fill="#52687d"><title>'+esc(r.period)+' · Expenses '+esc(cr(exp))+'</title></rect>';
+      if(profit!=null)profitPts.push([cx,yp(profit),r,profit]);
+      if(data.length<=9||i%2===0||i===data.length-1)out+='<text class="viz-label" x="'+cx+'" y="'+(h-17)+'" text-anchor="middle">'+esc(labelPeriod(r.period))+'</text>';
+    });
+    if(profitPts.length){out+='<path d="'+profitPts.map((p,i)=>(i?"L":"M")+p[0]+" "+p[1]).join(" ")+'" fill="none" stroke="'+C[1]+'" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>';profitPts.forEach(p=>out+='<circle cx="'+p[0]+'" cy="'+p[1]+'" r="4" fill="'+C[1]+'" stroke="#101b28" stroke-width="2"><title>'+esc(p[2].period)+' · Net profit '+esc(cr(p[3]))+' · EPS '+esc(p[2].eps_rs||"—")+'</title></circle>');}
+    out+='<text class="viz-label" x="'+m.l+'" y="11">₹ crore · revenue / expenses</text><text class="viz-label" x="'+(w-m.r)+'" y="11" text-anchor="end">₹ crore · net profit</text></svg>';
+    el.innerHTML=out;
+    text($("performanceNote"),"Hover a mark for revenue, expenses, operating profit, PBT, net profit, EPS and tax details. "+(isAnnual?"Annual statements":"Quarterly statements")+" are shown in chronological order.");
+    renderLineChart("profitabilityChart",data,palette([
+      {label:"Operating margin",value:r=>{const a=num(r,"sales_cr"),b=num(r,"operating_profit_cr");return a?b/a*100:null;}},
+      {label:"Net margin",value:r=>{const a=num(r,"sales_cr"),b=num(r,"net_profit_cr");return a?b/a*100:null;}}
+    ]),{h:245,min:0,max:20,tick:v=>v.toFixed(0)+"%",point:v=>pct(v),label:"Operating and net profit margins"});
+    legend("marginLegend",[{label:"Operating margin",color:C[0]},{label:"Net margin",color:C[1]}]);
+  }
+
+  function populatePeriods(){
+    const sel=$("statementPeriod");
+    const annual=rows("annual_financials");
+    const quarter=rows("quarterly_financials");
+    const options=quarter.slice().reverse().map(r=>({v:"q|"+r.period,t:r.period+" · quarterly"}))
+      .concat(annual.slice().reverse().map(r=>({v:"a|"+r.period,t:r.period+" · annual"})));
+    sel.innerHTML=options.map(o=>'<option value="'+esc(o.v)+'">'+esc(o.t)+'</option>').join("");
+    sel.value="q|Jun 2026";
+  }
+  function renderWaterfall(){
+    const key=$("statementPeriod").value||"q|Jun 2026",parts=key.split("|");
+    const data=rows(parts[0]==="a"?"annual_financials":"quarterly_financials").find(r=>r.period===parts[1]);
+    if(!data)return;
+    const op=num(data,"operating_profit_cr")||0,oi=num(data,"other_income_cr")||0,int=num(data,"interest_cr")||0,dep=num(data,"depreciation_cr")||0,pbt=num(data,"pbt_cr")||0,pat=num(data,"net_profit_cr")||0,tax=pbt-pat;
+    const steps=[
+      {name:"Operating\nprofit",type:"total",value:op,color:C[0]},
+      {name:"Other\nincome",type:"delta",value:oi,color:C[1]},
+      {name:"Interest",type:"delta",value:-int,color:C[4]},
+      {name:"Depreciation",type:"delta",value:-dep,color:C[4]},
+      {name:"PBT",type:"total",value:pbt,color:C[2]},
+      {name:"Tax",type:"delta",value:-tax,color:C[4]},
+      {name:"Net\nprofit",type:"total",value:pat,color:C[1]}
+    ];
+    const max=Math.max(op,pbt,pat)*1.25||1,w=Math.max(350,Math.floor($("waterfallChart").clientWidth||550)),h=208,m={l:20,r:10,t:20,b:43},pw=w-m.l-m.r,ph=h-m.t-m.b,step=pw/steps.length,bw=Math.min(36,step*.54),y=v=>m.t+ph-v/max*ph;
+    let running=op,out=svgStart(w,h,"Earnings bridge for "+data.period);
+    for(let t=0;t<=3;t++){const v=max*t/3,yy=y(v);out+='<line class="viz-grid" x1="'+m.l+'" y1="'+yy+'" x2="'+(w-m.r)+'" y2="'+yy+'"/><text class="viz-label" x="'+(m.l+2)+'" y="'+(yy-3)+'">'+short(v)+'</text>';}
+    steps.forEach((s,i)=>{
+      let from,to,val;
+      if(s.type==="total"){from=0;to=s.value;running=s.value;val=s.value;}
+      else{from=Math.min(running,running+s.value);to=Math.max(running,running+s.value);running+=s.value;val=s.value;}
+      const xx=m.l+step*(i+.5)-bw/2,yy=y(to),hh=Math.max(2,(to-from)/max*ph);
+      out+='<rect x="'+xx+'" y="'+yy+'" width="'+bw+'" height="'+hh+'" rx="3" fill="'+s.color+'" opacity=".9"><title>'+esc(s.name.replace("\n"," "))+' · '+esc(cr(val))+'</title></rect>';
+      out+='<text class="viz-label" x="'+(xx+bw/2)+'" y="'+(h-20)+'" text-anchor="middle">'+esc(s.name.split("\n")[0])+'</text>';
+    });
+    out+='</svg>'; $("waterfallChart").innerHTML=out;
+    text($("bridgeSubtitle"),data.period+" · figures in ₹ crore");
+    $("bridgeMeta").innerHTML='<div class="snapshot-item"><span>Revenue</span><strong>'+esc(cr(num(data,"sales_cr")))+'</strong></div><div class="snapshot-item"><span>Expenses</span><strong>'+esc(cr(num(data,"expenses_cr")))+'</strong></div><div class="snapshot-item"><span>Tax rate</span><strong>'+esc(data.tax_pct?data.tax_pct+"%":"n.a.")+'</strong></div><div class="snapshot-item"><span>EPS</span><strong>'+esc(data.eps_rs?"₹"+data.eps_rs:"—")+'</strong></div>';
+  }
+
+  function renderGrowth(){
+    const data=rows("growth_metrics"),groups=[];
+    data.forEach(r=>{let g=groups.find(x=>x.name===r.metric);if(!g){g={name:r.metric,items:[]};groups.push(g);}g.items.push(r);});
+    const max=60;
+    $("growthChart").innerHTML=groups.map((g,gi)=>'<div class="growth-row"><div class="growth-name">'+esc(g.name)+'</div><div class="growth-bars">'+g.items.map((r,i)=>'<div class="growth-bar-row"><span class="growth-horizon">'+esc(r.horizon)+'</span><div class="growth-track"><b style="width:'+Math.max(0,Math.min(100,num(r,"value")/max*100))+'%;background:'+colorFor(gi)+'"></b></div><span class="growth-value">'+esc(r.value)+'%</span></div>').join("")+'</div><div class="growth-max">of 60</div></div>').join("");
+  }
+  function profileValue(metric){const r=rows("profile").find(x=>x.metric===metric);return r?num(r,"value"):null;}
+  function renderMarket(){
+    const price=profileValue("Share price"),low=profileValue("52-week low"),high=profileValue("52-week high"),cap=profileValue("Market capitalisation");
+    const pos=(price!=null&&low!=null&&high!=null&&high!==low)?Math.max(0,Math.min(100,(price-low)/(high-low)*100)):50;
+    text($("heroPrice"),money(price)+" "+String.fromCharCode(8203));
+    $("heroPrice").innerHTML=esc(money(price))+' <small>₹ / share</small>';
+    text($("heroLow"),money(low));text($("heroHigh"),money(high));
+    $("heroRangeFill").style.width=pos+"%";$("heroRangeDot").style.left=pos+"%";
+    text($("heroRangeCaption"),Math.round(pos)+"% of the way from the 52-week low to high");
+    const snap=[
+      ["Market capitalisation",cap==null?"—":money(cap)+" cr"],
+      ["Stock P/E",profileValue("Stock P/E")==null?"—":profileValue("Stock P/E")+"×"],
+      ["Book value",money(profileValue("Book value"))],
+      ["Dividend yield",pct(profileValue("Dividend yield"),2)],
+      ["ROE",pct(profileValue("ROE"),1)],
+      ["ROCE",pct(profileValue("ROCE"),1)],
+      ["Face value",money(profileValue("Face value"))]
+    ];
+    $("marketSnapshot").innerHTML=snap.map(x=>'<div class="snapshot-item"><span>'+esc(x[0])+'</span><strong>'+esc(x[1])+'</strong></div>').join("");
+    $("marketRangeDot").style.left=pos+"%";text($("marketLow"),money(low));text($("marketHigh"),money(high));
+  }
+  function renderKpis(){
+    const ttm=rows("annual_financials").find(r=>/^TTM/.test(r.period||""))||rows("annual_financials").slice(-1)[0];
+    const growth=rows("growth_metrics");
+    const findGrowth=(metric,horizon)=>growth.find(x=>x.metric===metric&&x.horizon===horizon);
+    const salesGrowth=findGrowth("Sales growth","TTM"),profitGrowth=findGrowth("Profit growth","TTM");
+    const sales=num(ttm,"sales_cr"),profit=num(ttm,"net_profit_cr"),op=num(ttm,"operating_profit_cr");
+    const margin=sales?op/sales*100:null;
+    const k=[
+      ["TTM revenue",cr(sales),"<strong>+"+esc(salesGrowth?salesGrowth.value:"—")+"%</strong> trailing growth · to Jun 2026"],
+      ["TTM net profit",cr(profit),"<strong>+"+esc(profitGrowth?profitGrowth.value:"—")+"%</strong> trailing growth · to Jun 2026"],
+      ["TTM operating margin",pct(margin,1),"₹"+short(op)+" cr operating profit on ₹"+short(sales)+" cr revenue"],
+      ["ROCE",pct(profileValue("ROCE"),1),"Market data snapshot · 30 Oct 2026"]
+    ];
+    $("kpiGrid").innerHTML=k.map(x=>'<div class="kpi"><div class="kpi-label">'+esc(x[0])+'</div><div class="kpi-value">'+esc(x[1])+'</div><div class="kpi-foot">'+x[2]+'</div></div>').join("");
+  }
+
+  function renderCash(){
+    let data=rows("cash_flow");if(state.cashRange==="recent")data=data.slice(-6);
+    const series=[{key:"cfo_cr",label:"Operating cash flow",color:C[1]},{key:"cfi_cr",label:"Investing cash flow",color:C[2]},{key:"cff_cr",label:"Financing cash flow",color:C[3]},{key:"free_cash_flow_cr",label:"Free cash flow",color:C[0]}];
+    legend("cashLegend",series.map(s=>({label:s.label,color:s.color})));
+    const el=$("cashChart"),w=Math.max(500,Math.floor(el.clientWidth||900)),h=280,m={l:55,r:15,t:18,b:45},pw=w-m.l-m.r,ph=h-m.t-m.b;
+    const vals=[];data.forEach(r=>series.forEach(s=>vals.push(num(r,s.key)||0)));
+    let lo=Math.min(0,...vals),hi=Math.max(0,...vals);[lo,hi]=chartScale(lo,hi);
+    const y=v=>m.t+(hi-v)/(hi-lo)*ph,zero=y(0),step=pw/data.length,bw=Math.min(13,step*.18);
+    let out=svgStart(w,h,"Cash flow components by fiscal year");
+    for(let t=0;t<=4;t++){const v=lo+(hi-lo)*t/4,yy=y(v);out+='<line class="viz-grid" x1="'+m.l+'" y1="'+yy+'" x2="'+(w-m.r)+'" y2="'+yy+'"/><text class="viz-label" x="'+(m.l-7)+'" y="'+(yy+3)+'" text-anchor="end">'+short(v)+'</text>';}
+    data.forEach((r,i)=>{const center=m.l+step*(i+.5);series.forEach((s,j)=>{const v=num(r,s.key)||0,x=center+(j-(series.length-1)/2)*(bw+2),yy=y(Math.max(0,v)),base=y(Math.min(0,v)),height=Math.max(1,base-yy);out+='<rect x="'+x+'" y="'+yy+'" width="'+bw+'" height="'+height+'" rx="2" fill="'+s.color+'" opacity=".9"><title>'+esc(r.period)+' · '+esc(s.label)+' '+esc(cr(v))+'</title></rect>';});if(data.length<=8||i%2===0||i===data.length-1)out+='<text class="viz-label" x="'+center+'" y="'+(h-16)+'" text-anchor="middle">'+esc(labelPeriod(r.period))+'</text>';});
+    out+='<line class="viz-axis" x1="'+m.l+'" y1="'+zero+'" x2="'+(w-m.r)+'" y2="'+zero+'"/></svg>';el.innerHTML=out;
+    const last=rows("cash_flow").slice(-1)[0];
+    $("cashSnapshot").innerHTML=[
+      ["FY26 CFO",cr(num(last,"cfo_cr"))],["FY26 free cash flow",cr(num(last,"free_cash_flow_cr"))],["FY26 net cash flow",cr(num(last,"net_cash_flow_cr"))],["CFO / operating profit",pct(num(last,"cfo_to_operating_profit_pct"),0)]
+    ].map(x=>'<div class="snapshot-item"><span>'+esc(x[0])+'</span><strong>'+esc(x[1])+'</strong></div>').join("");
+  }
+  function renderStackedColumns(id,data,series,opts={}){
+    const el=$(id);if(!el)return;
+    if(!data.length){el.innerHTML='<div class="chart-empty">No data available for this view.</div>';return;}
+    const w=Math.max(360,Math.floor(el.clientWidth||680)),h=opts.h||245,m={l:48,r:10,t:15,b:42},pw=w-m.l-m.r,ph=h-m.t-m.b;
+    const totals=data.map(r=>series.reduce((a,s)=>a+(num(r,s.key)||0),0)),max=Math.max(...totals)*1.15||1,step=pw/data.length,bw=Math.min(28,step*.62),y=v=>m.t+ph-v/max*ph;
+    let out=svgStart(w,h,opts.label||"Stacked financial chart");
+    for(let t=0;t<=4;t++){const v=max*t/4,yy=y(v);out+='<line class="viz-grid" x1="'+m.l+'" y1="'+yy+'" x2="'+(w-m.r)+'" y2="'+yy+'"/><text class="viz-label" x="'+(m.l-7)+'" y="'+(yy+3)+'" text-anchor="end">'+short(v)+'</text>';}
+    data.forEach((r,i)=>{let base=0;const cx=m.l+step*(i+.5);series.forEach(s=>{const v=num(r,s.key)||0,yy=y(base+v),hh=Math.max(0,v/max*ph),segmentResult=r["result_"+s.key],detail=segmentResult==null?"":" · Segment result "+cr(segmentResult);out+='<rect x="'+(cx-bw/2)+'" y="'+yy+'" width="'+bw+'" height="'+hh+'" fill="'+s.color+'" opacity=".9"><title>'+esc(r.period)+' · '+esc(s.label)+' '+esc(cr(v))+esc(detail)+'</title></rect>';base+=v;});if(data.length<=8||i%2===0||i===data.length-1)out+='<text class="viz-label" x="'+cx+'" y="'+(h-16)+'" text-anchor="middle">'+esc(labelPeriod(r.period))+'</text>';});
+    out+='</svg>';el.innerHTML=out;
+  }
+  function renderBalance(){
+    const data=rows("balance_sheet");
+    const assets=[
+      {key:"fixed_assets_cr",label:"Fixed assets",color:C[0]},
+      {key:"cwip_cr",label:"CWIP",color:C[1]},
+      {key:"investments_cr",label:"Investments",color:C[2]},
+      {key:"other_assets_cr",label:"Other assets",color:"#52687d"}
+    ];
+    const funds=[
+      {key:"equity_capital_cr",label:"Equity capital",color:C[1]},
+      {key:"reserves_cr",label:"Reserves",color:C[0]},
+      {key:"borrowings_cr",label:"Borrowings",color:C[4]},
+      {key:"other_liabilities_cr",label:"Other liabilities",color:"#52687d"}
+    ];
+    legend("assetLegend",assets.map(s=>({label:s.label,color:s.color})));legend("fundingLegend",funds.map(s=>({label:s.label,color:s.color})));
+    renderStackedColumns("assetChart",data,assets,{label:"Titan asset composition"});
+    renderStackedColumns("fundingChart",data,funds,{label:"Titan funding composition"});
+  }
+  function renderEfficiency(){
+    const d=rows("ratios");
+    const days=[
+      {label:"Debtor days",value:r=>num(r,"debtor_days"),color:C[2]},
+      {label:"Inventory days",value:r=>num(r,"inventory_days"),color:C[0]},
+      {label:"Days payable",value:r=>num(r,"days_payable"),color:C[1]},
+      {label:"Cash conversion cycle",value:r=>num(r,"cash_conversion_cycle_days"),color:C[4]},
+      {label:"Working capital days",value:r=>num(r,"working_capital_days"),color:C[3]}
+    ];
+    legend("workingLegend",days.map(s=>({label:s.label,color:s.color})));
+    renderLineChart("workingChart",d,palette(days),{h:245,min:0,max:240,tick:v=>Math.round(v),point:v=>Math.round(v)+" days",label:"Working capital days and cash conversion"});
+    renderLineChart("roceChart",d,palette([{label:"ROCE",value:r=>num(r,"roce_pct")}]),{h:245,min:0,max:40,tick:v=>Math.round(v)+"%",point:v=>pct(v),label:"Return on capital employed"});
+  }
+
+  const REPORT_COLORS={"Watches":C[0],"Jewellery":C[1],"Eyecare":C[2],"Others":C[3],"Corporate (unallocated)":C[4]};
+  function getSegmentMode(){
+    const mode=$("segmentMode").value;
+    if(mode==="reported-q"||mode==="reported-a"){
+      const type=mode==="reported-q"?"Quarter":"Annual";
+      const d=rows("segment_reported").filter(r=>r.period_type===type&&r.segment!=="Total reported");
+      const periods=[...new Set(d.map(r=>r.period))];
+      const series=[...new Set(d.map(r=>r.segment))].map((s,i)=>({key:s,label:s,color:REPORT_COLORS[s]||colorFor(i)}));
+      return {mode,kind:"reported",data:d,periods,series,title:type==="Quarter"?"Reported quarterly segment revenue":"Reported annual segment revenue",subtitle:"Filed revenue by reporting segment · ₹ crore",note:"Quarterly and annual filed segment results include a corporate/unallocated line. Total reported is omitted from the stack to avoid double counting."};
+    }
+    let data=[],title="",note="",periods=[];
+    if(mode==="business-a"){data=rows("business_view").filter(r=>r.level==="Division"&&r.comparison_group==="Annual");periods=["FY25","FY26"];title="Management business divisions · FY25–FY26";note="Management total income by division. Bullion and digi-gold revenue is included; EBIT is not allocated to bullion.";}
+    if(mode==="business-q"){data=rows("business_view").filter(r=>r.level==="Division"&&r.comparison_group==="Quarter YoY");periods=["Q1 FY26","Q1 FY27"];title="Management business divisions · Q1 YoY";note="Management view; excludes bullion, digi-gold and corporate/unallocated from the selected operating divisions.";}
+    if(mode==="brands"){data=rows("business_view").filter(r=>r.level==="Brand"&&r.comparison_group==="Annual");periods=["FY25","FY26"];title="Jewellery brand performance";note="Brand values are included within domestic jewellery and should not be added to division totals.";}
+    if(mode==="summary"){data=rows("business_view").filter(r=>r.level==="Summary"&&r.comparison_group==="Annual");periods=["FY25","FY26"];title="Management summary comparisons";note="Summary categories overlap by design. Compare the displayed series; do not add them together.";}
+    if(mode==="detail"){data=rows("business_view").filter(r=>r.level==="Detail"&&r.period==="Q1 FY27");periods=["Q1 FY27"];title="Q1 FY27 business detail";note="Parent and subsegment categories overlap. Adjusted EBIT is shown in tooltips where the source provides it.";}
+    return {mode,kind:"business",data,periods,title,subtitle:"Management total income and EBIT · ₹ crore",note};
+  }
+  function renderBusinessBars(id,data,periods,opts={}){
+    const el=$(id);if(!el)return;
+    if(!data.length){el.innerHTML='<div class="chart-empty">No segment values in this view.</div>';return;}
+    const categories=[...new Set(data.map(r=>r.category))],w=Math.max(420,Math.floor(el.clientWidth||900)),rowH=39,h=Math.max(220,36+categories.length*rowH),m={l:Math.min(205,w*.30),r:65,t:13,b:22},pw=w-m.l-m.r;
+    const max=Math.max(...data.map(r=>num(r,"total_income_cr")||num(r,"revenue_cr")||0))*1.14||1;
+    let out=svgStart(w,h,"Management revenue by business category");
+    categories.forEach((cat,i)=>{
+      const yy=m.t+i*rowH,label=cat.length>26?cat.slice(0,24)+"…":cat;
+      out+='<text class="viz-label strong" x="'+(m.l-9)+'" y="'+(yy+14)+'" text-anchor="end"><title>'+esc(cat)+'</title>'+esc(label)+'</text>';
+      periods.forEach((p,j)=>{
+        const r=data.find(x=>x.category===cat&&x.period===p),val=r?(num(r,"total_income_cr")??num(r,"revenue_cr")):null;
+        if(val==null)return;
+        const barW=val/max*pw,barY=yy+j*13;
+        out+='<rect x="'+m.l+'" y="'+barY+'" width="'+Math.max(1,barW)+'" height="8" rx="4" fill="'+colorFor(j)+'" opacity="'+(j===periods.length-1?".95":".53")+'"><title>'+esc(cat)+' · '+esc(p)+' · '+esc(cr(val))+(r.ebit_cr?(" · EBIT "+cr(num(r,"ebit_cr"))):"")+'</title></rect>';
+        out+='<text class="viz-label" x="'+Math.min(w-m.r+4,m.l+barW+5)+'" y="'+(barY+8)+'">'+esc(short(val))+'</text>';
+      });
+    });
+    out+='</svg>';el.innerHTML=out;
+  }
+  function renderBusinessMargins(id,data,periods){
+    const el=$(id);if(!el)return;
+    const usable=data.filter(r=>num(r,"ebit_margin_pct")!=null||num(r,"segment_result_cr")!=null);
+    if(!usable.length){el.innerHTML='<div class="chart-empty">Operating margin is not allocated for this view.</div>';return;}
+    const cats=[...new Set(usable.map(r=>r.category||r.segment))],w=Math.max(340,Math.floor(el.clientWidth||620)),rowH=35,h=Math.max(210,30+cats.length*rowH),m={l:Math.min(185,w*.34),r:48,t:12,b:21},pw=w-m.l-m.r,min=-35,max=35,x=v=>m.l+(v-min)/(max-min)*pw,zero=x(0);
+    let out=svgStart(w,h,"EBIT or segment result margin");
+    out+='<line class="viz-grid" x1="'+zero+'" y1="'+m.t+'" x2="'+zero+'" y2="'+(h-m.b)+'"/>';
+    [-30,-15,0,15,30].forEach(v=>out+='<text class="viz-label" x="'+x(v)+'" y="'+(h-5)+'" text-anchor="middle">'+v+'%</text>');
+    cats.forEach((cat,i)=>{
+      const yy=m.t+i*rowH,label=cat.length>22?cat.slice(0,20)+"…":cat;
+      out+='<text class="viz-label" x="'+(m.l-8)+'" y="'+(yy+15)+'" text-anchor="end"><title>'+esc(cat)+'</title>'+esc(label)+'</text>';
+      periods.forEach((p,j)=>{
+        const r=usable.find(q=>(q.category||q.segment)===cat&&q.period===p);if(!r)return;
+        const value=num(r,"ebit_margin_pct")??(num(r,"revenue_cr")?num(r,"segment_result_cr")/num(r,"revenue_cr")*100:null);
+        if(value==null)return;
+        const x0=x(Math.min(0,value)),x1=x(Math.max(0,value)),yy2=yy+j*11;
+        out+='<rect x="'+x0+'" y="'+yy2+'" width="'+Math.max(2,x1-x0)+'" height="7" rx="3" fill="'+colorFor(j)+'"><title>'+esc(cat)+' · '+esc(p)+' · '+esc(pct(value,1))+(r.adjusted_margin_pct?(" · adjusted "+pct(num(r,"adjusted_margin_pct"),1)):"")+'</title></rect>';
+        out+='<text class="viz-label" x="'+(value>=0?x1+4:x0-4)+'" y="'+(yy2+7)+'" text-anchor="'+(value>=0?"start":"end")+'">'+esc(pct(value,1))+'</text>';
+      });
+    });
+    out+='</svg>';el.innerHTML=out;
+  }
+  function renderReportedMargins(info){
+    const periods=info.periods;
+    const segs=info.series.map(s=>s.label).filter(s=>s!=="Corporate (unallocated)");
+    const data=periods.map(p=>{const r={period:p};segs.forEach(s=>{const row=info.data.find(x=>x.period===p&&x.segment===s);const rev=row?num(row,"revenue_cr"):null,ebit=row?num(row,"segment_result_cr"):null;r[s]=rev?ebit/rev*100:null;});return r;});
+    const series=info.series.filter(s=>s.label!=="Corporate (unallocated)").map(s=>({label:s.label,value:r=>r[s.label],color:s.color}));
+    legend("segmentMarginLegend",series.map(s=>({label:s.label,color:s.color})));
+    renderLineChart("segmentMarginChart",data,series,{h:245,min:-20,max:25,tick:v=>Math.round(v)+"%",point:v=>pct(v,1),label:"Reported segment result margin by period"});
+  }
+  function renderSegments(){
+    const info=getSegmentMode();
+    text($("segmentTitle"),info.title);text($("segmentSubtitle"),info.subtitle);text($("segmentNote"),info.note);
+    if(info.kind==="reported"){
+      legend("segmentLegend",info.series.map(s=>({label:s.label,color:s.color})));
+      const periodRows=info.periods.map(p=>{
+        const row={period:p};
+        info.series.forEach(s=>{
+          const source=info.data.find(r=>r.period===p&&r.segment===s.key);
+          row[s.key]=source?(num(source,"revenue_cr")||0):0;
+          row["result_"+s.key]=source?num(source,"segment_result_cr"):null;
+        });
+        return row;
+      });
+      renderStackedColumns("segmentRevenueChart",periodRows,info.series.map(s=>({key:s.key,label:s.label,color:s.color})),{h:280,label:info.title});
+      text($("segmentMarginTitle"),"Operating segment result margin");text($("segmentMarginSubtitle"),"Corporate/unallocated result is available in segment chart details; excluded here because its allocated revenue is not comparable.");
+      renderReportedMargins(info);
+    }else{
+      const periodColors=info.periods.map((p,i)=>({label:p,color:colorFor(i)}));
+      legend("segmentLegend",periodColors);
+      renderBusinessBars("segmentRevenueChart",info.data,info.periods);
+      text($("segmentMarginTitle"),"EBIT margin by category");text($("segmentMarginSubtitle"),"Reported EBIT margin; adjusted figures appear in mark details where available.");
+      legend("segmentMarginLegend",periodColors);
+      renderBusinessMargins("segmentMarginChart",info.data,info.periods);
+    }
+  }
+  function renderResources(){
+    const all=rows("segment_resources"),periods=[...new Set(all.map(r=>r.period))];
+    const sel=$("resourcePeriod");
+    if(!sel.dataset.ready){sel.innerHTML=periods.slice().reverse().map(p=>'<option value="'+esc(p)+'">'+esc(p)+'</option>').join("");sel.value="Q1 FY27";sel.dataset.ready="1";}
+    const p=sel.value,d=all.filter(r=>r.period===p&&r.segment!=="Total reported");
+    const el=$("resourceChart");
+    if(!d.length){el.innerHTML='<div class="chart-empty">No resources for this period.</div>';return;}
+    const w=Math.max(400,Math.floor(el.clientWidth||620)),rowH=42,h=Math.max(230,30+d.length*rowH),m={l:Math.min(185,w*.33),r:20,t:12,b:24},pw=w-m.l-m.r;
+    const max=Math.max(...d.map(r=>Math.max(num(r,"assets_cr")||0,num(r,"liabilities_cr")||0)))*1.08||1;
+    let out=svgStart(w,h,"Segment assets and liabilities for "+p);
+    d.forEach((r,i)=>{const yy=m.t+i*rowH,label=r.segment.length>24?r.segment.slice(0,22)+"…":r.segment;out+='<text class="viz-label" x="'+(m.l-9)+'" y="'+(yy+15)+'" text-anchor="end"><title>'+esc(r.segment)+'</title>'+esc(label)+'</text>';[["assets_cr",C[0],0],["liabilities_cr",C[2],12]].forEach(a=>{const val=num(r,a[0])||0,bw=val/max*pw,by=yy+a[2];out+='<rect x="'+m.l+'" y="'+by+'" width="'+Math.max(1,bw)+'" height="8" rx="4" fill="'+a[1]+'"><title>'+esc(r.segment)+' · '+(a[0]==="assets_cr"?"Assets":"Liabilities")+' · '+esc(cr(val))+'</title></rect>';});});
+    out+='</svg>';el.innerHTML=out;
+  }
+  function ownershipData(){
+    return rows($("ownershipGrain").value==="annual"?"shareholding_annual":"shareholding_quarterly");
+  }
+  const ownershipSeries=[
+    {label:"Promoters",key:"promoters_pct",color:C[0]},
+    {label:"FIIs",key:"fiis_pct",color:C[1]},
+    {label:"DIIs",key:"diis_pct",color:C[2]},
+    {label:"Public",key:"public_pct",color:C[3]},
+    {label:"Government",key:"government_pct",color:C[4]},
+    {label:"Others",key:"others_pct",color:"#718394"}
+  ];
+  function renderOwnership(){
+    const d=ownershipData();
+    legend("ownershipLegend",ownershipSeries.map(s=>({label:s.label,color:s.color})));
+    const series=ownershipSeries.map(s=>({label:s.label,value:r=>num(r,s.key),color:s.color}));
+    renderLineChart("ownershipChart",d,series,{h:280,min:0,max:60,tick:v=>Math.round(v)+"%",point:v=>pct(v,2),label:"Titan shareholding by investor group"});
+    const last=d[d.length-1];if(last){
+      const total=num(last,"shareholders");
+      $("ownershipLatest").innerHTML='<div class="ownership-stack" role="img" aria-label="Latest investor ownership proportions">'+ownershipSeries.map(s=>'<span title="'+esc(s.label)+' '+esc(pct(num(last,s.key),2))+'" style="width:'+Math.max(0,num(last,s.key)||0)+'%;background:'+s.color+'"></span>').join("")+'</div><div class="note">Latest: '+esc(last.period)+' · Promoters '+esc(pct(num(last,"promoters_pct"),2))+' · FIIs '+esc(pct(num(last,"fiis_pct"),2))+' · DIIs '+esc(pct(num(last,"diis_pct"),2))+' · '+esc(total?Number(total).toLocaleString("en-IN"):"—")+' shareholders</div>';
+    }
+    const countRows=d.map(r=>({period:r.period,shareholders:num(r,"shareholders")}));
+    renderLineChart("shareholderChart",countRows,[{label:"Shareholders",value:r=>r.shareholders,color:C[0]}],{h:245,min:0,tick:v=>short(v),point:v=>Number(v).toLocaleString("en-IN"),label:"Titan shareholder count"});
+  }
+  function renderSources(){
+    const src=rows("sources");
+    $("sourceList").innerHTML=src.map(r=>'<li><a href="'+esc(r.source_url)+'" target="_blank" rel="noopener noreferrer">'+esc(r.source_title)+'</a><br>'+esc(r.as_of_or_period)+' · '+esc(r.used_for)+'</li>').join("");
+  }
+  const state={grain:"annual",range:"all",cashRange:"all"};
+  function draw(){
+    renderKpis();renderMarket();renderPerformance();renderWaterfall();renderGrowth();renderCash();renderBalance();renderEfficiency();renderSegments();renderResources();renderOwnership();renderSources();
+  }
+  document.querySelectorAll("[data-grain]").forEach(b=>b.addEventListener("click",()=>{
+    state.grain=b.dataset.grain;
+    document.querySelectorAll("[data-grain]").forEach(x=>{const on=x===b;x.classList.toggle("active",on);x.setAttribute("aria-pressed",String(on));});
+    renderPerformance();
+  }));
+  document.querySelectorAll("[data-range]").forEach(b=>b.addEventListener("click",()=>{
+    state.range=b.dataset.range;
+    document.querySelectorAll("[data-range]").forEach(x=>{const on=x===b;x.classList.toggle("active",on);x.setAttribute("aria-pressed",String(on));});
+    renderPerformance();
+  }));
+  document.querySelectorAll("[data-cash-range]").forEach(b=>b.addEventListener("click",()=>{
+    state.cashRange=b.dataset.cashRange;
+    document.querySelectorAll("[data-cash-range]").forEach(x=>{const on=x===b;x.classList.toggle("active",on);x.setAttribute("aria-pressed",String(on));});
+    renderCash();
+  }));
+  $("statementPeriod").addEventListener("change",renderWaterfall);
+  $("segmentMode").addEventListener("change",renderSegments);
+  $("resourcePeriod").addEventListener("change",renderResources);
+  $("ownershipGrain").addEventListener("change",renderOwnership);
+  let resizeTimer;
+  window.addEventListener("resize",()=>{clearTimeout(resizeTimer);resizeTimer=setTimeout(draw,120);});
+  draw();
+})();
+</script>
+</body>
+</html>
