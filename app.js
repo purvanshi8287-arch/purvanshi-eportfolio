@@ -157,8 +157,8 @@
   }));
 
   const themeButton = $("#theme-toggle");
-  let savedTheme = "light";
-  try { savedTheme = localStorage.getItem("purvanshi-theme") || "light"; } catch (_) {}
+  let savedTheme = "dark";
+  try { savedTheme = localStorage.getItem("purvanshi-theme-v2") || "dark"; } catch (_) {}
   document.body.dataset.theme = savedTheme;
   const updateThemeButton = () => {
     const dark = document.body.dataset.theme === "dark";
@@ -169,7 +169,7 @@
   updateThemeButton();
   themeButton.addEventListener("click", () => {
     document.body.dataset.theme = document.body.dataset.theme === "dark" ? "light" : "dark";
-    try { localStorage.setItem("purvanshi-theme", document.body.dataset.theme); } catch (_) {}
+    try { localStorage.setItem("purvanshi-theme-v2", document.body.dataset.theme); } catch (_) {}
     updateThemeButton();
   });
 

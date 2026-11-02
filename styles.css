@@ -16,7 +16,7 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 88px; }
 body { margin: 0; background: var(--paper); color: var(--ink); font: 16px/1.65 var(--sans); transition: background .25s, color .25s; }
-body[data-theme="dark"] { --paper: #111d1c; --surface: #192725; --ink: #edf2e9; --muted: #a6b3ac; --line: #33423e; color-scheme: dark; }
+body[data-theme="dark"] { --paper: #0F1115; --surface: #171A21; --ink: #F3F4F6; --muted: #9CA3AF; --line: #2B3038; --forest: #0F1115; --forest-soft: #171A21; --accent: #10B981; --lime: var(--accent); --gold: var(--muted); color-scheme: dark; }
 a { color: inherit; }
 button, input { font: inherit; }
 button { color: inherit; }
@@ -322,3 +322,79 @@ body[data-theme="dark"] .chat-link { color: var(--lime); }
   *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
   .js-ready .reveal { opacity: 1; transform: none; }
 }
+
+/* Recruiter-facing dark palette: obsidian base, silver text, neon mint accents. */
+body[data-theme="dark"] .skip-link { background: var(--accent); color: var(--paper); }
+body[data-theme="dark"] .site-header { background: color-mix(in srgb, var(--paper) 92%, transparent); }
+body[data-theme="dark"] .hero { color: var(--ink); }
+body[data-theme="dark"] .hero::before { background: radial-gradient(ellipse at 82% 42%, #123329 0, transparent 44%), linear-gradient(120deg, #0F1115 20%, #171A21 100%); }
+body[data-theme="dark"] .hero::after { background-image: linear-gradient(#10B98112 1px, transparent 1px), linear-gradient(90deg, #10B98112 1px, transparent 1px); }
+body[data-theme="dark"] .hero-kicker,
+body[data-theme="dark"] .hero-line,
+body[data-theme="dark"] .hero-intro,
+body[data-theme="dark"] .role-pill { color: var(--muted); }
+body[data-theme="dark"] .hero-kicker { border-color: #9CA3AF35; }
+body[data-theme="dark"] .hero-overline,
+body[data-theme="dark"] .role-label,
+body[data-theme="dark"] .hero-coordinate,
+body[data-theme="dark"] .hero-footer { color: var(--muted); }
+body[data-theme="dark"] .status-dot { box-shadow: 0 0 0 4px #10B98126; }
+body[data-theme="dark"] .role-pill { background: #171A21; border-color: #9CA3AF35; }
+body[data-theme="dark"] .button-glass { border-color: #9CA3AF70; color: var(--ink); background: #171A21; }
+body[data-theme="dark"] .visual-grid,
+body[data-theme="dark"] .visual-ring { border-color: #9CA3AF25; }
+body[data-theme="dark"] .cutout-glow { background: radial-gradient(ellipse, #10B98135 0%, #10B98112 48%, transparent 74%); }
+body[data-theme="dark"] .cutout-platform { border-color: #10B98175; background: radial-gradient(ellipse, #10B98124, transparent 68%); }
+body[data-theme="dark"] .orbit-note { background: var(--surface); border-color: #9CA3AF35; color: var(--ink); }
+body[data-theme="dark"] .note-mark { background: var(--accent); color: var(--paper); }
+body[data-theme="dark"] .hero-line-art { color: var(--muted); }
+body[data-theme="dark"] .hero-footer { border-color: #9CA3AF35; }
+body[data-theme="dark"] .section-label span:first-child,
+body[data-theme="dark"] .section-heading em,
+body[data-theme="dark"] .title-period,
+body[data-theme="dark"] .hero-footer i,
+body[data-theme="dark"] .hero-footer a { color: var(--accent); }
+body[data-theme="dark"] .label-rule { background: var(--muted); }
+body[data-theme="dark"] .education-mark { background: #20242C; color: var(--accent); }
+body[data-theme="dark"] .experience-section { background: var(--surface); }
+body[data-theme="dark"] .experience-list,
+body[data-theme="dark"] .experience-item { border-color: var(--line); }
+body[data-theme="dark"] .experience-period,
+body[data-theme="dark"] .experience-content li::marker { color: var(--accent); }
+body[data-theme="dark"] .project-index,
+body[data-theme="dark"] .certificate-index { color: var(--muted); }
+body[data-theme="dark"] .project-category,
+body[data-theme="dark"] .case-label,
+body[data-theme="dark"] .certificate-issuer { color: var(--muted); }
+body[data-theme="dark"] .filter-chip:hover,
+body[data-theme="dark"] .filter-chip.is-active { border-color: var(--accent); background: var(--accent); color: var(--paper); }
+body[data-theme="dark"] .project-card:hover { border-color: var(--accent); }
+body[data-theme="dark"] .project-status { background: #20242C; color: var(--accent); }
+body[data-theme="dark"] .case-point:last-child { border-top-color: var(--accent); }
+body[data-theme="dark"] .text-link,
+body[data-theme="dark"] .certificate-link,
+body[data-theme="dark"] .chat-link,
+body[data-theme="dark"] .site-footer a { color: var(--accent); }
+body[data-theme="dark"] .evidence-note,
+body[data-theme="dark"] .small-note,
+body[data-theme="dark"] .unverified { color: var(--muted); }
+body[data-theme="dark"] .skills-section { background: var(--paper); color: var(--ink); }
+body[data-theme="dark"] .skills-section .section-label,
+body[data-theme="dark"] .skills-section .section-subtitle,
+body[data-theme="dark"] .tool-heading { color: var(--muted); }
+body[data-theme="dark"] .skills-section .section-label span:first-child,
+body[data-theme="dark"] .skills-section .section-heading em { color: var(--accent); }
+body[data-theme="dark"] .skills-section .label-rule { background: var(--muted); }
+body[data-theme="dark"] .tag { border-color: #9CA3AF45; color: var(--ink); background: var(--surface); }
+body[data-theme="dark"] .contact-section { background: var(--surface); color: var(--ink); }
+body[data-theme="dark"] .contact-copy .eyebrow,
+body[data-theme="dark"] .contact-link,
+body[data-theme="dark"] .contact-link:hover { color: var(--accent); }
+body[data-theme="dark"] .contact-copy > p:last-child,
+body[data-theme="dark"] .contact-card-label,
+body[data-theme="dark"] .contact-city { color: var(--muted); }
+body[data-theme="dark"] .contact-card { border-color: var(--line); background: #0F1115; }
+body[data-theme="dark"] .site-footer { background: #0F1115; color: var(--muted); }
+body[data-theme="dark"] .assistant-eyebrow { color: var(--accent); }
+body[data-theme="dark"] .assistant-suggestions button:hover { border-color: var(--accent); color: var(--accent); }
+body[data-theme="dark"] .assistant-form input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px #10B98126; }
