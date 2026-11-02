@@ -296,6 +296,7 @@
   };
   const openAssistant = () => {
     assistantPanel.hidden = false;
+    document.body.classList.add("assistant-open");
     assistantLauncher.setAttribute("aria-expanded", "true");
     if (!welcomed) {
       appendMessage("Hi! I can help you explore Purvanshi’s projects, experience and skills. I answer from this portfolio only.", "assistant");
@@ -305,6 +306,7 @@
   };
   const closeAssistant = () => {
     assistantPanel.hidden = true;
+    document.body.classList.remove("assistant-open");
     assistantLauncher.setAttribute("aria-expanded", "false");
     assistantLauncher.focus();
   };

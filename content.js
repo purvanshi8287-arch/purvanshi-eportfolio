@@ -33,13 +33,13 @@ window.PORTFOLIO = {
       kind: "Academic team assignment · Individual chatbot prototype",
       purpose: "The team explored how proposals for marketing, sponsorship and expansion could be reviewed with clearer evidence and decision gates before commitment.",
       process: "I identified the problem, collected evidence, built my own chatbot prototype using ChatGPT, and stress-tested it. Each team member built an individual bot; the team then compared them.",
-      outcome: "My bot was not selected as the team’s final choice. I continued refining it into a GitHub-hosted academic prototype. I report that it passed all 12 stress scenarios, but the uploaded results sheet is blank, so that result is self-reported and not independently verifiable. It has not been used in a live business decision.",
+      outcome: "The team selected another member’s bot. My individual prototype remains a GitHub-hosted academic demo. I report passing all 12 stress scenarios; the results sheet is blank, so that result is unverified. It has not been used in a live decision, and no business impact is measured.",
       evidence: [
         { label: "Open prototype", href: "https://purvanshi8287-arch.github.io/byjus-spend-review-chatbot/proposal-review.html" },
         { label: "View source repository", href: "https://github.com/purvanshi8287-arch/byjus-spend-review-chatbot" },
         { label: "Evidence source pack", href: "https://github.com/purvanshi8287-arch/byjus-spend-review-chatbot/blob/main/web-evidence-pack.md" }
       ],
-      evidenceNote: "Stress-test result is self-reported; the uploaded results sheet is blank, so it cannot be independently verified. The team selected another bot; no live business use is claimed.",
+      evidenceNote: "Evidence available: the hosted prototype and source pack. The stress-test result cannot be independently verified because the uploaded results sheet is blank.",
       status: "Academic prototype"
     },
     {
