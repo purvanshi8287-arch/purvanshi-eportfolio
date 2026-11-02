@@ -219,7 +219,7 @@
     }
     if (/chatbot|byju|spend review|stress test/.test(q) && byju) {
       return {
-        text: byju.title + ". " + byju.process + " " + byju.outcome + (byju.evidenceNote ? " Evidence note: " + byju.evidenceNote : ""),
+        text: byju.title + ". " + byju.process + " " + byju.outcome,
         link: byju.evidence && byju.evidence[0] ? byju.evidence[0].href : "",
         linkLabel: "Open the prototype"
       };
@@ -234,9 +234,12 @@
     if (/project|projects|portfolio work|what has .* built|work samples/.test(q)) {
       const links = projects.map((project) => {
         const item = project.evidence && project.evidence[0];
-        return project.title + (item ? " — " + item.label : "");
-      });
-      return { text: "The portfolio currently lists " + projects.map((project) => project.title).join(" and ") + ". " + projects.map((project) => project.outcome).join(" ") };
+        return item ? { href: item.href, label: item.label } : null;
+      }).filter(Boolean);
+      return {
+        text: "The portfolio currently lists " + projects.map((project) => project.title).join(" and ") + ". " + projects.map((project) => project.outcome).join(" "),
+        links: links
+      };
     }
     if (/intern|experience|work history|job/.test(q)) {
       const experience = data.experience || {};
@@ -277,14 +280,17 @@
   const assistantInput = $("#assistant-input");
   const assistantMessages = $("#assistant-messages");
   let welcomed = false;
-  const appendMessage = (text, role, linkHref, linkLabel) => {
+  const appendMessage = (text, role, linkHref, linkLabel, moreLinks) => {
     const message = make("div", "chat-message " + role);
     message.setAttribute("role", role === "assistant" ? "article" : "status");
     message.append(make("p", "", text));
-    if (linkHref && linkLabel) {
-      const anchor = makeLink(linkLabel + " ↗", linkHref, "chat-link");
+    const links = [];
+    if (linkHref && linkLabel) links.push({ href: linkHref, label: linkLabel });
+    (moreLinks || []).forEach((item) => links.push(item));
+    links.forEach((item) => {
+      const anchor = makeLink(item.label + " ↗", item.href, "chat-link");
       if (anchor) message.append(anchor);
-    }
+    });
     assistantMessages.append(message);
     assistantMessages.scrollTop = assistantMessages.scrollHeight;
   };
@@ -313,7 +319,7 @@
     appendMessage(text, "user");
     assistantInput.value = "";
     const reply = answerPortfolio(text);
-    window.setTimeout(() => appendMessage(reply.text, "assistant", reply.link, reply.linkLabel), 220);
+    window.setTimeout(() => appendMessage(reply.text, "assistant", reply.link, reply.linkLabel, reply.links), 220);
   };
   $("#assistant-form").addEventListener("submit", (event) => {
     event.preventDefault();
