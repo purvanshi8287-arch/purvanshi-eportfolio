@@ -1,7 +1,9 @@
 # Purvanshi’s e-Portfolio
 
-Finance portfolio: academic projects, internship experience, skills and certificates.
+Live site: https://purvanshi8287-arch.github.io/purvanshi-eportfolio/
 
-- Edit content.js to update profile, projects and certificates.
+Finance portfolio with academic projects, internship experience, skills and certificates.
+
+- Edit content.js to update profile details, projects and certificates.
 - Resume and portrait: assets/.
-- Titan dashboard: [Open dashboard](projects/titan-company-financial-dashboard.html).
+- Titan dashboard: projects/titan-company-financial-dashboard.html
