@@ -1,1 +1,90 @@
-<!doctype html><html lang="en"><head>  <meta charset="utf-8">  <meta name="viewport" content="width=device-width, initial-scale=1">  <meta name="description" content="Purvanshi's finance portfolio: academic work, experience, skills and credentials.">  <title>Purvanshi | Finance Portfolio</title>  <link rel="preconnect" href="https://fonts.googleapis.com">  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">  <link rel="stylesheet" href="styles.css?v=2">  <script src="content.js" defer></script>  <script src="app.js" defer></script></head><body>  <a class="skip-link" href="#main">Skip to content</a>  <header class="site-header">    <div class="nav-wrap">      <a class="brand" href="#home" aria-label="Purvanshi home"><span class="brand-mark">P</span><span data-profile="name">Purvanshi</span></a>      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>      <nav id="main-nav" class="main-nav" aria-label="Main navigation">        <a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#certificates">Certificates</a><a href="#contact" class="nav-contact">Contact</a>      </nav>    </div>  </header>  <main id="main">    <section id="home" class="hero section-shell">      <div class="hero-copy">        <p class="eyebrow"><span class="status-dot"></span> PGDM · Financial Management · FIIB</p>        <h1>Hi, I’m <span data-profile="name">Purvanshi</span>.</h1>        <p class="hero-line" data-profile="positioning"></p>        <p class="hero-intro">I’m developing a practical foundation in financial analysis, valuation and risk through coursework, project work and internship experience.</p>        <div class="hero-actions">          <a class="button button-dark" href="#projects">Explore my work <span aria-hidden="true">↗</span></a>          <a class="button button-light" href="assets/Purvanshi_Resume_Updated.pdf" target="_blank" rel="noopener">View resume <span aria-hidden="true">↗</span></a>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Purvanshi's finance portfolio: academic work, experience, skills and credentials.">
+  <title>Purvanshi | Finance Portfolio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="content.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <div class="nav-wrap">
+      <a class="brand" href="#home" aria-label="Purvanshi home"><span class="brand-mark">P</span><span data-profile="name">Purvanshi</span></a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
+      <nav id="main-nav" class="main-nav" aria-label="Main navigation">
+        <a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#skills">Skills</a><a href="#certificates">Certificates</a><a href="#contact" class="nav-contact">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section id="home" class="hero section-shell">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot"></span> PGDM · Financial Management · FIIB</p>
+        <h1>Hi, I’m <span data-profile="name">Purvanshi</span>.</h1>
+        <p class="hero-line" data-profile="positioning"></p>
+        <p class="hero-intro">I’m developing a practical foundation in financial analysis, valuation and risk through coursework, project work and internship experience.</p>
+        <div class="hero-actions">
+          <a class="button button-dark" href="#projects">Explore my work <span aria-hidden="true">↗</span></a>
+          <a class="button button-light" href="assets/Purvanshi_Resume_Updated.pdf" target="_blank" rel="noopener">View resume <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="target-roles"><span>Exploring roles</span><div id="role-list"></div></div>
+      </div>
+      <div class="hero-aside">
+        <div class="portrait-frame"><img id="profile-photo" src="assets/purvanshi-linkedin-photo.jpg" alt="Professional portrait of Purvanshi"></div>
+        <div class="hero-card"><span class="mini-label">CURRENTLY</span><strong>PGDM student</strong><span>Financial Management · FIIB, New Delhi</span></div>
+        <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+      </div>
+      <div class="hero-bottom"><span>Gurugram, India</span><span>Curious by nature · evidence-minded by practice</span></div>
+    </section>
+
+    <section id="about" class="section section-shell">
+      <div class="section-heading"><p class="eyebrow">01 — ABOUT</p><h2>Learning finance with a practical lens.</h2></div>
+      <div class="about-grid">
+        <p class="about-lead" id="about-summary"></p>
+        <div class="about-facts" id="education-list"></div>
+      </div>
+    </section>
+
+    <section id="experience" class="section section-tint">
+      <div class="section-shell">
+        <div class="section-heading"><p class="eyebrow">02 — EXPERIENCE</p><h2>Building a strong foundation.</h2><p class="section-subtitle">Responsibilities and learning from my internship experience.</p></div>
+        <div id="experience-list" class="experience-card"></div>
+      </div>
+    </section>
+
+    <section id="projects" class="section section-shell">
+      <div class="section-heading heading-row"><div><p class="eyebrow">03 — SELECTED WORK</p><h2>Projects, with the evidence attached.</h2></div><p class="section-subtitle">Purpose → Process → Outcome</p></div>
+      <div id="project-list" class="project-grid"></div>
+      <p class="portfolio-note">Additional project case studies will be added when their supporting materials are ready.</p>
+    </section>
+
+    <section id="skills" class="section section-dark">
+      <div class="section-shell">
+        <div class="section-heading"><p class="eyebrow">04 — SKILLS & TOOLS</p><h2>Skills I’m actively developing.</h2><p class="section-subtitle">Listed from my resume and completed coursework; no proficiency ratings are implied.</p></div>
+        <div class="skills-grid"><div><h3>Skills</h3><div id="skill-list" class="tag-list"></div></div><div><h3>Tools</h3><div id="tool-list" class="tag-list"></div></div></div>
+      </div>
+    </section>
+
+    <section id="certificates" class="section section-shell">
+      <div class="section-heading"><p class="eyebrow">05 — CONTINUOUS LEARNING</p><h2>Certificates & learning.</h2><p class="section-subtitle">Completion certificates are learning records, not professional licences.</p></div>
+      <div id="certificate-list" class="certificate-grid"></div>
+    </section>
+
+    <section id="contact" class="contact-section">
+      <div class="section-shell contact-inner">
+        <div><p class="eyebrow">LET’S CONNECT</p><h2>Open to learning and thoughtful conversations.</h2><p id="contact-city"></p></div>
+        <div class="contact-links" id="contact-links"></div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer"><div class="section-shell"><span>© <span id="year"></span> <span data-profile="name">Purvanshi</span></span><span>Made as an editable portfolio draft.</span><a href="#home">Back to top ↑</a></div></footer>
+</body>
+</html>
