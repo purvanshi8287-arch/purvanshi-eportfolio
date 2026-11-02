@@ -226,7 +226,7 @@
     }
     if (/titan|dashboard/.test(q) && titan) {
       return {
-        text: titan.title + ". " + titan.purpose + " " + titan.process + " " + titan.outcome + (titan.evidenceNote ? " Evidence note: " + titan.evidenceNote : ""),
+        text: titan.title + ". " + titan.purpose + " " + titan.process + " " + titan.outcome,
         link: titan.evidence && titan.evidence[0] ? titan.evidence[0].href : "",
         linkLabel: "Open the dashboard"
       };
