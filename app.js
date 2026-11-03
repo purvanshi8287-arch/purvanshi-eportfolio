@@ -141,15 +141,95 @@
 
   (data.skills || []).forEach((skill) => $("#skill-list").append(make("span", "tag", skill)));
   (data.tools || []).forEach((tool) => $("#tool-list").append(make("span", "tag", tool)));
+  const certificateDialog = $("#certificate-dialog");
+  const certificateDocument = $("#certificate-document");
+  const certificateFileLink = (certificate) => makeLink("Open certificate file ↗", certificate.file, "certificate-link");
+  const openCertificate = (certificate) => {
+    $("#certificate-dialog-issuer").textContent = certificate.issuer || "Issuer — To Be Added";
+    $("#certificate-dialog-title").textContent = certificate.title || "Certificate — To Be Added";
+    $("#certificate-dialog-detail").textContent = [certificate.detail, certificate.evidenceStatus].filter(Boolean).join(" · ");
+    $("#certificate-dialog-note").textContent = certificate.note || "Course records confirm completion, not independent proficiency.";
+    const skillList = $("#certificate-dialog-skills");
+    skillList.replaceChildren();
+    (certificate.focus || []).forEach((skill) => skillList.append(make("li", "", skill)));
+    certificateDocument.replaceChildren();
+    if (certificate.file) {
+      const isImage = /\.(png|jpe?g|webp)$/i.test(certificate.file);
+      const record = make(isImage ? "img" : "iframe", "certificate-record");
+      record.src = certificate.file;
+      record.title = certificate.title + " certificate";
+      if (isImage) record.alt = certificate.title + " certificate";
+      certificateDocument.append(record);
+    }
+    const links = $("#certificate-dialog-links");
+    links.replaceChildren();
+    const fileLink = certificateFileLink(certificate);
+    if (fileLink) {
+      fileLink.target = "_blank";
+      fileLink.rel = "noopener noreferrer";
+      links.append(fileLink);
+    }
+    if (certificate.verified && certificate.href) {
+      const verificationLink = makeLink("Verify on LinkedIn ↗", certificate.href, "certificate-link");
+      if (verificationLink) links.append(verificationLink);
+    }
+    if (typeof certificateDialog.showModal === "function") certificateDialog.showModal();
+    else certificateDialog.setAttribute("open", "");
+  };
   (data.certificates || []).forEach((certificate, index) => {
-    const card = make("article", "certificate-card reveal");
-    const top = make("div", "certificate-top");
+    const card = make("button", "certificate-orbit-card");
+    card.type = "button";
+    card.style.setProperty("--orbit-delay", "-" + ((index * 34) / Math.max(1, (data.certificates || []).length)) + "s");
+    card.setAttribute("aria-label", "Open " + certificate.title + " certificate and course focus");
+    const contents = make("span", "certificate-orbit-content");
+    const top = make("span", "certificate-top");
     top.append(make("span", "certificate-index", "0" + (index + 1)), make("span", "certificate-issuer", certificate.issuer || "Issuer — To Be Added"));
-    card.append(top, make("h3", "", certificate.title || "Certificate — To Be Added"), make("p", "", certificate.detail || ""));
-    const anchor = certificate.verified && makeLink("View credential", certificate.href, "certificate-link");
-    card.append(anchor || make("span", "unverified", "Verification link — To Be Added"));
-    $("#certificate-list").append(card);
+    contents.append(top, make("strong", "certificate-orbit-title", certificate.title || "Certificate — To Be Added"));
+    const focus = make("span", "certificate-orbit-focus", (certificate.focus || []).join(" · "));
+    contents.append(focus, make("span", "certificate-orbit-open", "Open certificate ↗"));
+    card.append(contents);
+    card.addEventListener("click", () => openCertificate(certificate));
+    $("#certificate-orbit-cards").append(card);
   });
+  $("#certificate-dialog-close").addEventListener("click", () => certificateDialog.close());
+  certificateDialog.addEventListener("click", (event) => {
+    if (event.target === certificateDialog) certificateDialog.close();
+  });
+
+  const gallerySlides = Array.from(document.querySelectorAll("[data-gallery-slide]"));
+  const galleryCount = $("#gallery-count");
+  const galleryToggle = $("#gallery-toggle");
+  let galleryIndex = 0;
+  let galleryPaused = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let galleryTimer = 0;
+  const showGallerySlide = (nextIndex) => {
+    if (!gallerySlides.length) return;
+    galleryIndex = (nextIndex + gallerySlides.length) % gallerySlides.length;
+    gallerySlides.forEach((slide, index) => {
+      const active = index === galleryIndex;
+      slide.classList.toggle("is-active", active);
+      slide.setAttribute("aria-hidden", String(!active));
+      if (active) slide.removeAttribute("inert");
+      else slide.setAttribute("inert", "");
+    });
+    galleryCount.firstChild.textContent = "0" + (galleryIndex + 1) + " ";
+  };
+  const updateGalleryPlayback = () => {
+    window.clearInterval(galleryTimer);
+    galleryToggle.textContent = galleryPaused ? "Play" : "Pause";
+    galleryToggle.setAttribute("aria-pressed", String(galleryPaused));
+    if (!galleryPaused && gallerySlides.length > 1) galleryTimer = window.setInterval(() => showGallerySlide(galleryIndex + 1), 6200);
+  };
+  $("#gallery-prev").addEventListener("click", () => showGallerySlide(galleryIndex - 1));
+  $("#gallery-next").addEventListener("click", () => showGallerySlide(galleryIndex + 1));
+  galleryToggle.addEventListener("click", () => { galleryPaused = !galleryPaused; updateGalleryPlayback(); });
+  $("#gallery-carousel").addEventListener("mouseenter", () => window.clearInterval(galleryTimer));
+  $("#gallery-carousel").addEventListener("mouseleave", updateGalleryPlayback);
+  $("#gallery-carousel").addEventListener("focusin", () => window.clearInterval(galleryTimer));
+  $("#gallery-carousel").addEventListener("focusout", (event) => {
+    if (!event.currentTarget.contains(event.relatedTarget)) updateGalleryPlayback();
+  });
+  updateGalleryPlayback();
   $("#contact-city").textContent = data.profile.city || "";
   [
     ["Email", "mailto:" + (data.profile.email || "")],
@@ -230,7 +310,7 @@
       return { text: "Hello! I’m Purvanshi’s portfolio guide. Ask about her projects, experience, skills, certificates or contact details." };
     }
     if (/what can you|help me|what do you know|how do i use/.test(q)) {
-      return { text: "I can point you to information published on this portfolio: projects, purpose/process/outcome, experience, education, skills, tools, certificates and contact. Try a specific question." };
+      return { text: "I can point you to information published on this portfolio: projects, gallery, experience, education, skills, certificates and contact. Try a specific question." };
     }
     if (/chatbot|byju|spend review|stress test/.test(q) && byju) {
       return {
@@ -270,7 +350,10 @@
       return { text: "Skills: " + (data.skills || []).join(", ") + ". Tools: " + (data.tools || []).join(", ") + ". The portfolio does not assign proficiency ratings." };
     }
     if (/certificate|certification|course|learning/.test(q)) {
-      return { text: (data.certificates || []).map((certificate) => certificate.title + " (" + certificate.issuer + "; " + (certificate.verified ? "verification link available" : "verification link To Be Added") + ")").join(". ") };
+      return { text: (data.certificates || []).map((certificate) => certificate.title + " (" + certificate.issuer + "; course focus: " + (certificate.focus || []).join(", ") + "; " + (certificate.verified ? "LinkedIn verification link available" : "certificate file available, no public verification link provided") + ")").join(". ") + " Course focus describes course content, not independent proficiency.", link: "#certificates", linkLabel: "Explore certificates" };
+    }
+    if (/gallery|other work|portfolio guide|portfolio tour/.test(q)) {
+      return { text: "The gallery previews the Titan dashboard, BYJU’S academic prototype and JBM internship context. Other work includes the browser-based portfolio guide.", link: "#gallery", linkLabel: "Open the gallery" };
     }
     if (/resume|cv/.test(q)) {
       return { text: "You can open Purvanshi’s resume from the portfolio.", link: "assets/Purvanshi_Resume_Updated.pdf", linkLabel: "View resume" };
@@ -314,11 +397,12 @@
     document.body.classList.add("assistant-open");
     assistantLauncher.setAttribute("aria-expanded", "true");
     if (!welcomed) {
-      appendMessage("Hi! I can help you explore Purvanshi’s projects, experience and skills. I answer from this portfolio only.", "assistant");
+      appendMessage("Hi! I can help you explore Purvanshi’s projects, gallery, experience, skills and certificates. I answer from this portfolio only.", "assistant");
       welcomed = true;
     }
     assistantInput.focus();
   };
+  $("#other-work-open-guide").addEventListener("click", openAssistant);
   const closeAssistant = () => {
     assistantPanel.hidden = true;
     document.body.classList.remove("assistant-open");
@@ -345,5 +429,17 @@
   $("#assistant-suggestions").addEventListener("click", (event) => {
     const button = event.target.closest("button[data-question]");
     if (button) submitQuestion(button.dataset.question);
+  });
+
+  $("#contact-form").addEventListener("submit", (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
+    if (!form.reportValidity()) return;
+    const name = $("#contact-name").value.trim();
+    const replyTo = $("#contact-email").value.trim();
+    const message = $("#contact-message").value.trim();
+    const subject = encodeURIComponent("Portfolio message from " + name);
+    const body = encodeURIComponent(message + "\n\nReply to: " + replyTo);
+    window.location.href = "mailto:" + encodeURIComponent(profile.email || "") + "?subject=" + subject + "&body=" + body;
   });
 })();

@@ -60,21 +60,33 @@ window.PORTFOLIO = {
       issuer: "LinkedIn Learning",
       detail: "Completed October 18, 2026 · Skill covered: Time Value of Money",
       href: "https://www.linkedin.com/learning/certificates/98b2147eb5abd1ccacd602d520c86687c3861827746d6895a690d88ff487b736?trk=share_certificate",
-      verified: true
+      file: "certificates/certificate-time-value-of-money.png",
+      verified: true,
+      focus: ["Time value of money"],
+      note: "The certificate lists Time Value of Money as a top skill covered. The course title centres on using it in financial decisions.",
+      evidenceStatus: "LinkedIn certificate link available"
     },
     {
       title: "Hands-On AI: Build Automated Workflows in Google Workspace Studio",
       issuer: "LinkedIn Learning",
-      detail: "Certificate file provided; shareable verification link — To Be Added.",
+      detail: "Certificate file provided · completion date not listed here",
+      file: "certificates/certificate-workspace-studio.pdf",
       href: "",
-      verified: false
+      verified: false,
+      focus: ["Workflow automation", "Google Workspace Studio"],
+      note: "Course focus is described by the certificate title. A separate public verification link has not been provided.",
+      evidenceStatus: "Certificate file on site · no public verification link"
     },
     {
       title: "Cultivating a Growth Mindset",
       issuer: "LinkedIn Learning",
-      detail: "Certificate file provided; shareable verification link — To Be Added.",
+      detail: "Certificate file provided · completion date not listed here",
+      file: "certificates/certificate-growth-mindset.pdf",
       href: "",
-      verified: false
+      verified: false,
+      focus: ["Growth mindset"],
+      note: "The course title identifies a growth mindset as its focus. No additional skill outcomes or public verification link are recorded here.",
+      evidenceStatus: "Certificate file on site · no public verification link"
     }
   ]
 };
