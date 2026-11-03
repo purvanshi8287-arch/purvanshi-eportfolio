@@ -54,6 +54,7 @@ button { color: inherit; }
 h1, h2, h3 { font-family: var(--display); line-height: 1.1; letter-spacing: -.055em; }
 h1 { margin: 0; font-size: clamp(68px, 9vw, 118px); font-weight: 700; }
 .hero-name { animation: name-entrance .95s cubic-bezier(.2,.75,.25,1) .12s both; }
+.name-letter { display: inline-block; animation: letter-glow 4.8s ease-in-out infinite; animation-delay: calc(1.05s + var(--letter-index) * .2s); }
 .title-period { color: var(--accent); }
 .hero-line { max-width: 520px; margin: 16px 0 14px; color: #F1EEE8; font: 500 clamp(17px, 2vw, 22px)/1.45 var(--display); }
 .hero-intro { max-width: 465px; margin: 0; color: #C2B7AA; font-size: 13px; }
@@ -258,6 +259,7 @@ body[data-theme="dark"] .chat-link { color: var(--accent); }
 .js-ready .reveal { opacity: 0; transform: translateY(14px); transition: opacity .55s ease, transform .55s ease; }
 .js-ready .reveal.is-visible { opacity: 1; transform: translateY(0); }
 @keyframes name-entrance { from { opacity: 0; transform: translateY(24px); filter: blur(7px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+@keyframes letter-glow { 0%, 14%, 100% { color: #F1EEE8; text-shadow: none; transform: translateY(0); } 4%, 10% { color: #FFFDF8; text-shadow: 0 0 8px #fff8, 0 0 18px #B87333B8, 0 0 34px #B873336B; transform: translateY(-2px); } }
 @keyframes float-note { 0%, 100% { translate: 0 0; } 50% { translate: 0 -5px; } }
 @keyframes statue-hover { 0%, 100% { transform: perspective(700px) rotateY(-8deg) rotateX(.5deg) translateY(0); } 50% { transform: perspective(700px) rotateY(-3deg) rotateX(1deg) translateY(-3px); } }
 @keyframes statue-greeting-wave { 0%, 8%, 74%, 100% { opacity: 0; transform: translateY(2px) rotate(0); } 12% { opacity: 1; transform: translateY(0) rotate(-1deg); } 24%, 48%, 66% { opacity: 1; transform: translateY(-1px) rotate(2.4deg); } 36%, 60%, 70% { opacity: 1; transform: translateY(0) rotate(-2.4deg); } }
