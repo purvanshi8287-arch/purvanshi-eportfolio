@@ -8,7 +8,7 @@ window.PORTFOLIO = {
     linkedin: "https://www.linkedin.com/in/purvanshi-mittal-b76aaa316/"
   },
   roles: ["Equity Research Analyst", "Risk Analyst", "Tax & Audit Associate"],
-  about: "I am a PGDM Financial Management student at the Fortune Institute of International Business (FIIB), with a B.Com background and internship exposure to finance operations. I am interested in how careful analysis, clear documentation and sound judgement support financial decisions.",
+  about: "I’m Purvanshi, a PGDM Financial Management student at FIIB, New Delhi, with a B.Com background from the University of Delhi. My current interests include equity research, risk, taxation and auditing. Through coursework, an individual chatbot prototype, financial dashboard work and a finance internship, I’m learning to connect analysis with careful documentation and transparent assumptions.",
   education: [
     { title: "PGDM, Financial Management", detail: "Fortune Institute of International Business (FIIB) · 2026–present" },
     { title: "Bachelor of Commerce", detail: "University of Delhi · 2021–2024" }
@@ -17,6 +17,7 @@ window.PORTFOLIO = {
     title: "Finance Intern",
     organization: "JBM Kanemitsu",
     period: "September–October 2025",
+    location: "Gurugram, India",
     tasks: [
       "Supported payment clearing and reconciliation activities.",
       "Assisted with bill booking and invoice verification.",

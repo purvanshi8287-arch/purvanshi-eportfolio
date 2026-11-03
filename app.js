@@ -35,6 +35,10 @@
   });
   (data.roles || []).forEach((role) => $("#role-list").append(make("span", "role-pill", role)));
   $("#about-summary").textContent = data.about || "To Be Added";
+  (data.roles || []).forEach((role) => {
+    const tag = make("span", "about-interest", role);
+    $("#about-interest-list").append(tag);
+  });
   (data.education || []).forEach((item) => {
     const row = make("div", "education-item");
     row.append(make("span", "education-mark", "↗"), make("div", "education-copy"));
@@ -45,9 +49,8 @@
   if (data.experience) {
     const experience = data.experience;
     const card = make("article", "experience-item reveal");
-    const meta = make("div", "experience-meta");
-    const metaTop = make("div", "experience-meta-top");
-    metaTop.append(make("span", "experience-period", experience.period || "Period — To Be Added"));
+    const visual = make("div", "experience-visual");
+    visual.append(make("span", "experience-kicker", "FINANCE INTERNSHIP"));
     if (/jbm/i.test(experience.organization || "")) {
       const logoLink = make("a", "experience-logo");
       logoLink.href = "https://www.jbmgroup.com/";
@@ -59,17 +62,20 @@
       logo.alt = "JBM Group logo";
       logo.loading = "lazy";
       logoLink.append(logo);
-      metaTop.append(logoLink);
+      visual.append(logoLink);
     }
-    meta.append(metaTop);
-    meta.append(make("h3", "", experience.title || "Role — To Be Added"));
-    meta.append(make("p", "", experience.organization || "Organization — To Be Added"));
+    visual.append(make("h3", "experience-role", experience.title || "Role — To Be Added"));
+    visual.append(make("p", "experience-organization", experience.organization || "Organization — To Be Added"));
+    visual.append(make("span", "experience-period", [experience.period, experience.location].filter(Boolean).join(" · ") || "Period — To Be Added"));
     const body = make("div", "experience-content");
+    body.append(make("span", "experience-content-kicker", "02 · LEARNING THROUGH PRACTICE"));
+    body.append(make("h3", "experience-content-title", "Finance operations"));
+    body.append(make("p", "experience-content-intro", "Practical exposure across payment clearing, reconciliations, invoice checks and finance documentation."));
     const list = make("ul");
     (experience.tasks || []).forEach((task) => list.append(make("li", "", task)));
     body.append(list);
     if (experience.note) body.append(make("p", "small-note", experience.note));
-    card.append(meta, body);
+    card.append(visual, body);
     $("#experience-list").replaceWith(card);
   }
 
