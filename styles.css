@@ -73,7 +73,7 @@ h1 { margin: 0; font-size: clamp(68px, 9vw, 118px); font-weight: 700; }
 .cutout-stage { position: relative; z-index: 2; width: min(100%, 425px); height: min(570px, 76vh); min-height: 470px; margin: 0; display: grid; place-items: end center; perspective: 1100px; transform-style: preserve-3d; }
 .cutout-glow { position: absolute; z-index: 0; bottom: 7%; width: 68%; height: 72%; border-radius: 50%; background: radial-gradient(ellipse, #b9d07746 0%, #79a28a24 48%, transparent 74%); filter: blur(18px); transform: translateZ(-34px); }
 .cutout-platform { position: absolute; z-index: 1; bottom: 1%; width: 72%; height: 26px; border: 1px solid #d9f27b64; border-radius: 50%; background: radial-gradient(ellipse, #d9f27b18, transparent 68%); box-shadow: 0 16px 34px #020d0b65; transform: rotateX(72deg) translateZ(-7px); }
-.portrait-cutout { position: absolute; z-index: 2; bottom: -18px; height: 98%; max-height: 570px; max-width: 112%; width: auto; object-fit: contain; object-position: bottom center; clip-path: inset(0 2% 0); filter: drop-shadow(18px 24px 18px #020c0b9c); transform: perspective(1000px) rotateY(-5deg) rotateX(.7deg); transform-origin: center bottom; transition: transform .55s ease, filter .55s ease; }
+.portrait-cutout { position: absolute; z-index: 2; bottom: 1%; height: 98%; max-height: 570px; max-width: 112%; width: auto; object-fit: contain; object-position: bottom center; clip-path: inset(0 2% 0); filter: drop-shadow(18px 24px 18px #020c0b9c); transform: perspective(1000px) rotateY(-5deg) rotateX(.7deg); transform-origin: center bottom; transition: transform .55s ease, filter .55s ease; }
 .cutout-stage:hover .portrait-cutout { transform: perspective(1000px) rotateY(-1.5deg) rotateX(1deg) translateY(-5px); filter: drop-shadow(23px 29px 22px #020c0baa); }
 .career-orbit { position: absolute; z-index: 4; top: 50%; left: 50%; width: min(500px, 96%); aspect-ratio: 1; margin: 0; padding: 0; list-style: none; pointer-events: none; transform: translate(-50%, -50%); }
 .career-orbit::before { content: ""; position: absolute; inset: 7px; border: 1px solid #10B98130; border-radius: 50%; }
@@ -265,7 +265,7 @@ body[data-theme="dark"] .chat-link { color: var(--lime); }
   .hero { min-height: 580px; grid-template-columns: 1fr .85fr; gap: 16px; }
   .hero-kicker { margin-bottom: 38px; }
   .cutout-stage { width: min(100%, 370px); height: min(510px, 70vh); min-height: 430px; }
-  .portrait-cutout { height: 76%; max-height: 410px; }
+  .portrait-cutout { bottom: 12%; height: 76%; max-height: 410px; }
   .career-orbit { width: min(430px, 100%); }
   .orbit-label > span { max-width: 82px; padding: 7px 9px; font-size: 7px; text-align: center; white-space: normal; }
   .orbit-label:nth-child(1) { top: 13%; left: 0; }
@@ -298,7 +298,7 @@ body[data-theme="dark"] .chat-link { color: var(--lime); }
   .hero-actions { margin: 19px 0 24px; }
   .hero-visual { min-height: 450px; margin-top: 8px; }
   .cutout-stage { width: min(100%, 360px); height: min(470px, 62vh); min-height: 390px; }
-  .portrait-cutout { height: 72%; max-height: 360px; filter: drop-shadow(11px 16px 13px #020c0b9c); }
+  .portrait-cutout { bottom: 14%; height: 72%; max-height: 360px; filter: drop-shadow(11px 16px 13px #020c0b9c); }
   .career-orbit { position: absolute; top: 50%; left: 50%; width: min(390px, 100%); aspect-ratio: 1; display: block; margin: 0; transform: translate(-50%, -50%); }
   .career-orbit::before { display: block; }
   .career-orbit > .orbit-label { position: absolute; animation: float-note 5.8s ease-in-out infinite; }
@@ -345,7 +345,7 @@ body[data-theme="dark"] .chat-link { color: var(--lime); }
   .brand small { display: none; }
   .hero { padding-inline: 17px; }
   .career-orbit { width: min(360px, 100%); }
-  .portrait-cutout { height: 66%; max-height: 330px; }
+  .portrait-cutout { bottom: 17%; height: 66%; max-height: 330px; }
   .orbit-label > span { max-width: 62px; padding: 5px 6px; font-size: 6.5px; }
   .hero-kicker { letter-spacing: .07em; }
   .hero-actions .button { padding: 11px 12px; font-size: 10px; }
