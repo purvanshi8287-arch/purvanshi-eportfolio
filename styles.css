@@ -582,6 +582,11 @@ body[data-theme="dark"] .disclaimer-section { color: var(--ink); }
   .main-nav.open { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 7px; }
   .main-nav a { padding: 9px 7px; border: 1px solid var(--line); border-radius: 8px; text-align: center; }
 }
+@media (max-width: 1100px) {
+  .certificate-exhibit { grid-template-columns: 1fr; }
+  .certificate-solar-wrap { margin-inline: auto; }
+  .certificate-side-note { width: min(100%, 700px); max-width: 700px; justify-self: center; padding: 20px 0 0; border-top: 1px solid var(--line); border-left: 0; }
+}
 @media (max-width: 800px) {
   .disclaimer-section { grid-template-columns: 1fr 1.3fr; }
   .disclaimer-section p { grid-column: 1 / -1; }
