@@ -147,6 +147,11 @@
 
   (data.skills || []).forEach((skill) => $("#skill-list").append(make("span", "tag", skill)));
   (data.tools || []).forEach((tool) => $("#tool-list").append(make("span", "tag", tool)));
+  const certificates = data.certificates || [];
+  $("#certificate-count").textContent = String(certificates.length).padStart(2, "0");
+  const verificationCount = certificates.filter((certificate) => certificate.verified && certificate.href).length;
+  const certificateFileCount = certificates.filter((certificate) => certificate.file).length;
+  $("#certificate-status").textContent = verificationCount + " LinkedIn links · " + certificateFileCount + " certificate files";
   const certificateDialog = $("#certificate-dialog");
   const certificateDocument = $("#certificate-document");
   const certificateFileLink = (certificate) => makeLink("Open certificate file ↗", certificate.file, "certificate-link");
@@ -154,6 +159,7 @@
     $("#certificate-dialog-issuer").textContent = certificate.issuer || "Issuer — To Be Added";
     $("#certificate-dialog-title").textContent = certificate.title || "Certificate — To Be Added";
     $("#certificate-dialog-detail").textContent = [certificate.detail, certificate.evidenceStatus].filter(Boolean).join(" · ");
+    $("#certificate-dialog-focus-title").textContent = certificate.focusHeading || "Course focus";
     $("#certificate-dialog-note").textContent = certificate.note || "Course records confirm completion, not independent proficiency.";
     const skillList = $("#certificate-dialog-skills");
     skillList.replaceChildren();
@@ -182,15 +188,18 @@
     if (typeof certificateDialog.showModal === "function") certificateDialog.showModal();
     else certificateDialog.setAttribute("open", "");
   };
-  (data.certificates || []).forEach((certificate, index) => {
+  certificates.forEach((certificate, index) => {
     const card = make("button", "certificate-orbit-card");
     card.type = "button";
-    card.style.setProperty("--orbit-delay", "-" + ((index * 34) / Math.max(1, (data.certificates || []).length)) + "s");
+    card.style.setProperty("--orbit-delay", "-" + ((index * 34) / Math.max(1, certificates.length)) + "s");
+    const orbitAngle = index * 360 / Math.max(1, certificates.length);
+    card.style.setProperty("--orbit-angle", orbitAngle + "deg");
+    card.style.setProperty("--orbit-angle-reverse", -orbitAngle + "deg");
     card.setAttribute("aria-label", "Open " + certificate.title + " certificate and course focus");
     const contents = make("span", "certificate-orbit-content");
     const top = make("span", "certificate-top");
     top.append(make("span", "certificate-index", "0" + (index + 1)), make("span", "certificate-issuer", certificate.issuer || "Issuer — To Be Added"));
-    contents.append(top, make("strong", "certificate-orbit-title", certificate.title || "Certificate — To Be Added"));
+    contents.append(top, make("strong", "certificate-orbit-title", certificate.orbitTitle || certificate.title || "Certificate — To Be Added"));
     const focus = make("span", "certificate-orbit-focus", (certificate.focus || []).join(" · "));
     contents.append(focus, make("span", "certificate-orbit-open", "Open certificate ↗"));
     card.append(contents);

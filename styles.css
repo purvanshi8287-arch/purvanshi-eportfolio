@@ -546,7 +546,7 @@ body[data-theme="dark"] .assistant-form input:focus { border-color: var(--accent
 .certificate-sun strong { font: 700 25px var(--display); }
 .certificate-sun small { color: var(--muted); font-size: 8px; }
 .certificate-orbit-cards { position: absolute; inset: 0; z-index: 2; }
-.certificate-orbit-card { position: absolute; top: 50%; left: 50%; width: 205px; min-height: 120px; padding: 0; overflow: visible; border: 1px solid #b8733366; border-radius: 15px; background: color-mix(in srgb, var(--surface) 93%, #b8733315); color: var(--ink); text-align: left; cursor: pointer; box-shadow: 0 16px 38px #0003; backdrop-filter: blur(12px); transform-origin: center; animation: orbit-certificate 34s linear infinite; animation-delay: var(--orbit-delay); }
+.certificate-orbit-card { --orbit-radius: 205px; position: absolute; top: 50%; left: 50%; width: 205px; min-height: 120px; padding: 0; overflow: visible; border: 1px solid #b8733366; border-radius: 15px; background: color-mix(in srgb, var(--surface) 93%, #b8733315); color: var(--ink); text-align: left; cursor: pointer; box-shadow: 0 16px 38px #0003; backdrop-filter: blur(12px); transform-origin: center; animation: orbit-certificate 34s linear infinite; animation-delay: var(--orbit-delay); }
 .certificate-orbit-card:hover, .certificate-orbit-card:focus-visible { border-color: var(--accent); box-shadow: 0 22px 52px #0005, 0 0 0 2px #b8733322; }
 .certificate-orbit-card:hover { animation-play-state: paused; }
 .certificate-solar-wrap:hover .certificate-orbit-card,
@@ -637,7 +637,7 @@ body[data-theme="dark"] .disclaimer-section { color: var(--ink); }
   .certificate-solar-wrap { height: 395px; }
   .solar-orbit-one { width: 225px; }
   .solar-orbit-two { width: 315px; }
-  .certificate-orbit-card { width: 145px; min-height: 105px; --orbit-radius: 98px; }
+  .certificate-orbit-card { width: 145px; min-height: 105px; --orbit-radius: clamp(98px, calc((100vw - 182px) / 2), 142px); }
   .certificate-orbit-content { gap: 6px; padding: 10px; }
   .certificate-orbit-title { font-size: 9px; }
   .certificate-orbit-content .certificate-index { width: 22px; height: 22px; flex-basis: 22px; }
@@ -660,13 +660,11 @@ body[data-theme="dark"] .disclaimer-section { color: var(--ink); }
 }
 @media (max-width: 390px) {
   .main-nav.open { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .certificate-orbit-card { width: 120px; --orbit-radius: 78px; }
+  .certificate-orbit-card { width: min(112px, 35vw); --orbit-radius: calc((100vw - 147px) / 2); }
   .certificate-solar-wrap { height: 370px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .certificate-solar-orbit, .certificate-sun::before, .certificate-orbit-card { animation: none !important; }
-  .certificate-orbit-card:nth-child(1) { transform: translateX(var(--orbit-radius, 205px)); }
-  .certificate-orbit-card:nth-child(2) { transform: rotate(120deg) translateX(var(--orbit-radius, 205px)) rotate(-120deg); }
-  .certificate-orbit-card:nth-child(3) { transform: rotate(240deg) translateX(var(--orbit-radius, 205px)) rotate(-240deg); }
+  .certificate-orbit-card { transform: rotate(var(--orbit-angle, 0deg)) translateX(var(--orbit-radius, 205px)) rotate(var(--orbit-angle-reverse, 0deg)); }
   .gallery-slide { transition: none; }
 }

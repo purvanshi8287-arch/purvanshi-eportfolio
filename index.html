@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=19">
-  <script src="content.js?v=3" defer></script>
-  <script src="app.js?v=7" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20">
+  <script src="content.js?v=4" defer></script>
+  <script src="app.js?v=8" defer></script>
 </head>
 <body data-theme="dark">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -168,8 +168,8 @@
       <div class="section-label reveal"><span>07 / CERTIFICATES</span><span class="label-rule"></span><span>COURSES & COMPLETION RECORDS</span></div>
       <div class="certificates-heading reveal"><div class="section-heading"><h2>Learning in orbit.<br><em>One certificate at a time.</em></h2></div><p class="section-subtitle">Select a certificate to open its record and see the course focus. Course topics are not proficiency claims.</p></div>
       <div class="certificate-exhibit reveal">
-        <div class="certificate-solar-wrap"><div class="certificate-solar-orbit solar-orbit-one" aria-hidden="true"></div><div class="certificate-solar-orbit solar-orbit-two" aria-hidden="true"></div><div class="certificate-sun" aria-hidden="true"><span>LEARNING</span><strong>03</strong><small>courses</small></div><div class="certificate-orbit-cards" id="certificate-orbit-cards" aria-label="Select a certificate"></div></div>
-        <aside class="certificate-side-note"><span class="gallery-kicker">THE LEARNING THREAD</span><h3>Build the foundation.<br>Keep it verifiable.</h3><p>Time value of money, workflow automation and a growth mindset represent the topics listed on the course records shared for this portfolio.</p><span class="credential-status"><i></i> 1 verification link · 2 certificate files</span></aside>
+        <div class="certificate-solar-wrap"><div class="certificate-solar-orbit solar-orbit-one" aria-hidden="true"></div><div class="certificate-solar-orbit solar-orbit-two" aria-hidden="true"></div><div class="certificate-sun" aria-hidden="true"><span>LEARNING</span><strong id="certificate-count">05</strong><small>records</small></div><div class="certificate-orbit-cards" id="certificate-orbit-cards" aria-label="Select a certificate"></div></div>
+        <aside class="certificate-side-note"><span class="gallery-kicker">THE LEARNING THREAD</span><h3>Build the foundation.<br>Keep it verifiable.</h3><p>This showcase brings together course-completion records and one event participation certificate. Listed skills come from the course records; the event certificate confirms participation only.</p><span class="credential-status"><i></i><span id="certificate-status">3 LinkedIn links · 4 certificate files</span></span></aside>
       </div>
       <p class="certificate-disclaimer">Course records confirm completion. They do not establish a professional licence or independent proficiency.</p>
     </section>
@@ -184,7 +184,7 @@
     <section class="disclaimer-section section-shell" aria-labelledby="disclaimer-title"><span class="gallery-kicker">PROJECT NOTE</span><h2 id="disclaimer-title">Academic work, clearly bounded.</h2><p>The Titan dashboard is a learning artifact and is not investment advice. The BYJU’S assistant is an academic prototype, not a live business decision tool; its reported stress-test result is not independently verified because the results sheet is blank.</p></section>
   </main>
 
-  <dialog class="certificate-dialog" id="certificate-dialog" aria-labelledby="certificate-dialog-title"><div class="certificate-dialog-shell"><button type="button" class="certificate-dialog-close" id="certificate-dialog-close" aria-label="Close certificate">×</button><div class="certificate-dialog-grid"><div class="certificate-dialog-info"><span class="gallery-kicker" id="certificate-dialog-issuer"></span><h2 id="certificate-dialog-title"></h2><p id="certificate-dialog-detail" class="certificate-dialog-detail"></p><h3>Course focus</h3><ul id="certificate-dialog-skills" class="certificate-dialog-skills"></ul><p id="certificate-dialog-note" class="certificate-dialog-note"></p><div id="certificate-dialog-links" class="certificate-dialog-links"></div></div><div class="certificate-document" id="certificate-document"></div></div></div></dialog>
+  <dialog class="certificate-dialog" id="certificate-dialog" aria-labelledby="certificate-dialog-title"><div class="certificate-dialog-shell"><button type="button" class="certificate-dialog-close" id="certificate-dialog-close" aria-label="Close certificate">×</button><div class="certificate-dialog-grid"><div class="certificate-dialog-info"><span class="gallery-kicker" id="certificate-dialog-issuer"></span><h2 id="certificate-dialog-title"></h2><p id="certificate-dialog-detail" class="certificate-dialog-detail"></p><h3 id="certificate-dialog-focus-title">Course focus</h3><ul id="certificate-dialog-skills" class="certificate-dialog-skills"></ul><p id="certificate-dialog-note" class="certificate-dialog-note"></p><div id="certificate-dialog-links" class="certificate-dialog-links"></div></div><div class="certificate-document" id="certificate-document"></div></div></div></dialog>
 
   <footer class="site-footer"><div class="section-shell"><span>© <span id="year"></span> <span data-profile="name">Purvanshi</span></span><span>Built around real work and verifiable evidence.</span><a href="#home">Back to top ↑</a></div></footer>
 
