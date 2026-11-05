@@ -11,7 +11,7 @@ window.PORTFOLIO = {
   interests: ["Equity research", "Financial analysis", "Accounting", "Taxation & auditing", "Risk & assurance"],
   about: "I’m Purvanshi, a PGDM Financial Management student at FIIB, New Delhi, with a B.Com background from the University of Delhi. My current interests include equity research, risk, taxation and auditing. Through coursework, an individual chatbot prototype, financial dashboard work and a finance internship, I’m learning to connect analysis with careful documentation and transparent assumptions.",
   education: [
-    { title: "PGDM, Financial Management", detail: "Fortune Institute of International Business (FIIB) · 2026–present · Batch range: [PLACEHOLDER: add batch end year]" },
+    { title: "PGDM, Financial Management", detail: "Fortune Institute of International Business (FIIB) · Batch 2026–2028 · In progress" },
     { title: "Bachelor of Commerce", detail: "University of Delhi · 2021–2024 · Grade: [PLACEHOLDER: add grade if you want it shown]" }
   ],
   experience: [
@@ -20,7 +20,7 @@ window.PORTFOLIO = {
       type: "education",
       title: "PGDM Student · Financial Management",
       organization: "Fortune Institute of International Business (FIIB)",
-      period: "2026–present · batch range [PLACEHOLDER: add batch end year]",
+      period: "2026–2028 · in progress",
       location: "New Delhi",
       tasks: [
         "Pursuing a PGDM in Financial Management.",
