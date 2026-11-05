@@ -69,15 +69,46 @@
     if (value) element.textContent = value;
   });
   (data.roles || []).forEach((role) => $("#role-list").append(make("span", "role-pill", role)));
+  const interests = data.interests || data.roles || [];
+  interests.forEach((interest) => $("#portrait-interest-list").append(make("li", "portrait-interest", interest)));
+  const marquee = $("#interest-marquee-track");
+  if (marquee) {
+    [0, 1].forEach(() => {
+      const group = make("div", "interest-marquee-group");
+      group.setAttribute("aria-hidden", "true");
+      interests.forEach((interest) => {
+        group.append(make("span", "interest-marquee-item", interest));
+        group.append(make("span", "interest-marquee-star", "✳"));
+      });
+      marquee.append(group);
+    });
+  }
+  const experienceEntries = Array.isArray(data.experience) ? data.experience : data.experience ? [data.experience] : [];
   const glance = $("#hero-at-a-glance");
   if (glance) {
-    [
-      { value: String((data.projects || []).filter((project) => !project.placeholder).length).padStart(2, "0"), label: "projects on display" },
-      { value: data.experience ? "01" : "00", label: "finance internship" },
-      { value: String((data.certificates || []).length).padStart(2, "0"), label: "course & event records" }
-    ].forEach((item) => {
+    const internshipCount = experienceEntries.filter((entry) => entry.type === "internship").length;
+    const debtProject = (data.projects || []).find((project) => /debt market/i.test(project.title));
+    const metric = debtProject && debtProject.headlineMetric;
+    const countMetric = (value, decimals) => {
+      const span = make("span", "count-value", Number(value).toFixed(decimals));
+      span.dataset.countTarget = String(value);
+      span.dataset.countDecimals = String(decimals);
+      return span;
+    };
+    const glanceItems = [
+      { nodes: [countMetric((data.projects || []).filter((project) => !project.placeholder).length, 0)], label: "featured projects" },
+      { nodes: [countMetric(internshipCount, 0)], label: "finance internship" },
+      { nodes: [countMetric((data.certificates || []).length, 0)], label: "certificate records" }
+    ];
+    if (metric && Number.isFinite(metric.fromValue) && Number.isFinite(metric.toValue)) {
+      glanceItems.push({ nodes: ["₹", countMetric(metric.fromValue, 1), " → ₹", countMetric(metric.toValue, 1), " L cr"], label: "outstanding bonds · FY22 → FY26*", footnote: "*FY26 provisional" });
+    }
+    glanceItems.forEach((item) => {
       const stat = make("div", "hero-proof-item");
-      stat.append(make("strong", "", item.value), make("span", "", item.label));
+      const value = make("strong", "hero-proof-value");
+      item.nodes.forEach((node) => value.append(typeof node === "string" ? document.createTextNode(node) : node));
+      stat.append(value, make("span", "", item.label));
+      if (item.footnote) stat.append(make("small", "hero-proof-footnote", item.footnote));
       glance.append(stat);
     });
   }
@@ -93,38 +124,65 @@
     $("#education-list").append(row);
   });
 
-  if (data.experience) {
-    const experience = data.experience;
-    const card = make("article", "experience-item reveal");
-    const visual = make("div", "experience-visual");
-    visual.append(make("span", "experience-kicker", "FINANCE INTERNSHIP"));
+  const experienceDialog = $("#experience-lightbox");
+  const experienceDocument = $("#experience-lightbox-document");
+  const openExperienceRecord = (entry) => {
+    $("#experience-lightbox-kicker").textContent = (entry.type || "experience").replace(/-/g, " ").toUpperCase() + " RECORD";
+    $("#experience-lightbox-title").textContent = entry.title || "Experience record";
+    $("#experience-lightbox-note").textContent = entry.certificateFile ? "Certificate image supplied with this portfolio." : "Certificate or supporting record — [PLACEHOLDER: upload an authentic file to show it here].";
+    experienceDocument.replaceChildren();
+    if (entry.certificateFile) {
+      const image = make("img", "experience-certificate-image");
+      image.src = entry.certificateFile;
+      image.alt = (entry.title || "Experience") + " certificate";
+      experienceDocument.append(image);
+    } else {
+      experienceDocument.append(make("div", "experience-placeholder", "[PLACEHOLDER: CERTIFICATE TO BE ADDED]"));
+    }
+    if (typeof experienceDialog.showModal === "function") experienceDialog.showModal();
+    else experienceDialog.setAttribute("open", "");
+  };
+  experienceEntries.forEach((experience, index) => {
+    const card = make("article", "experience-item reveal experience-" + (experience.type || "record"));
+    card.dataset.timelineSide = index % 2 === 0 ? "left" : "right";
+    const marker = make("span", "experience-timeline-marker");
+    marker.setAttribute("aria-hidden", "true");
+    const details = make("div", "experience-card");
+    const top = make("div", "experience-card-top");
+    top.append(make("span", "experience-period", experience.period || "[PLACEHOLDER: DATES]"));
+    top.append(make("span", "experience-kicker", (experience.type || "experience").replace(/-/g, " ").toUpperCase()));
+    details.append(top);
+    const identity = make("div", "experience-identity");
     if (/jbm/i.test(experience.organization || "")) {
-      const logoLink = make("a", "experience-logo");
-      logoLink.href = "https://www.jbmgroup.com/";
-      logoLink.target = "_blank";
-      logoLink.rel = "noopener noreferrer";
-      logoLink.setAttribute("aria-label", "JBM Group official website");
-      const logo = make("img");
+      const logo = make("img", "experience-logo");
       logo.src = "assets/jbm-group-logo.png";
       logo.alt = "JBM Group logo";
       logo.loading = "lazy";
-      logoLink.append(logo);
-      visual.append(logoLink);
+      identity.append(logo);
     }
-    visual.append(make("h3", "experience-role", experience.title || "Role — To Be Added"));
-    visual.append(make("p", "experience-organization", experience.organization || "Organization — To Be Added"));
-    visual.append(make("span", "experience-period", [experience.period, experience.location].filter(Boolean).join(" · ") || "Period — To Be Added"));
-    const body = make("div", "experience-content");
-    body.append(make("span", "experience-content-kicker", "02 · LEARNING THROUGH PRACTICE"));
-    body.append(make("h3", "experience-content-title", "Finance operations"));
-    body.append(make("p", "experience-content-intro", "Practical exposure across payment clearing, reconciliations, invoice checks and finance documentation."));
-    const list = make("ul");
+    identity.append(make("h3", "experience-role", experience.title || "Role — [PLACEHOLDER]"));
+    details.append(identity, make("p", "experience-organization", [experience.organization, experience.location].filter(Boolean).join(" · ")));
+    const list = make("ul", "experience-tasks");
     (experience.tasks || []).forEach((task) => list.append(make("li", "", task)));
-    body.append(list);
-    if (experience.note) body.append(make("p", "small-note", experience.note));
-    card.append(visual, body);
-    $("#experience-list").replaceWith(card);
-  }
+    details.append(list);
+    const skills = make("div", "experience-skill-row");
+    const skillLabel = experience.type === "education" ? "AREAS" : experience.type === "event" ? "CERTIFICATE RECORD" : "SKILLS USED";
+    skills.append(make("span", "experience-skill-label", skillLabel));
+    const skillTags = make("div", "experience-skill-tags");
+    (experience.skills || ["[PLACEHOLDER: add demonstrated skills]"]).forEach((skill) => skillTags.append(make("span", "experience-skill-tag", skill)));
+    skills.append(skillTags);
+    details.append(skills);
+    if (experience.note) details.append(make("p", "experience-note", experience.note));
+    const recordButton = make("button", "experience-record-button", experience.certificateFile ? "View certificate · Tap to enlarge ↗" : "View record · Certificate [PLACEHOLDER] ↗");
+    recordButton.type = "button";
+    recordButton.setAttribute("aria-label", (experience.certificateFile ? "View certificate for " : "View experience record for ") + experience.title);
+    recordButton.addEventListener("click", () => openExperienceRecord(experience));
+    details.append(recordButton);
+    card.append(marker, details);
+    $("#experience-list").append(card);
+  });
+  $("#experience-lightbox-close").addEventListener("click", () => experienceDialog.close());
+  experienceDialog.addEventListener("click", (event) => { if (event.target === experienceDialog) experienceDialog.close(); });
 
   const projectCategory = (project) => {
     if (project.placeholder) return "Coming soon";
@@ -156,6 +214,15 @@
     heading.firstElementChild.append(make("p", "project-type", project.kind || "Project"), make("h3", "", project.title));
     if (project.status) heading.append(make("span", "project-status", project.status));
     card.append(heading);
+    if (project.headlineMetric) {
+      const metricPanel = make("div", "project-metric");
+      metricPanel.append(make("strong", "project-metric-value", project.headlineMetric.value || "[PLACEHOLDER: METRIC]"));
+      const metricCopy = make("div", "project-metric-copy");
+      metricCopy.append(make("span", "project-metric-label", project.headlineMetric.label || "Project measure"));
+      if (project.headlineMetric.note) metricCopy.append(make("small", "project-metric-note", project.headlineMetric.note));
+      metricPanel.append(metricCopy);
+      card.append(metricPanel);
+    }
     if (!project.placeholder) {
       const contribution = make("div", "project-contribution");
       contribution.append(make("span", "case-label", "My contribution"), make("p", "", project.contribution || "To Be Added."));
@@ -173,6 +240,11 @@
       details.append(point);
     });
     card.append(details);
+    if (project.limits) {
+      const limits = make("p", "project-limits-note");
+      limits.append(make("strong", "", "Limits · "), document.createTextNode(project.limits));
+      card.append(limits);
+    }
     const footer = make("div", "project-card-footer");
     const evidence = make("p", "evidence-note", project.evidenceNote || "See the linked materials for project context and evidence.");
     footer.append(evidence);
@@ -371,6 +443,37 @@
   } else {
     document.querySelectorAll(".reveal").forEach((element) => element.classList.add("is-visible"));
   }
+  const countValues = Array.from(document.querySelectorAll("[data-count-target]"));
+  const animateCount = (element) => {
+    const target = Number(element.dataset.countTarget);
+    const decimals = Number(element.dataset.countDecimals || 0);
+    if (!Number.isFinite(target)) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      element.textContent = target.toFixed(decimals);
+      return;
+    }
+    const start = performance.now();
+    const duration = 1050;
+    const frame = (now) => {
+      const progress = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      element.textContent = (target * eased).toFixed(decimals);
+      if (progress < 1) window.requestAnimationFrame(frame);
+    };
+    window.requestAnimationFrame(frame);
+  };
+  if ("IntersectionObserver" in window) {
+    const countObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        animateCount(entry.target);
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.5 });
+    countValues.forEach((element) => countObserver.observe(element));
+  } else {
+    countValues.forEach(animateCount);
+  }
   if ("IntersectionObserver" in window) {
     const sectionObserver = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
@@ -424,8 +527,8 @@
       };
     }
     if (/intern|experience|work history|job/.test(q)) {
-      const experience = data.experience || {};
-      return { text: [experience.title, experience.organization, experience.period, ...(experience.tasks || []), experience.note].filter(Boolean).join(". ") };
+      const entries = Array.isArray(data.experience) ? data.experience : data.experience ? [data.experience] : [];
+      return { text: entries.map((experience) => [experience.title, experience.organization, experience.period, ...(experience.tasks || []), experience.note].filter(Boolean).join(". ")).join(" ") };
     }
     if (/education|degree|college|university|fiib|study|pgdm/.test(q)) {
       return { text: (data.education || []).map((item) => item.title + " — " + item.detail).join(". ") || "Education details — To Be Added." };

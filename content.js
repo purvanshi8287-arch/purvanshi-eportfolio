@@ -1,31 +1,83 @@
 window.PORTFOLIO = {
   profile: {
     name: "Purvanshi",
-    positioning: "PGDM Financial Management student | Building skills for equity research, risk and assurance.",
+    positioning: "From financial data to clearer questions.",
     email: "purvanshi8287@gmail.com",
     phone: "+91-8287413909",
     city: "Gurugram, India",
     linkedin: "https://www.linkedin.com/in/purvanshi-mittal-b76aaa316/"
   },
   roles: ["Equity Research Analyst", "Risk Analyst", "Tax & Audit Associate"],
+  interests: ["Equity research", "Financial analysis", "Accounting", "Taxation & auditing", "Risk & assurance"],
   about: "I’m Purvanshi, a PGDM Financial Management student at FIIB, New Delhi, with a B.Com background from the University of Delhi. My current interests include equity research, risk, taxation and auditing. Through coursework, an individual chatbot prototype, financial dashboard work and a finance internship, I’m learning to connect analysis with careful documentation and transparent assumptions.",
   education: [
-    { title: "PGDM, Financial Management", detail: "Fortune Institute of International Business (FIIB) · 2026–present" },
-    { title: "Bachelor of Commerce", detail: "University of Delhi · 2021–2024" }
+    { title: "PGDM, Financial Management", detail: "Fortune Institute of International Business (FIIB) · 2026–present · Batch range: [PLACEHOLDER: add batch end year]" },
+    { title: "Bachelor of Commerce", detail: "University of Delhi · 2021–2024 · Grade: [PLACEHOLDER: add grade if you want it shown]" }
   ],
-  experience: {
-    title: "Finance Intern",
-    organization: "JBM Kanemitsu",
-    period: "September–October 2025",
-    location: "Gurugram, India",
-    tasks: [
-      "Supported payment clearing and reconciliation activities.",
-      "Assisted with bill booking and invoice verification.",
-      "Helped maintain TCS collection documentation.",
-      "Contributed to financial statement analysis."
-    ],
-    note: "Responsibilities are summarized from my resume; specific quantified outcomes were not provided."
-  },
+  experience: [
+    {
+      id: "fiib-pgdm",
+      type: "education",
+      title: "PGDM Student · Financial Management",
+      organization: "Fortune Institute of International Business (FIIB)",
+      period: "2026–present · batch range [PLACEHOLDER: add batch end year]",
+      location: "New Delhi",
+      tasks: [
+        "Pursuing a PGDM in Financial Management.",
+        "Applying coursework through a corporate debt market review, company dashboard and academic spend-review prototype.",
+        "Specific coursework or academic highlights — [PLACEHOLDER: add verified details]."
+      ],
+      skills: ["Financial Management", "Financial analysis in coursework"],
+      note: "The program is in progress; no grade or completion date is claimed."
+    },
+    {
+      id: "brand-o-mania",
+      type: "event",
+      title: "Participant · Brand-O-Mania 2026",
+      organization: "Dyal Singh College (DSC), University of Delhi",
+      period: "2026 · [PLACEHOLDER: add exact event date]",
+      location: "Delhi",
+      tasks: [
+        "Participated in Brand-O-Mania 2026 as a FIIB student.",
+        "The event was organized by Dyal Singh College, University of Delhi.",
+        "Event role or activities — [PLACEHOLDER: add verified details]; the certificate confirms participation only."
+      ],
+      skills: ["Participation (certificate-confirmed)"],
+      certificateFile: "certificates/certificate-brand-o-mania-2026.jpg",
+      note: "The certificate records participation and does not list a specific role or skills."
+    },
+    {
+      id: "jbm-internship",
+      type: "internship",
+      title: "Finance Intern",
+      organization: "JBM Kanemitsu · JBM Group",
+      period: "September–October 2025",
+      location: "Gurugram, India",
+      tasks: [
+        "Supported payment-clearing and reconciliation activities.",
+        "Handled bill booking and invoice verification.",
+        "Prepared TCS documentation.",
+        "Supported financial statement analysis."
+      ],
+      skills: ["Payment clearing", "Reconciliation", "Bill booking", "Invoice verification", "TCS documentation", "Financial statement analysis"],
+      note: "Responsibilities are summarized from my resume; specific quantified outcomes were not provided. Internship certificate — [PLACEHOLDER: upload the authentic certificate if available]."
+    },
+    {
+      id: "du-bcom",
+      type: "education",
+      title: "Bachelor of Commerce",
+      organization: "University of Delhi",
+      period: "2021–2024 · grade [PLACEHOLDER: add grade if you want it shown]",
+      location: "Delhi",
+      tasks: [
+        "Completed a Bachelor of Commerce at the University of Delhi.",
+        "Relevant coursework — [PLACEHOLDER: add verified details].",
+        "Academic achievement or project — [PLACEHOLDER: add verified details]."
+      ],
+      skills: ["[PLACEHOLDER: add demonstrable skills]"],
+      note: "A grade or academic distinction has not been supplied."
+    }
+  ],
   skills: [
     { name: "Financial analysis", proof: "Titan dashboard", href: "#project-titan" },
     { name: "Market research", proof: "Corporate debt review", href: "#project-indian-debt" },
@@ -47,6 +99,8 @@ window.PORTFOLIO = {
       process: "I identified the problem, collected evidence, built my own chatbot prototype using ChatGPT, and stress-tested it. Each team member built an individual bot; the team then compared them.",
       contribution: "Problem identification · evidence collection · individual chatbot build · stress testing",
       outcome: "The team selected another member’s bot. My individual prototype remains a GitHub-hosted academic demo. I report passing all 12 stress scenarios; the results sheet is blank, so that result is unverified. It has not been used in a live decision, and no business impact is measured.",
+      headlineMetric: { value: "12 scenarios", label: "self-reported stress tests", note: "Results sheet blank · not independently verified" },
+      limits: "The 12-scenario pass is self-reported; the uploaded results sheet is blank. No live business use or measured impact is claimed.",
       evidence: [
         { label: "Open prototype", href: "https://purvanshi8287-arch.github.io/byjus-spend-review-chatbot/proposal-review.html" },
         { label: "View source repository", href: "https://github.com/purvanshi8287-arch/byjus-spend-review-chatbot" },
@@ -61,10 +115,12 @@ window.PORTFOLIO = {
       kind: "Interactive company analysis · HTML",
       purpose: "Create an interactive view of Titan Company Limited’s financial performance across annual and quarterly results, segments, cash flows, capital and ownership.",
       process: "The standalone dashboard includes charts, selectors, navigation and a sources/definitions section. It notes that no Capitaline export was present and its source notes identify Screener, Titan Company and NSE materials.",
-      contribution: "Personal contribution and project context — To Be Added.",
-      outcome: "A runnable dashboard is included with this portfolio. Personal contribution, project context and specific methods used — To Be Added.",
+      contribution: "[PLACEHOLDER: personal contribution and project context].",
+      outcome: "A runnable dashboard is included with this portfolio. Personal contribution, project context and specific methods used — [PLACEHOLDER: add verified details].",
+      headlineMetric: { value: "6 analysis areas", label: "annual · quarterly · segments · cash flow · capital · ownership" },
+      limits: "The dashboard notes that no Capitaline export was present. Personal contribution and project context — [PLACEHOLDER: add verified details].",
       evidence: [{ label: "Open the dashboard", href: "projects/titan-company-financial-dashboard.html" }],
-      evidenceNote: "The dashboard notes that no Capitaline export was present and identifies its sources. Personal contribution and project context remain To Be Added.",
+      evidenceNote: "The dashboard notes that no Capitaline export was present and identifies its sources. Personal contribution and project context — [PLACEHOLDER: add verified details].",
       status: "Financial analysis"
     },
     {
@@ -75,6 +131,8 @@ window.PORTFOLIO = {
       process: "I explored NSE and BSE market information alongside SEBI and RBI publications, then organized five-year comparisons in Excel and wrote a Word report. The workbook’s source notes also cite the Economic Survey, MoSPI GDP data and NSDL’s FPI Monitor.",
       contribution: "Reviewed market sources, analyzed five-year trends, organized the workbook and wrote the report.",
       outcome: "The report finds that outstanding bonds increased from ₹40.2 lakh crore in FY22 to ₹58.2 lakh crore in FY26 (about 9.7% CAGR), while remaining around 15–17% of GDP. Debt accounted for 75.4% of five-year primary resource mobilisation, and private placements represented 98.6% of issuance.",
+      headlineMetric: { value: "₹40.2L cr → ₹58.2L cr", fromValue: 40.2, toValue: 58.2, label: "outstanding bonds · FY22 → FY26", note: "FY26 provisional" },
+      limits: "FY26 is provisional; FPI net flows cover all debt and the source rating data cannot establish an AAA-only share.",
       evidence: [
         { label: "Read the report", href: "projects/indian-corporate-debt-market-review/corporate-debt-market-review.docx" },
         { label: "Open the analysis workbook", href: "projects/indian-corporate-debt-market-review/corporate-debt-market-analysis.xlsx" },
