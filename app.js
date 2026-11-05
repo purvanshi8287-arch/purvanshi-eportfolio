@@ -284,9 +284,6 @@
   (data.tools || []).forEach((tool) => appendSkillEvidence($("#tool-list"), tool));
   const certificates = data.certificates || [];
   $("#certificate-count").textContent = String(certificates.length).padStart(2, "0");
-  const verificationCount = certificates.filter((certificate) => certificate.verified && certificate.href).length;
-  const certificateFileCount = certificates.filter((certificate) => certificate.file).length;
-  $("#certificate-status").textContent = verificationCount + " LinkedIn links · " + certificateFileCount + " certificate files";
   const certificateDialog = $("#certificate-dialog");
   const certificateDocument = $("#certificate-document");
   const certificateFileLink = (certificate) => makeLink("Open certificate file ↗", certificate.file, "certificate-link");
