@@ -253,10 +253,11 @@
     if (typeof certificateDialog.showModal === "function") certificateDialog.showModal();
     else certificateDialog.setAttribute("open", "");
   };
+  const certificateOrbitPeriodSeconds = 28;
   certificates.forEach((certificate, index) => {
     const card = make("button", "certificate-orbit-card");
     card.type = "button";
-    card.style.setProperty("--orbit-delay", "-" + ((index * 34) / Math.max(1, certificates.length)) + "s");
+    card.style.setProperty("--orbit-delay", "-" + ((index * certificateOrbitPeriodSeconds) / Math.max(1, certificates.length)) + "s");
     const orbitAngle = index * 360 / Math.max(1, certificates.length);
     card.style.setProperty("--orbit-angle", orbitAngle + "deg");
     card.style.setProperty("--orbit-angle-reverse", -orbitAngle + "deg");

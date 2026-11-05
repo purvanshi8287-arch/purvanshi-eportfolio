@@ -546,10 +546,8 @@ body[data-theme="dark"] .assistant-form input:focus { border-color: var(--accent
 .certificate-sun strong { font: 700 25px var(--display); }
 .certificate-sun small { color: var(--muted); font-size: 8px; }
 .certificate-orbit-cards { position: absolute; inset: 0; z-index: 2; }
-.certificate-orbit-card { --orbit-radius: 205px; position: absolute; top: 50%; left: 50%; width: 205px; min-height: 120px; padding: 0; overflow: visible; border: 1px solid #b8733366; border-radius: 15px; background: color-mix(in srgb, var(--surface) 93%, #b8733315); color: var(--ink); text-align: left; cursor: pointer; box-shadow: 0 16px 38px #0003; backdrop-filter: blur(12px); transform-origin: center; animation: orbit-certificate 34s linear infinite; animation-delay: var(--orbit-delay); }
+.certificate-orbit-card { --orbit-radius: 205px; position: absolute; top: 50%; left: 50%; width: 205px; min-height: 120px; padding: 0; overflow: visible; border: 1px solid #b8733366; border-radius: 15px; background: color-mix(in srgb, var(--surface) 93%, #b8733315); color: var(--ink); text-align: left; cursor: pointer; box-shadow: 0 16px 38px #0003; backdrop-filter: blur(12px); transform-origin: center; animation: orbit-certificate 28s linear infinite; animation-delay: var(--orbit-delay); }
 .certificate-orbit-card:hover, .certificate-orbit-card:focus-visible { border-color: var(--accent); box-shadow: 0 22px 52px #0005, 0 0 0 2px #b8733322; }
-.certificate-orbit-card:hover { animation-play-state: paused; }
-.certificate-solar-wrap:hover .certificate-orbit-card,
 .certificate-solar-wrap:focus-within .certificate-orbit-card { animation-play-state: paused; }
 .certificate-orbit-content { display: grid; gap: 8px; padding: 14px; }
 .certificate-orbit-content .certificate-index { flex: 0 0 26px; }
