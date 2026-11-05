@@ -29,11 +29,58 @@
     return anchor;
   };
 
+  const welcomeIntro = $("#welcome-intro");
+  if (welcomeIntro) {
+    const skipIntroForDeepLink = location.hash && !["#home", "#top"].includes(location.hash);
+    let introSeen = false;
+    try { introSeen = sessionStorage.getItem("purvanshi-intro-seen-v1") === "true"; } catch (_) {}
+    if (skipIntroForDeepLink || introSeen) {
+      welcomeIntro.remove();
+    } else {
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      let introTimer = 0;
+      let introClosing = false;
+      const closeIntro = () => {
+        if (introClosing) return;
+        introClosing = true;
+        window.clearTimeout(introTimer);
+        welcomeIntro.classList.add("is-leaving");
+        window.setTimeout(() => {
+          if (welcomeIntro.open && typeof welcomeIntro.close === "function") welcomeIntro.close();
+          welcomeIntro.remove();
+          document.body.classList.remove("intro-active");
+          try { sessionStorage.setItem("purvanshi-intro-seen-v1", "true"); } catch (_) {}
+        }, reducedMotion ? 0 : 420);
+      };
+      if (typeof welcomeIntro.showModal === "function") welcomeIntro.showModal();
+      else welcomeIntro.setAttribute("open", "");
+      document.body.classList.add("intro-active");
+      $("#intro-skip").addEventListener("click", closeIntro);
+      $("#intro-enter").addEventListener("click", closeIntro);
+      welcomeIntro.addEventListener("cancel", (event) => { event.preventDefault(); closeIntro(); });
+      welcomeIntro.addEventListener("click", (event) => { if (event.target === welcomeIntro) closeIntro(); });
+      $("#intro-skip").focus({ preventScroll: true });
+      introTimer = window.setTimeout(closeIntro, reducedMotion ? 1100 : 5400);
+    }
+  }
+
   document.querySelectorAll("[data-profile]").forEach((element) => {
     const value = data.profile && data.profile[element.dataset.profile];
     if (value) element.textContent = value;
   });
   (data.roles || []).forEach((role) => $("#role-list").append(make("span", "role-pill", role)));
+  const glance = $("#hero-at-a-glance");
+  if (glance) {
+    [
+      { value: String((data.projects || []).filter((project) => !project.placeholder).length).padStart(2, "0"), label: "projects on display" },
+      { value: data.experience ? "01" : "00", label: "finance internship" },
+      { value: String((data.certificates || []).length).padStart(2, "0"), label: "course & event records" }
+    ].forEach((item) => {
+      const stat = make("div", "hero-proof-item");
+      stat.append(make("strong", "", item.value), make("span", "", item.label));
+      glance.append(stat);
+    });
+  }
   $("#about-summary").textContent = data.about || "To Be Added";
   (data.roles || []).forEach((role) => {
     const tag = make("span", "about-interest", role);
@@ -83,6 +130,7 @@
     if (project.placeholder) return "Coming soon";
     if (/BYJU/i.test(project.title)) return "Academic";
     if (/dashboard/i.test(project.title)) return "Dashboard";
+    if (/debt|market/i.test(project.title)) return "Research";
     return "Project";
   };
   const categoryFilters = ["All", ...new Set((data.projects || []).map(projectCategory))];
@@ -96,6 +144,7 @@
   (data.projects || []).forEach((project, index) => {
     const category = projectCategory(project);
     const card = make("article", "project-card reveal" + (project.placeholder ? " placeholder-card" : ""));
+    if (project.id) card.id = project.id;
     card.dataset.category = category;
     card.dataset.search = (project.title + " " + (project.kind || "")).toLowerCase();
     const header = make("div", "project-card-top");
@@ -107,6 +156,11 @@
     heading.firstElementChild.append(make("p", "project-type", project.kind || "Project"), make("h3", "", project.title));
     if (project.status) heading.append(make("span", "project-status", project.status));
     card.append(heading);
+    if (!project.placeholder) {
+      const contribution = make("div", "project-contribution");
+      contribution.append(make("span", "case-label", "My contribution"), make("p", "", project.contribution || "To Be Added."));
+      card.append(contribution);
+    }
     if (project.placeholder) {
       card.append(make("p", "placeholder-copy", "Purpose, process, outcome and supporting evidence — To Be Added."));
       $("#project-list").append(card);
@@ -145,8 +199,19 @@
     });
   });
 
-  (data.skills || []).forEach((skill) => $("#skill-list").append(make("span", "tag", skill)));
-  (data.tools || []).forEach((tool) => $("#tool-list").append(make("span", "tag", tool)));
+  const appendSkillEvidence = (container, item) => {
+    const skill = typeof item === "string" ? { name: item } : item;
+    const card = make("article", "skill-evidence-card");
+    card.append(make("strong", "skill-evidence-name", skill.name || "Skill — To Be Added"));
+    if (skill.proof && skill.href) {
+      const proof = make("a", "skill-evidence-link", "Shown in " + skill.proof + " ↗");
+      proof.href = skill.href;
+      card.append(proof);
+    }
+    container.append(card);
+  };
+  (data.skills || []).forEach((skill) => appendSkillEvidence($("#skill-list"), skill));
+  (data.tools || []).forEach((tool) => appendSkillEvidence($("#tool-list"), tool));
   const certificates = data.certificates || [];
   $("#certificate-count").textContent = String(certificates.length).padStart(2, "0");
   const verificationCount = certificates.filter((certificate) => certificate.verified && certificate.href).length;
@@ -228,7 +293,9 @@
       else slide.setAttribute("inert", "");
     });
     galleryCount.firstChild.textContent = "0" + (galleryIndex + 1) + " ";
+    if (galleryCount.lastElementChild) galleryCount.lastElementChild.textContent = "/ 0" + gallerySlides.length;
   };
+  if (galleryCount.lastElementChild) galleryCount.lastElementChild.textContent = "/ 0" + gallerySlides.length;
   const updateGalleryPlayback = () => {
     window.clearInterval(galleryTimer);
     galleryToggle.textContent = galleryPaused ? "Play" : "Pause";
@@ -321,6 +388,7 @@
     const projects = projectList.filter((project) => !project.placeholder);
     const byju = findProject(/byju/i);
     const titan = findProject(/titan/i);
+    const debt = findProject(/corporate debt/i);
     if (/^(hi|hello|hey|good morning|good afternoon)\b/.test(q)) {
       return { text: "Hello! I’m Purvanshi’s portfolio guide. Ask about her projects, experience, skills, certificates or contact details." };
     }
@@ -340,6 +408,9 @@
         link: titan.evidence && titan.evidence[0] ? titan.evidence[0].href : "",
         linkLabel: "Open the dashboard"
       };
+    }
+    if (/debt market|corporate bond|fmi project|financial market institution/.test(q) && debt) {
+      return { text: debt.title + ". " + debt.purpose + " " + debt.process + " " + debt.outcome + " " + debt.evidenceNote, link: debt.evidence && debt.evidence[0] ? debt.evidence[0].href : "", linkLabel: "Read the project brief" };
     }
     if (/project|projects|portfolio work|what has .* built|work samples/.test(q)) {
       const links = projects.map((project) => {
@@ -362,13 +433,15 @@
       return { text: "Purvanshi lists these career interests: " + (data.roles || []).join(", ") + "." };
     }
     if (/skill|tool|excel|software|proficien/.test(q)) {
-      return { text: "Skills: " + (data.skills || []).join(", ") + ". Tools: " + (data.tools || []).join(", ") + ". The portfolio does not assign proficiency ratings." };
+      const skillNames = (data.skills || []).map((item) => typeof item === "string" ? item : item.name);
+      const toolNames = (data.tools || []).map((item) => typeof item === "string" ? item : item.name);
+      return { text: "Skills shown in my work: " + skillNames.join(", ") + ". Tools used: " + toolNames.join(", ") + ". Links connect each item to its supporting project or experience; no proficiency ratings are implied." };
     }
     if (/certificate|certification|course|learning/.test(q)) {
       return { text: (data.certificates || []).map((certificate) => certificate.title + " (" + certificate.issuer + "; course focus: " + (certificate.focus || []).join(", ") + "; " + (certificate.verified ? "LinkedIn verification link available" : "certificate file available, no public verification link provided") + ")").join(". ") + " Course focus describes course content, not independent proficiency.", link: "#certificates", linkLabel: "Explore certificates" };
     }
     if (/gallery|other work|portfolio guide|portfolio tour/.test(q)) {
-      return { text: "The gallery previews the Titan dashboard, BYJU’S academic prototype and JBM internship context. Other work includes the browser-based portfolio guide.", link: "#gallery", linkLabel: "Open the gallery" };
+      return { text: "The gallery previews the Titan dashboard, BYJU’S academic prototype, JBM internship context and the corporate debt market review. Other work includes the browser-based portfolio guide.", link: "#gallery", linkLabel: "Open the gallery" };
     }
     if (/resume|cv/.test(q)) {
       return { text: "You can open Purvanshi’s resume from the portfolio.", link: "assets/Purvanshi_Resume_Updated.pdf", linkLabel: "View resume" };
