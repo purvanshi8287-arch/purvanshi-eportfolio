@@ -3,15 +3,15 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#111820">
+  <meta name="theme-color" content="#0A1020">
   <meta name="description" content="Purvanshi's finance e-portfolio: projects, evidence gallery, experience, skills and certificates.">
   <title>Purvanshi | Finance e-Portfolio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400;1,9..144,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=25">
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=27">
   <script src="content.js?v=6" defer></script>
-  <script src="app.js?v=10" defer></script>
+  <script src="app.js?v=12" defer></script>
 </head>
 <body data-theme="dark">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -37,60 +37,70 @@
       </a>
       <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav">Menu</button>
       <nav id="main-nav" class="main-nav" aria-label="Main navigation">
-        <a href="#about">About</a><a href="#experience">Experience</a><a href="#projects">Projects</a><a href="#gallery">Gallery</a><a href="#skills">Skills</a><a href="#certificates">Certificates</a><a href="#contact">Contact</a>
+        <a href="#home" class="is-current">Home</a><a href="#projects">Projects</a><a href="#gallery">Gallery</a><a href="#about">About</a><a href="#contact">Contact</a>
       </nav>
       <div class="nav-actions">
         <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="true"><span aria-hidden="true">☼</span></button>
-        <a class="nav-resume" href="assets/Purvanshi_Resume_Updated.pdf" target="_blank" rel="noopener">Resume <span aria-hidden="true">↗</span></a>
+        <a class="nav-resume" href="assets/Purvanshi_Resume_Updated.pdf" target="_blank" rel="noopener">Download CV <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </header>
 
   <main id="main">
-    <section id="home" class="hero section-shell">
-      <div class="hero-copy reveal">
-        <p class="hero-kicker"><span class="status-dot"></span> OPEN TO EQUITY RESEARCH · RISK · TAX &amp; AUDIT</p>
-        <p class="hero-overline">A finance portfolio by</p>
-        <h1 class="hero-name" aria-label="Purvanshi"><span class="name-letter" aria-hidden="true" style="--letter-index:0">P</span><span class="name-letter" aria-hidden="true" style="--letter-index:1">u</span><span class="name-letter" aria-hidden="true" style="--letter-index:2">r</span><span class="name-letter" aria-hidden="true" style="--letter-index:3">v</span><span class="name-letter" aria-hidden="true" style="--letter-index:4">a</span><span class="name-letter" aria-hidden="true" style="--letter-index:5">n</span><span class="name-letter" aria-hidden="true" style="--letter-index:6">s</span><span class="name-letter" aria-hidden="true" style="--letter-index:7">h</span><span class="name-letter" aria-hidden="true" style="--letter-index:8">i</span><span class="title-period" aria-hidden="true">.</span></h1>
-        <p class="hero-line">From financial data to <em>clearer questions.</em></p>
-        <p class="hero-intro">I’m building a practical foundation in financial analysis, valuation and risk through coursework, projects and internship experience.</p>
-        <div class="hero-actions">
-          <a class="button button-lime" href="#projects">Explore my work <span aria-hidden="true">↘</span></a>
-          <a class="button button-glass" href="assets/Purvanshi_Resume_Updated.pdf" target="_blank" rel="noopener">View resume <span aria-hidden="true">↗</span></a>
+    <section id="home" class="hero-scroll-wrapper" aria-label="Purvanshi's portfolio introduction">
+      <div class="hero-pin-range">
+        <div class="hero-stage" id="hero-stage" style="--hero-progress:0">
+          <div class="hero-stage-grid" aria-hidden="true"></div>
+          <div class="hero-stage-glow" aria-hidden="true"></div>
+          <div class="hero-open-to"><i aria-hidden="true"></i><span>OPEN TO EQUITY RESEARCH · RISK · TAX &amp; AUDIT</span></div>
+          <svg class="hero-stage-wave" viewBox="0 0 1600 260" fill="none" aria-hidden="true" preserveAspectRatio="none">
+            <g class="hero-wave-track"><path d="M-40 181C134 115 224 220 365 162s190-111 331-45 216 90 353 20 251-106 394-35 196 62 303 2" stroke="currentColor" stroke-width="2"/><path d="M-35 221C138 179 235 249 380 210s191-96 328-40 215 75 359 12 251-85 389-21 199 48 300-12" stroke="currentColor" stroke-width="1" stroke-dasharray="5 10"/><circle cx="366" cy="162" r="5" fill="currentColor"/><circle cx="696" cy="117" r="5" fill="currentColor"/><circle cx="1049" cy="137" r="5" fill="currentColor"/><circle cx="1442" cy="102" r="5" fill="currentColor"/></g>
+          </svg>
+          <div class="hero-chart-silhouette" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><b></b><b></b><b></b></div>
+          <p class="hero-stage-coordinates" aria-hidden="true">FIIB · NEW DELHI <span>／</span> GURUGRAM, INDIA</p>
+          <h1 class="hero-giant-name" id="hero-giant-name">PURVANSHI</h1>
+          <figure class="hero-scroll-portrait" aria-label="Portrait of Purvanshi">
+            <span class="hero-portrait-glow" aria-hidden="true"></span>
+            <img src="purvanshi-hero-cutout.png" alt="Purvanshi standing in a dark blazer and white shirt">
+          </figure>
+          <div class="hero-stage-chip hero-stage-chip-left" aria-hidden="true">FIIB · NEW DELHI</div>
+          <div class="hero-stage-chip hero-stage-chip-right" aria-hidden="true">GURUGRAM, INDIA</div>
+          <div class="hero-scroll-about" id="hero-scroll-about" inert aria-hidden="true">
+            <span class="hero-about-label" data-hero-step>ABOUT PURVANSHI</span>
+            <h2 data-hero-step>Careful with the numbers.<br><em>Curious about the story.</em></h2>
+            <p class="hero-about-subline" data-hero-step>Finance student · Equity research · Gurugram</p>
+            <p class="hero-about-intro" data-hero-step>From financial data to clearer questions. I’m building a practical foundation in financial analysis, valuation and risk through coursework, projects and internship experience.</p>
+            <div class="hero-about-actions" data-hero-step>
+              <a href="#about">My story <span aria-hidden="true">↘</span></a>
+              <a href="#experience">Experience <span aria-hidden="true">↘</span></a>
+              <a class="hero-cv-button" href="assets/Purvanshi_Resume_Updated.pdf" target="_blank" rel="noopener">Download CV <span aria-hidden="true">↗</span></a>
+              <a href="https://www.linkedin.com/in/purvanshi-mittal-b76aaa316/" target="_blank" rel="noopener noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+            </div>
+            <div class="hero-about-reach" data-hero-step>
+              <span>Reach me: <a id="hero-email" href="mailto:purvanshi8287@gmail.com">purvanshi8287@gmail.com</a></span>
+              <button id="copy-email" type="button" aria-label="Copy email address" title="Copy email address"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"></rect><path d="M16 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h3"></path></svg></button>
+              <span id="copy-email-status" class="sr-only" role="status" aria-live="polite"></span>
+            </div>
+            <div class="hero-interest-block" data-hero-step><span>OPEN TO</span><div class="target-roles" id="role-list" aria-label="Career interests"></div></div>
+          </div>
+          <div class="hero-scroll-cue" aria-hidden="true"><span class="hero-scroll-cue-line"></span><span>SCROLL TO EXPLORE</span><small>01 — 02</small></div>
         </div>
-        <a class="hero-linkedin" href="https://www.linkedin.com/in/purvanshi-mittal-b76aaa316/" target="_blank" rel="noopener noreferrer">Connect on LinkedIn <span aria-hidden="true">→</span></a>
-        <div class="role-label">CAREER INTERESTS</div>
-        <div class="target-roles" id="role-list" aria-label="Career interests"></div>
       </div>
-      <div class="hero-visual reveal" aria-label="Portrait of Purvanshi">
-        <div class="visual-grid" aria-hidden="true"></div>
-        <div class="visual-ring ring-one" aria-hidden="true"></div>
-        <div class="visual-ring ring-two" aria-hidden="true"></div>
-        <figure class="portrait-card">
-          <span class="portrait-card-kicker">FINANCIAL MANAGEMENT · FIIB</span>
-          <div class="portrait-card-image"><span class="portrait-card-glow" aria-hidden="true"></span><img id="profile-photo" src="purvanshi-thinking-pose.png" alt="Purvanshi in a thoughtful pose"></div>
-          <figcaption class="portrait-card-caption">
-            <div class="portrait-chip-row"><span>FIIB · NEW DELHI</span><span>GURUGRAM, INDIA</span></div>
-            <p>Career interests</p>
-            <ul class="portrait-interest-list" id="portrait-interest-list" aria-label="Career interests"></ul>
-          </figcaption>
-        </figure>
-        <svg class="hero-line-art" viewBox="0 0 500 130" fill="none" aria-hidden="true">
-          <path d="M2 107C55 95 65 39 125 55s66 52 118 21 55-45 104-34 79 30 151-28" stroke="currentColor" stroke-width="2"/>
-          <path d="M2 124C65 113 88 91 137 98s78-20 112-15 90 9 124-5 68-4 125-46" stroke="currentColor" stroke-width="1" stroke-dasharray="4 7"/>
-          <circle cx="125" cy="55" r="5" fill="currentColor"/><circle cx="247" cy="76" r="5" fill="currentColor"/><circle cx="347" cy="42" r="5" fill="currentColor"/>
-        </svg>
-        <div class="hero-coordinate">GURUGRAM<br>INDIA</div>
-      </div>
-      <div class="hero-footer reveal">
-        <span><span class="footer-dot"></span><span data-profile="city">Gurugram, India</span></span>
-        <span>Curious by nature <i>·</i> evidence-minded by practice</span>
-        <a href="#about">Scroll to explore <span aria-hidden="true">↓</span></a>
+      <div class="hero-transition-tail">
+        <div class="hero-tail-inner">
+          <div class="hero-footer"><span><span class="footer-dot"></span><span data-profile="city">Gurugram, India</span></span><span>Curious by nature <i>·</i> evidence-minded by practice</span><a href="#about">Continue to my story <span aria-hidden="true">↓</span></a></div>
+          <div class="interest-marquee" aria-label="Purvanshi's finance interests"><div class="interest-marquee-track" id="interest-marquee-track" aria-hidden="true"></div></div>
+          <div class="portfolio-glance reveal" aria-label="Portfolio at a glance"><div class="hero-at-a-glance" id="hero-at-a-glance"></div></div>
+        </div>
       </div>
     </section>
 
-    <div class="interest-marquee" aria-label="Purvanshi's finance interests"><div class="interest-marquee-track" id="interest-marquee-track" aria-hidden="true"></div></div>
-    <div class="portfolio-glance section-shell reveal" aria-label="Portfolio at a glance"><div class="hero-at-a-glance" id="hero-at-a-glance"></div></div>
+    <aside class="scroll-portrait-rail" id="scroll-portrait-rail" aria-label="Purvanshi's portrait and career interests">
+      <div class="scroll-portrait-image-wrap"><span class="scroll-portrait-glow" aria-hidden="true"></span><img src="purvanshi-hero-cutout.png" alt="Purvanshi in a dark blazer and white shirt"></div>
+      <div class="scroll-portrait-caption"><span>FINANCE · FIIB</span><span data-profile="city">Gurugram, India</span><ul class="portrait-interest-list" id="portrait-interest-list" aria-label="Career interests"></ul></div>
+    </aside>
+
+    <div class="post-hero-content">
 
     <section class="featured-work section-shell reveal" aria-labelledby="featured-work-title">
       <div class="featured-work-head"><span class="gallery-kicker">FEATURED WORK · SELECTED CASE STUDIES</span><a href="#projects">Explore all projects ↘</a></div>
@@ -203,6 +213,8 @@
     </section>
 
     <section class="disclaimer-section section-shell" aria-labelledby="disclaimer-title"><span class="gallery-kicker">PROJECT NOTE</span><h2 id="disclaimer-title">Academic work, clearly bounded.</h2><p>The Titan dashboard is a learning artifact and is not investment advice. The BYJU’S assistant is an academic prototype, not a live business decision tool; its reported stress-test result is not independently verified because the results sheet is blank.</p></section>
+    <section class="closing-cta section-shell" aria-labelledby="closing-cta-title"><span class="gallery-kicker">A CLEARER NEXT STEP</span><h2 id="closing-cta-title">Prefer it on one page?</h2><p>Keep exploring the portfolio or open the current resume.</p><div class="closing-cta-actions"><a class="button button-copper" href="assets/Purvanshi_Resume_Updated.pdf" target="_blank" rel="noopener">Download CV <span aria-hidden="true">↗</span></a><a class="button button-glass" href="#contact">Get in touch <span aria-hidden="true">↘</span></a></div></section>
+    </div>
   </main>
 
   <dialog class="experience-lightbox" id="experience-lightbox" aria-labelledby="experience-lightbox-title"><div class="experience-lightbox-shell"><button type="button" class="certificate-dialog-close" id="experience-lightbox-close" aria-label="Close experience record">×</button><span class="gallery-kicker" id="experience-lightbox-kicker">EXPERIENCE RECORD</span><h2 id="experience-lightbox-title"></h2><p id="experience-lightbox-note"></p><div class="experience-lightbox-document" id="experience-lightbox-document"></div></div></dialog>

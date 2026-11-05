@@ -29,45 +29,43 @@
     return anchor;
   };
 
-  const welcomeIntro = $("#welcome-intro");
-  if (welcomeIntro) {
-    const skipIntroForDeepLink = location.hash && !["#home", "#top"].includes(location.hash);
-    let introSeen = false;
-    try { introSeen = sessionStorage.getItem("purvanshi-intro-seen-v1") === "true"; } catch (_) {}
-    if (skipIntroForDeepLink || introSeen) {
-      welcomeIntro.remove();
-    } else {
-      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      let introTimer = 0;
-      let introClosing = false;
-      const closeIntro = () => {
-        if (introClosing) return;
-        introClosing = true;
-        window.clearTimeout(introTimer);
-        welcomeIntro.classList.add("is-leaving");
-        window.setTimeout(() => {
-          if (welcomeIntro.open && typeof welcomeIntro.close === "function") welcomeIntro.close();
-          welcomeIntro.remove();
-          document.body.classList.remove("intro-active");
-          try { sessionStorage.setItem("purvanshi-intro-seen-v1", "true"); } catch (_) {}
-        }, reducedMotion ? 0 : 420);
-      };
-      if (typeof welcomeIntro.showModal === "function") welcomeIntro.showModal();
-      else welcomeIntro.setAttribute("open", "");
-      document.body.classList.add("intro-active");
-      $("#intro-skip").addEventListener("click", closeIntro);
-      $("#intro-enter").addEventListener("click", closeIntro);
-      welcomeIntro.addEventListener("cancel", (event) => { event.preventDefault(); closeIntro(); });
-      welcomeIntro.addEventListener("click", (event) => { if (event.target === welcomeIntro) closeIntro(); });
-      $("#intro-skip").focus({ preventScroll: true });
-      introTimer = window.setTimeout(closeIntro, reducedMotion ? 1100 : 5400);
-    }
-  }
+  // The scroll-led hero now carries the welcome copy directly, so the legacy
+  // welcome dialog remains in the document but does not block the first scroll.
 
   document.querySelectorAll("[data-profile]").forEach((element) => {
     const value = data.profile && data.profile[element.dataset.profile];
     if (value) element.textContent = value;
   });
+  const heroEmail = $("#hero-email");
+  const copyEmailButton = $("#copy-email");
+  const copyEmailStatus = $("#copy-email-status");
+  if (heroEmail && data.profile && data.profile.email) {
+    heroEmail.textContent = data.profile.email;
+    heroEmail.href = "mailto:" + data.profile.email;
+  }
+  if (copyEmailButton && data.profile && data.profile.email) {
+    copyEmailButton.addEventListener("click", async () => {
+      let copied = false;
+      try {
+        if (navigator.clipboard && window.isSecureContext) {
+          await navigator.clipboard.writeText(data.profile.email);
+          copied = true;
+        }
+      } catch (_) {}
+      if (!copied) {
+        const temporary = make("textarea", "sr-only");
+        temporary.value = data.profile.email;
+        temporary.setAttribute("readonly", "");
+        document.body.append(temporary);
+        temporary.select();
+        try { copied = document.execCommand("copy"); } catch (_) {}
+        temporary.remove();
+      }
+      if (copyEmailStatus) copyEmailStatus.textContent = copied ? "Email address copied." : "Copy unavailable. Select the email address to copy it.";
+      copyEmailButton.setAttribute("aria-label", copied ? "Email address copied" : "Copy email address");
+      window.setTimeout(() => copyEmailButton.setAttribute("aria-label", "Copy email address"), 1800);
+    });
+  }
   (data.roles || []).forEach((role) => $("#role-list").append(make("span", "role-pill", role)));
   const interests = data.interests || data.roles || [];
   interests.forEach((interest) => $("#portrait-interest-list").append(make("li", "portrait-interest", interest)));
@@ -424,12 +422,73 @@
   });
 
   const progress = $("#scroll-progress");
-  const updateProgress = () => {
-    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-    progress.style.transform = "scaleX(" + (scrollable > 0 ? window.scrollY / scrollable : 0) + ")";
+  const heroWrapper = $("#home");
+  const heroStage = $("#hero-stage");
+  const heroName = $("#hero-giant-name");
+  const heroPortrait = $(".hero-scroll-portrait");
+  const heroAbout = $("#hero-scroll-about");
+  const heroAboutSteps = heroAbout ? Array.from(heroAbout.querySelectorAll("[data-hero-step]")) : [];
+  const portraitRail = $("#scroll-portrait-rail");
+  const reducedMotionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+  const clamp01 = (value) => Math.max(0, Math.min(1, value));
+  const easeOutCubic = (value) => 1 - Math.pow(1 - clamp01(value), 3);
+  let scrollFrame = 0;
+  const updateScrollScene = () => {
+    if (scrollFrame) return;
+    scrollFrame = window.requestAnimationFrame(() => {
+      scrollFrame = 0;
+      const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+      if (progress) progress.style.transform = "scaleX(" + (scrollable > 0 ? window.scrollY / scrollable : 0) + ")";
+      if (!heroWrapper || !heroStage) return;
+
+      const reduced = reducedMotionPreference.matches;
+      const isMobile = window.matchMedia("(max-width: 767px)").matches;
+      const heroScrollDistance = Math.max(1, heroWrapper.offsetHeight - window.innerHeight);
+      const heroTop = heroWrapper.getBoundingClientRect().top;
+      const p = reduced ? 1 : clamp01(-heroTop / heroScrollDistance);
+      heroStage.style.setProperty("--hero-progress", p.toFixed(4));
+
+      const nameProgress = easeOutCubic(p / 0.35);
+      heroStage.style.setProperty("--name-opacity", String(1 - nameProgress));
+      heroStage.style.setProperty("--name-blur", (12 * nameProgress).toFixed(2) + "px");
+      heroStage.style.setProperty("--name-y", (-window.innerHeight * 0.05 * nameProgress).toFixed(1) + "px");
+
+      const portraitProgress = easeOutCubic(p / 0.35);
+      const portraitShift = isMobile ? 0 : -window.innerWidth * 0.28 * portraitProgress;
+      const portraitScale = isMobile ? 0.94 : 1 - 0.15 * portraitProgress;
+      heroStage.style.setProperty("--portrait-x", portraitShift.toFixed(1) + "px");
+      heroStage.style.setProperty("--portrait-scale", portraitScale.toFixed(4));
+
+      const aboutProgress = easeOutCubic((p - 0.25) / 0.30);
+      heroStage.style.setProperty("--about-opacity", String(aboutProgress));
+      heroStage.style.setProperty("--about-y", ((1 - aboutProgress) * 24).toFixed(1) + "px");
+      heroStage.style.setProperty("--about-blur", ((1 - aboutProgress) * 6).toFixed(2) + "px");
+      heroAboutSteps.forEach((step, index) => {
+        const stepProgress = easeOutCubic((p - (0.25 + index * 0.025)) / 0.15);
+        step.style.setProperty("--step-opacity", String(stepProgress));
+        step.style.setProperty("--step-y", ((1 - stepProgress) * 24).toFixed(1) + "px");
+        step.style.setProperty("--step-blur", ((1 - stepProgress) * 5).toFixed(2) + "px");
+        if ("inert" in step) step.inert = !reduced && (stepProgress < 0.92 || p >= 0.56);
+      });
+      if (heroAbout) {
+        const isAboutInteractive = reduced || (aboutProgress > 0.04 && p < 0.56);
+        heroAbout.classList.toggle("is-interactive", isAboutInteractive);
+        heroAbout.setAttribute("aria-hidden", String(!isAboutInteractive));
+        if ("inert" in heroAbout) heroAbout.inert = !isAboutInteractive;
+        else if (isAboutInteractive) heroAbout.removeAttribute("inert");
+        else heroAbout.setAttribute("inert", "");
+      }
+
+      const railActive = reduced
+        ? window.scrollY >= heroWrapper.offsetTop + heroWrapper.offsetHeight - 1
+        : p >= 0.55;
+      if (portraitRail) portraitRail.classList.toggle("is-visible", railActive && !isMobile);
+    });
   };
-  window.addEventListener("scroll", updateProgress, { passive: true });
-  updateProgress();
+  window.addEventListener("scroll", updateScrollScene, { passive: true });
+  window.addEventListener("resize", updateScrollScene);
+  if (typeof reducedMotionPreference.addEventListener === "function") reducedMotionPreference.addEventListener("change", updateScrollScene);
+  updateScrollScene();
   if ("IntersectionObserver" in window) {
     const revealObserver = new IntersectionObserver((entries, observer) => {
       entries.forEach((entry) => {
@@ -481,7 +540,10 @@
         nav.querySelectorAll("a").forEach((anchor) => anchor.classList.toggle("is-current", anchor.hash === "#" + entry.target.id));
       });
     }, { rootMargin: "-35% 0px -55% 0px" });
-    document.querySelectorAll("main section[id]").forEach((section) => sectionObserver.observe(section));
+    nav.querySelectorAll("a[href^='#']").forEach((anchor) => {
+      const section = document.getElementById(anchor.hash.slice(1));
+      if (section) sectionObserver.observe(section);
+    });
   }
 
   const projectList = data.projects || [];
