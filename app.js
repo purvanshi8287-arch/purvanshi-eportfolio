@@ -68,7 +68,6 @@
   }
   (data.roles || []).forEach((role) => $("#role-list").append(make("span", "role-pill", role)));
   const interests = data.interests || data.roles || [];
-  interests.forEach((interest) => $("#portrait-interest-list").append(make("li", "portrait-interest", interest)));
   const marquee = $("#interest-marquee-track");
   if (marquee) {
     [0, 1].forEach(() => {
@@ -422,10 +421,8 @@
   const heroWrapper = $("#home");
   const heroStage = $("#hero-stage");
   const heroName = $("#hero-giant-name");
-  const heroPortrait = $(".hero-scroll-portrait");
   const heroAbout = $("#hero-scroll-about");
   const heroAboutSteps = heroAbout ? Array.from(heroAbout.querySelectorAll("[data-hero-step]")) : [];
-  const portraitRail = $("#scroll-portrait-rail");
   const reducedMotionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
   const clamp01 = (value) => Math.max(0, Math.min(1, value));
   const easeOutCubic = (value) => 1 - Math.pow(1 - clamp01(value), 3);
@@ -476,10 +473,6 @@
         else heroAbout.setAttribute("inert", "");
       }
 
-      const railActive = reduced
-        ? window.scrollY >= heroWrapper.offsetTop + heroWrapper.offsetHeight - 1
-        : p >= 0.55;
-      if (portraitRail) portraitRail.classList.toggle("is-visible", railActive && !isMobile);
     });
   };
   window.addEventListener("scroll", updateScrollScene, { passive: true });
