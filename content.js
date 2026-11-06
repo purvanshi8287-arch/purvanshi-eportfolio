@@ -102,7 +102,7 @@ window.PORTFOLIO = {
       headlineMetric: { value: "12 scenarios", label: "self-reported stress tests", note: "Results sheet blank · not independently verified" },
       limits: "The 12-scenario pass is self-reported; the uploaded results sheet is blank. No live business use or measured impact is claimed.",
       evidence: [
-        { label: "Open prototype", href: "https://purvanshi8287-arch.github.io/byjus-spend-review-chatbot/proposal-review.html" },
+        { label: "Open project page", href: "projects/byjus-spend-review-assistant.html" },
         { label: "View source repository", href: "https://github.com/purvanshi8287-arch/byjus-spend-review-chatbot" },
         { label: "Evidence source pack", href: "https://github.com/purvanshi8287-arch/byjus-spend-review-chatbot/blob/main/web-evidence-pack.md" }
       ],
@@ -119,7 +119,10 @@ window.PORTFOLIO = {
       outcome: "A runnable dashboard is included with this portfolio. Personal contribution, project context and specific methods used — [PLACEHOLDER: add verified details].",
       headlineMetric: { value: "6 analysis areas", label: "annual · quarterly · segments · cash flow · capital · ownership" },
       limits: "The dashboard notes that no Capitaline export was present. Personal contribution and project context — [PLACEHOLDER: add verified details].",
-      evidence: [{ label: "Open the dashboard", href: "projects/titan-company-financial-dashboard.html" }],
+      evidence: [
+        { label: "Open the dashboard", href: "projects/titan-company-financial-dashboard.html" },
+        { label: "View source on GitHub", href: "https://github.com/purvanshi8287-arch/purvanshi-eportfolio/blob/main/projects/titan-company-financial-dashboard.html" }
+      ],
       evidenceNote: "The dashboard notes that no Capitaline export was present and identifies its sources. Personal contribution and project context — [PLACEHOLDER: add verified details].",
       status: "Financial analysis"
     },
@@ -134,6 +137,7 @@ window.PORTFOLIO = {
       headlineMetric: { value: "₹40.2L cr → ₹58.2L cr", fromValue: 40.2, toValue: 58.2, label: "outstanding bonds · FY22 → FY26", note: "FY26 provisional" },
       limits: "FY26 is provisional; FPI net flows cover all debt and the source rating data cannot establish an AAA-only share.",
       evidence: [
+        { label: "Open project page", href: "projects/indian-corporate-debt-market-review.html" },
         { label: "Read the report", href: "projects/indian-corporate-debt-market-review/corporate-debt-market-review.docx" },
         { label: "Open the analysis workbook", href: "projects/indian-corporate-debt-market-review/corporate-debt-market-analysis.xlsx" },
         { label: "View the GitHub project", href: "https://github.com/purvanshi8287-arch/purvanshi-eportfolio/tree/main/projects/indian-corporate-debt-market-review" }
