@@ -14,7 +14,7 @@ window.PORTFOLIO = {
   about: "I’m Purvanshi, a PGDM Financial Management student at FIIB, New Delhi, and a Bachelor of Commerce graduate from the University of Delhi. My current interests include equity research, risk, taxation and auditing. Through coursework, an individual chatbot prototype, financial dashboard work and a finance internship, I’m learning to connect analysis with careful documentation and transparent assumptions.",
   education: [
     { title: "PGDM, Financial Management", detail: "Fortune Institute of International Business (FIIB) · Batch 2026–2028 · In progress" },
-    { title: "Bachelor of Commerce (B.Com.)", detail: "University of Delhi · 2021–2024 · Degree awarded 28 February 2026 · Second Division · Certificate: [PLACEHOLDER: add a redacted copy or verification link]" }
+    { title: "Bachelor of Commerce (B.Com.)", detail: "University of Delhi · 2021–2024 · Degree awarded 28 February 2026 · Second Division", certificatePlaceholder: "Graduation degree scan — [PLACEHOLDER: redacted copy or verification link]" }
   ],
   experience: [
     {
@@ -63,7 +63,8 @@ window.PORTFOLIO = {
         "Supported financial statement analysis."
       ],
       skills: ["Payment clearing", "Reconciliation", "Bill booking", "Invoice verification", "TCS documentation", "Financial statement analysis"],
-      note: "The experience letter confirms the Finance Department, Summer Trainee title and dates. Duties are summarized from my resume; specific quantified outcomes were not provided. Public letter preview — [PLACEHOLDER: add a redacted copy or verification link]."
+      note: "Duties summarized from my resume; no quantified outcomes were provided.",
+      certificatePlaceholder: "JBM experience letter — [PLACEHOLDER: redacted copy or verification link]"
     },
     {
       id: "du-bcom",

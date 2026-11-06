@@ -1044,6 +1044,7 @@ h1, h2, h3, .brand strong, .project-title-row h3, .experience-role { font-family
 .about-method-grid strong { font-family: var(--display); font-size: 15px; font-weight: 500; }
 .education-item { gap: 15px; }
 .education-copy strong { font-family: var(--display); font-size: 17px; font-weight: 500; }
+.credential-placeholder, .experience-certificate-placeholder { display: block; margin-top: 10px; padding: 9px 11px; border: 1px dashed color-mix(in srgb, var(--gold) 55%, transparent); border-radius: 10px; color: var(--gold); font-size: 10px; line-height: 1.5; }
 .experience-section { background: linear-gradient(140deg, #171F27, #10171D); }
 .experience-section .section-heading h2 em { color: var(--gold); font-style: italic; }
 .experience-list { position: relative; display: grid; gap: 23px; padding: 5px 0 10px; }
