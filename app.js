@@ -130,6 +130,7 @@
     const row = make("div", "education-item");
     row.append(make("span", "education-mark", "↗"), make("div", "education-copy"));
     row.lastElementChild.append(make("strong", "", item.title), make("span", "", item.detail));
+    if (item.certificatePlaceholder) row.lastElementChild.append(make("span", "credential-placeholder", item.certificatePlaceholder));
     $("#education-list").append(row);
   });
 
@@ -182,6 +183,7 @@
     skills.append(skillTags);
     details.append(skills);
     if (experience.note) details.append(make("p", "experience-note", experience.note));
+    if (experience.certificatePlaceholder) details.append(make("p", "experience-certificate-placeholder", experience.certificatePlaceholder));
     const recordButton = make("button", "experience-record-button", experience.certificateFile ? "View certificate · Tap to enlarge ↗" : "View record · Certificate [PLACEHOLDER] ↗");
     recordButton.type = "button";
     recordButton.setAttribute("aria-label", (experience.certificateFile ? "View certificate for " : "View experience record for ") + experience.title);
