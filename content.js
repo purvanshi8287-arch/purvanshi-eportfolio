@@ -51,18 +51,19 @@ window.PORTFOLIO = {
     {
       id: "jbm-internship",
       type: "internship",
-      title: "Finance Intern",
-      organization: "JBM Kanemitsu · JBM Group",
-      period: "September–October 2025",
+      title: "Finance Intern · Summer Trainee",
+      organization: "JBM Kanemitsu Pulleys Private Limited · JBM Group",
+      period: "2 September–30 October 2025",
       location: "Gurugram, India",
       tasks: [
+        "Worked in the Finance Department as a Summer Trainee; the experience letter records 2 September–30 October 2025.",
         "Supported payment-clearing and reconciliation activities.",
         "Handled bill booking and invoice verification.",
         "Prepared TCS documentation.",
         "Supported financial statement analysis."
       ],
       skills: ["Payment clearing", "Reconciliation", "Bill booking", "Invoice verification", "TCS documentation", "Financial statement analysis"],
-      note: "Responsibilities are summarized from my resume; specific quantified outcomes were not provided. Internship certificate — [PLACEHOLDER: upload the authentic certificate if available]."
+      note: "The experience letter confirms the Finance Department, Summer Trainee title and dates. Duties are summarized from my resume; specific quantified outcomes were not provided. Public letter preview — [PLACEHOLDER: add a redacted copy or verification link]."
     },
     {
       id: "du-bcom",
