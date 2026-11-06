@@ -2,17 +2,19 @@ window.PORTFOLIO = {
   profile: {
     name: "Purvanshi",
     positioning: "From financial data to clearer questions.",
-    email: "purvanshi8287@gmail.com",
+    email: "28-PURVANSHI.MITTAL@FIIB.EDU.IN",
+    personalEmail: "purvanshi8287@gmail.com",
     phone: "+91-8287413909",
     city: "Gurugram, India",
+    github: "https://github.com/purvanshi8287-arch",
     linkedin: "https://www.linkedin.com/in/purvanshi-mittal-b76aaa316/"
   },
   roles: ["Equity Research Analyst", "Risk Analyst", "Tax & Audit Associate"],
   interests: ["Equity research", "Financial analysis", "Accounting", "Taxation & auditing", "Risk & assurance"],
-  about: "I’m Purvanshi, a PGDM Financial Management student at FIIB, New Delhi, with a B.Com background from the University of Delhi. My current interests include equity research, risk, taxation and auditing. Through coursework, an individual chatbot prototype, financial dashboard work and a finance internship, I’m learning to connect analysis with careful documentation and transparent assumptions.",
+  about: "I’m Purvanshi, a PGDM Financial Management student at FIIB, New Delhi, and a Bachelor of Commerce graduate from the University of Delhi. My current interests include equity research, risk, taxation and auditing. Through coursework, an individual chatbot prototype, financial dashboard work and a finance internship, I’m learning to connect analysis with careful documentation and transparent assumptions.",
   education: [
     { title: "PGDM, Financial Management", detail: "Fortune Institute of International Business (FIIB) · Batch 2026–2028 · In progress" },
-    { title: "Bachelor of Commerce", detail: "University of Delhi · 2021–2024 · Grade: [PLACEHOLDER: add grade if you want it shown]" }
+    { title: "Bachelor of Commerce (B.Com.)", detail: "University of Delhi · 2021–2024 · Degree awarded 28 February 2026 · Second Division · Certificate: [PLACEHOLDER: add a redacted copy or verification link]" }
   ],
   experience: [
     {
@@ -49,33 +51,34 @@ window.PORTFOLIO = {
     {
       id: "jbm-internship",
       type: "internship",
-      title: "Finance Intern",
-      organization: "JBM Kanemitsu · JBM Group",
-      period: "September–October 2025",
+      title: "Finance Intern · Summer Trainee",
+      organization: "JBM Kanemitsu Pulleys Private Limited · JBM Group",
+      period: "2 September–30 October 2025",
       location: "Gurugram, India",
       tasks: [
+        "Worked in the Finance Department as a Summer Trainee; the experience letter records 2 September–30 October 2025.",
         "Supported payment-clearing and reconciliation activities.",
         "Handled bill booking and invoice verification.",
         "Prepared TCS documentation.",
         "Supported financial statement analysis."
       ],
       skills: ["Payment clearing", "Reconciliation", "Bill booking", "Invoice verification", "TCS documentation", "Financial statement analysis"],
-      note: "Responsibilities are summarized from my resume; specific quantified outcomes were not provided. Internship certificate — [PLACEHOLDER: upload the authentic certificate if available]."
+      note: "The experience letter confirms the Finance Department, Summer Trainee title and dates. Duties are summarized from my resume; specific quantified outcomes were not provided. Public letter preview — [PLACEHOLDER: add a redacted copy or verification link]."
     },
     {
       id: "du-bcom",
       type: "education",
       title: "Bachelor of Commerce",
       organization: "University of Delhi",
-      period: "2021–2024 · grade [PLACEHOLDER: add grade if you want it shown]",
+      period: "Examined 2024 · awarded 28 February 2026",
       location: "Delhi",
       tasks: [
-        "Completed a Bachelor of Commerce at the University of Delhi.",
-        "Relevant coursework — [PLACEHOLDER: add verified details].",
-        "Academic achievement or project — [PLACEHOLDER: add verified details]."
+        "Completed a Bachelor of Commerce at the University of Delhi; the degree certificate records the examination year as 2024.",
+        "The degree was awarded at the 2026 convocation; the certificate records Second Division.",
+        "Graduation certificate display — [PLACEHOLDER: add a redacted public copy or verification link]."
       ],
       skills: ["[PLACEHOLDER: add demonstrable skills]"],
-      note: "A grade or academic distinction has not been supplied."
+      note: "The supplied degree records Second Division. Its public image or verification link remains a placeholder."
     }
   ],
   skills: [
