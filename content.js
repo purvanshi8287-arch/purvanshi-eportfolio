@@ -2,9 +2,11 @@ window.PORTFOLIO = {
   profile: {
     name: "Purvanshi",
     positioning: "From financial data to clearer questions.",
-    email: "purvanshi8287@gmail.com",
+    email: "28-PURVANSHI.MITTAL@FIIB.EDU.IN",
+    personalEmail: "purvanshi8287@gmail.com",
     phone: "+91-8287413909",
     city: "Gurugram, India",
+    github: "https://github.com/purvanshi8287-arch",
     linkedin: "https://www.linkedin.com/in/purvanshi-mittal-b76aaa316/"
   },
   roles: ["Equity Research Analyst", "Risk Analyst", "Tax & Audit Associate"],

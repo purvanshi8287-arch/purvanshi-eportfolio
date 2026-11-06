@@ -1036,6 +1036,10 @@ h1, h2, h3, .brand strong, .project-title-row h3, .experience-role { font-family
 .about-feature h2 { font-family: var(--display); font-weight: 500; }
 .about-feature h2 em { color: var(--gold); font-style: italic; }
 .about-copy-kicker, .about-kicker { color: var(--gold); }
+.about-connect { margin-top: 20px; }
+.about-profile-links { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+.about-profile-link { display: inline-flex; min-height: 32px; align-items: center; padding: 7px 10px; overflow-wrap: anywhere; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); font-size: 9px; line-height: 1.4; text-decoration: none; transition: color .2s, border-color .2s, background .2s; }
+.about-profile-link:hover { border-color: var(--gold); background: color-mix(in srgb, var(--gold) 8%, transparent); color: var(--ink); }
 .about-method-grid article { border-radius: 16px; }
 .about-method-grid strong { font-family: var(--display); font-size: 15px; font-weight: 500; }
 .education-item { gap: 15px; }

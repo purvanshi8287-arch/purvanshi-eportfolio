@@ -110,6 +110,18 @@
     });
   }
   $("#about-summary").textContent = data.about || "To Be Added";
+  const aboutProfileLinks = $("#about-profile-links");
+  if (aboutProfileLinks && data.profile) {
+    [
+      ["GitHub ↗", data.profile.github],
+      [data.profile.email, "mailto:" + (data.profile.email || "")],
+      [data.profile.personalEmail, "mailto:" + (data.profile.personalEmail || "")]
+    ].forEach(([label, href]) => {
+      if (!label || !href) return;
+      const anchor = makeLink(label, href, "about-profile-link");
+      if (anchor) aboutProfileLinks.append(anchor);
+    });
+  }
   (data.roles || []).forEach((role) => {
     const tag = make("span", "about-interest", role);
     $("#about-interest-list").append(tag);
@@ -381,9 +393,11 @@
   updateGalleryPlayback();
   $("#contact-city").textContent = data.profile.city || "";
   [
-    ["Email", "mailto:" + (data.profile.email || "")],
+    [data.profile.email, "mailto:" + (data.profile.email || "")],
+    [data.profile.personalEmail, "mailto:" + (data.profile.personalEmail || "")],
     ["LinkedIn", data.profile.linkedin || ""]
   ].forEach(([label, href]) => {
+    if (!label || !href) return;
     const anchor = makeLink(label + " ↗", href, "contact-link");
     if (anchor) $("#contact-links").append(anchor);
   });
@@ -603,7 +617,8 @@
       return { text: "You can open Purvanshi’s resume from the portfolio.", link: "assets/Purvanshi_Resume_Updated.pdf", linkLabel: "View resume" };
     }
     if (/contact|email|linkedin|phone|connect/.test(q)) {
-      return { text: "Contact Purvanshi by email at " + (profile.email || "To Be Added") + " or visit her LinkedIn profile.", link: profile.linkedin, linkLabel: "Open LinkedIn" };
+      const emails = [profile.email, profile.personalEmail].filter(Boolean).join(" or ");
+      return { text: "Contact Purvanshi by email at " + (emails || "To Be Added") + " or visit her LinkedIn profile.", link: profile.linkedin, linkLabel: "Open LinkedIn" };
     }
     if (/where|location|city/.test(q)) {
       return { text: "The portfolio lists " + (profile.city || "Location — To Be Added") + "." };
