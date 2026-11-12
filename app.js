@@ -9,6 +9,19 @@
     if (text !== undefined) element.textContent = text;
     return element;
   };
+  const makeDocumentPlaceholder = (className, title) => {
+    const placeholder = make("div", className);
+    placeholder.setAttribute("role", "note");
+    const icon = make("span", "document-placeholder-icon", "▤");
+    icon.setAttribute("aria-hidden", "true");
+    placeholder.append(
+      icon,
+      make("span", "document-placeholder-status", "DOCUMENT PREVIEW · PLACEHOLDER"),
+      make("strong", "document-placeholder-title", title),
+      make("span", "document-placeholder-help", "To display it here, add a redacted copy or public verification link.")
+    );
+    return placeholder;
+  };
   const safeUrl = (href) => {
     try {
       const url = new URL(href, location.href);
@@ -130,7 +143,7 @@
     const row = make("div", "education-item");
     row.append(make("span", "education-mark", "↗"), make("div", "education-copy"));
     row.lastElementChild.append(make("strong", "", item.title), make("span", "", item.detail));
-    if (item.certificatePlaceholder) row.lastElementChild.append(make("span", "credential-placeholder", item.certificatePlaceholder));
+    if (item.certificatePlaceholder) row.lastElementChild.append(makeDocumentPlaceholder("credential-placeholder", "Bachelor of Commerce degree certificate"));
     $("#education-list").append(row);
   });
 
@@ -183,7 +196,7 @@
     skills.append(skillTags);
     details.append(skills);
     if (experience.note) details.append(make("p", "experience-note", experience.note));
-    if (experience.certificatePlaceholder) details.append(make("p", "experience-certificate-placeholder", experience.certificatePlaceholder));
+    if (experience.certificatePlaceholder) details.append(makeDocumentPlaceholder("experience-certificate-placeholder", "JBM internship experience letter"));
     const recordButton = make("button", "experience-record-button", experience.certificateFile ? "View certificate · Tap to enlarge ↗" : "View record · Certificate [PLACEHOLDER] ↗");
     recordButton.type = "button";
     recordButton.setAttribute("aria-label", (experience.certificateFile ? "View certificate for " : "View experience record for ") + experience.title);
