@@ -64,7 +64,7 @@ window.PORTFOLIO = {
       ],
       skills: ["Payment clearing", "Reconciliation", "Bill booking", "Invoice verification", "TCS documentation", "Financial statement analysis"],
       note: "Duties summarized from my resume; no quantified outcomes were provided.",
-      certificatePlaceholder: "JBM experience letter — [PLACEHOLDER: redacted copy or verification link]"
+      certificateFile: "assets/certificates/jbm-internship-experience-letter.pdf"
     },
     {
       id: "du-bcom",
