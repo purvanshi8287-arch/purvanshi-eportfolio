@@ -9,17 +9,20 @@
     if (text !== undefined) element.textContent = text;
     return element;
   };
-  const makeDocumentPlaceholder = (className, title) => {
-    const placeholder = make("div", className);
-    placeholder.setAttribute("role", "note");
+  const makeDocumentPlaceholder = (className, title, onOpen) => {
+    const placeholder = make("button", className + " document-placeholder-button");
+    placeholder.type = "button";
+    placeholder.setAttribute("aria-label", "Open document preview: " + title);
     const icon = make("span", "document-placeholder-icon", "▤");
     icon.setAttribute("aria-hidden", "true");
     placeholder.append(
       icon,
       make("span", "document-placeholder-status", "DOCUMENT PREVIEW · PLACEHOLDER"),
       make("strong", "document-placeholder-title", title),
-      make("span", "document-placeholder-help", "To display it here, add a redacted copy or public verification link.")
+      make("span", "document-placeholder-help", "To display it here, add a redacted copy or public verification link."),
+      make("span", "document-placeholder-action", "Click to open preview ↗")
     );
+    if (onOpen) placeholder.addEventListener("click", onOpen);
     return placeholder;
   };
   const safeUrl = (href) => {
@@ -139,20 +142,12 @@
     const tag = make("span", "about-interest", role);
     $("#about-interest-list").append(tag);
   });
-  (data.education || []).forEach((item) => {
-    const row = make("div", "education-item");
-    row.append(make("span", "education-mark", "↗"), make("div", "education-copy"));
-    row.lastElementChild.append(make("strong", "", item.title), make("span", "", item.detail));
-    if (item.certificatePlaceholder) row.lastElementChild.append(makeDocumentPlaceholder("credential-placeholder", "Bachelor of Commerce degree certificate"));
-    $("#education-list").append(row);
-  });
-
   const experienceDialog = $("#experience-lightbox");
   const experienceDocument = $("#experience-lightbox-document");
   const openExperienceRecord = (entry) => {
     $("#experience-lightbox-kicker").textContent = (entry.type || "experience").replace(/-/g, " ").toUpperCase() + " RECORD";
     $("#experience-lightbox-title").textContent = entry.title || "Experience record";
-    $("#experience-lightbox-note").textContent = entry.certificateFile ? "Certificate image supplied with this portfolio." : "Certificate or supporting record — [PLACEHOLDER: upload an authentic file to show it here].";
+    $("#experience-lightbox-note").textContent = entry.certificateFile ? "Certificate image supplied with this portfolio." : "This is a placeholder preview. Add a redacted copy or public verification link to display the actual document.";
     experienceDocument.replaceChildren();
     if (entry.certificateFile) {
       const image = make("img", "experience-certificate-image");
@@ -160,11 +155,31 @@
       image.alt = (entry.title || "Experience") + " certificate";
       experienceDocument.append(image);
     } else {
-      experienceDocument.append(make("div", "experience-placeholder", "[PLACEHOLDER: CERTIFICATE TO BE ADDED]"));
+      const preview = make("div", "experience-placeholder-preview");
+      const icon = make("span", "experience-placeholder-preview-icon", "▤");
+      icon.setAttribute("aria-hidden", "true");
+      preview.append(
+        icon,
+        make("span", "experience-placeholder-preview-label", "DOCUMENT PREVIEW · PLACEHOLDER"),
+        make("strong", "experience-placeholder-preview-title", entry.certificatePreviewTitle || entry.title || "Supporting document"),
+        make("p", "experience-placeholder-preview-copy", "The actual document is not linked here yet. A redacted public copy or verification link can be added when available.")
+      );
+      experienceDocument.append(preview);
     }
     if (typeof experienceDialog.showModal === "function") experienceDialog.showModal();
     else experienceDialog.setAttribute("open", "");
   };
+  (data.education || []).forEach((item) => {
+    const row = make("div", "education-item");
+    row.append(make("span", "education-mark", "↗"), make("div", "education-copy"));
+    row.lastElementChild.append(make("strong", "", item.title), make("span", "", item.detail));
+    if (item.certificatePlaceholder) {
+      const title = "Bachelor of Commerce degree certificate";
+      const previewRecord = { type: "education", title: item.title, certificatePreviewTitle: title };
+      row.lastElementChild.append(makeDocumentPlaceholder("credential-placeholder", title, () => openExperienceRecord(previewRecord)));
+    }
+    $("#education-list").append(row);
+  });
   experienceEntries.forEach((experience, index) => {
     const card = make("article", "experience-item reveal experience-" + (experience.type || "record"));
     card.dataset.timelineSide = index % 2 === 0 ? "left" : "right";
@@ -196,7 +211,10 @@
     skills.append(skillTags);
     details.append(skills);
     if (experience.note) details.append(make("p", "experience-note", experience.note));
-    if (experience.certificatePlaceholder) details.append(makeDocumentPlaceholder("experience-certificate-placeholder", "JBM internship experience letter"));
+    if (experience.certificatePlaceholder) {
+      experience.certificatePreviewTitle = "JBM internship experience letter";
+      details.append(makeDocumentPlaceholder("experience-certificate-placeholder", experience.certificatePreviewTitle, () => openExperienceRecord(experience)));
+    }
     const recordButton = make("button", "experience-record-button", experience.certificateFile ? "View certificate · Tap to enlarge ↗" : "View record · Certificate [PLACEHOLDER] ↗");
     recordButton.type = "button";
     recordButton.setAttribute("aria-label", (experience.certificateFile ? "View certificate for " : "View experience record for ") + experience.title);

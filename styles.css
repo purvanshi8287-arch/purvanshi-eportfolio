@@ -1548,3 +1548,62 @@ body[data-theme="light"] .site-footer { background: var(--surface); color: var(-
   .credential-placeholder, .experience-certificate-placeholder { grid-template-columns: 32px minmax(0, 1fr); padding: 12px; gap: 4px 10px; }
   .document-placeholder-icon { width: 32px; height: 38px; }
 }
+
+/* The document cards open the same accessible preview as the record link. */
+.document-placeholder-button {
+  appearance: none;
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color .2s ease, background .2s ease, transform .2s ease;
+}
+.document-placeholder-button:hover {
+  border-style: solid;
+  border-color: #9BB9F6;
+  background: linear-gradient(115deg, #7FA6F026, #7FA6F010);
+  transform: translateY(-1px);
+}
+.document-placeholder-button:focus-visible {
+  outline: 3px solid #9BB9F6;
+  outline-offset: 3px;
+}
+.document-placeholder-icon { grid-row: 1 / span 5; }
+.document-placeholder-action {
+  color: #9BB9F6 !important;
+  font-size: 10px !important;
+  font-weight: 700;
+  line-height: 1.4;
+}
+.experience-placeholder-preview {
+  display: grid;
+  width: 100%;
+  min-height: 250px;
+  justify-items: center;
+  align-content: center;
+  gap: 10px;
+  padding: clamp(20px, 5vw, 42px);
+  border: 1px dashed #7FA6F0;
+  border-radius: 13px;
+  background: radial-gradient(ellipse at 50% 0%, #7FA6F022, transparent 65%), linear-gradient(145deg, #F9FAFC, #E9EDF5);
+  color: #172235;
+  text-align: center;
+}
+.experience-placeholder-preview-icon {
+  display: grid;
+  width: 48px;
+  height: 56px;
+  place-items: center;
+  border: 1px solid #7FA6F080;
+  border-radius: 11px;
+  background: #7FA6F018;
+  color: #587DBE;
+  font-size: 24px;
+}
+.experience-placeholder-preview-label { color: #587DBE; font-size: 10px; font-weight: 800; letter-spacing: .13em; }
+.experience-placeholder-preview-title { font-size: clamp(18px, 3vw, 24px); line-height: 1.3; }
+.experience-placeholder-preview-copy { max-width: 520px; margin: 0; color: #657084; font-size: 13px; line-height: 1.6; }
+@media (max-width: 767px) {
+  .document-placeholder-action { font-size: 9px !important; }
+  .experience-placeholder-preview { min-height: 210px; }
+}
