@@ -9,18 +9,18 @@
     if (text !== undefined) element.textContent = text;
     return element;
   };
-  const makeDocumentPlaceholder = (className, title, onOpen) => {
+  const makeDocumentPlaceholder = (className, title, onOpen, available) => {
     const placeholder = make("button", className + " document-placeholder-button");
     placeholder.type = "button";
-    placeholder.setAttribute("aria-label", "Open document preview: " + title);
+    placeholder.setAttribute("aria-label", (available ? "Open certificate: " : "Open document preview: ") + title);
     const icon = make("span", "document-placeholder-icon", "▤");
     icon.setAttribute("aria-hidden", "true");
     placeholder.append(
       icon,
-      make("span", "document-placeholder-status", "DOCUMENT PREVIEW · PLACEHOLDER"),
+      make("span", "document-placeholder-status", available ? "EXPERIENCE CERTIFICATE" : "DOCUMENT PREVIEW · PLACEHOLDER"),
       make("strong", "document-placeholder-title", title),
-      make("span", "document-placeholder-help", "To display it here, add a redacted copy or public verification link."),
-      make("span", "document-placeholder-action", "Click to open preview ↗")
+      make("span", "document-placeholder-help", available ? "JBM Kanemitsu · Finance Department · September–October 2025" : "To display it here, add a redacted copy or public verification link."),
+      make("span", "document-placeholder-action", available ? "Click to view certificate ↗" : "Click to open preview ↗")
     );
     if (onOpen) placeholder.addEventListener("click", onOpen);
     return placeholder;
@@ -147,13 +147,27 @@
   const openExperienceRecord = (entry) => {
     $("#experience-lightbox-kicker").textContent = (entry.type || "experience").replace(/-/g, " ").toUpperCase() + " RECORD";
     $("#experience-lightbox-title").textContent = entry.title || "Experience record";
-    $("#experience-lightbox-note").textContent = entry.certificateFile ? "Certificate image supplied with this portfolio." : "This is a placeholder preview. Add a redacted copy or public verification link to display the actual document.";
+    $("#experience-lightbox-note").textContent = entry.certificateFile
+      ? (entry.certificateFile.toLowerCase().endsWith(".pdf") ? "JBM experience certificate · PDF preview. Use the link below if your browser does not display the document." : "Certificate image supplied with this portfolio.")
+      : "This is a placeholder preview. Add a redacted copy or public verification link to display the actual document.";
     experienceDocument.replaceChildren();
     if (entry.certificateFile) {
-      const image = make("img", "experience-certificate-image");
-      image.src = entry.certificateFile;
-      image.alt = (entry.title || "Experience") + " certificate";
-      experienceDocument.append(image);
+      if (entry.certificateFile.toLowerCase().endsWith(".pdf")) {
+        const frame = make("iframe", "experience-certificate-pdf");
+        frame.src = entry.certificateFile;
+        frame.title = (entry.title || "Experience") + " certificate PDF preview";
+        frame.loading = "lazy";
+        const openLink = make("a", "experience-certificate-open-link", "Open or download the certificate PDF ↗");
+        openLink.href = entry.certificateFile;
+        openLink.target = "_blank";
+        openLink.rel = "noopener noreferrer";
+        experienceDocument.append(frame, openLink);
+      } else {
+        const image = make("img", "experience-certificate-image");
+        image.src = entry.certificateFile;
+        image.alt = (entry.title || "Experience") + " certificate";
+        experienceDocument.append(image);
+      }
     } else {
       const preview = make("div", "experience-placeholder-preview");
       const icon = make("span", "experience-placeholder-preview-icon", "▤");
@@ -211,9 +225,9 @@
     skills.append(skillTags);
     details.append(skills);
     if (experience.note) details.append(make("p", "experience-note", experience.note));
-    if (experience.certificatePlaceholder) {
+    if (experience.certificatePlaceholder || experience.certificateFile) {
       experience.certificatePreviewTitle = "JBM internship experience letter";
-      details.append(makeDocumentPlaceholder("experience-certificate-placeholder", experience.certificatePreviewTitle, () => openExperienceRecord(experience)));
+      details.append(makeDocumentPlaceholder("experience-certificate-placeholder", experience.certificatePreviewTitle, () => openExperienceRecord(experience), Boolean(experience.certificateFile)));
     }
     const recordButton = make("button", "experience-record-button", experience.certificateFile ? "View certificate · Tap to enlarge ↗" : "View record · Certificate [PLACEHOLDER] ↗");
     recordButton.type = "button";
