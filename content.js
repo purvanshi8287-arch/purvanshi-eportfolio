@@ -14,7 +14,7 @@ window.PORTFOLIO = {
   about: "I’m Purvanshi, a PGDM Financial Management student at FIIB, New Delhi, and a Bachelor of Commerce graduate from the University of Delhi. My current interests include equity research, risk, taxation and auditing. Through coursework, an individual chatbot prototype, financial dashboard work and a finance internship, I’m learning to connect analysis with careful documentation and transparent assumptions.",
   education: [
     { title: "PGDM, Financial Management", detail: "Fortune Institute of International Business (FIIB) · Batch 2026–2028 · In progress" },
-    { title: "Bachelor of Commerce (B.Com.)", detail: "University of Delhi · 2021–2024 · Degree awarded 28 February 2026 · Second Division", certificatePlaceholder: "Graduation degree scan — [PLACEHOLDER: redacted copy or verification link]" }
+    { title: "Bachelor of Commerce (B.Com.)", detail: "University of Delhi · 2021–2024 · Degree awarded 28 February 2026 · Second Division", certificateTitle: "Bachelor of Commerce degree certificate", certificateFile: "assets/certificates/du-bcom-degree.jpeg" }
   ],
   experience: [
     {
@@ -45,6 +45,7 @@ window.PORTFOLIO = {
         "Event role or activities — [PLACEHOLDER: add verified details]; the certificate confirms participation only."
       ],
       skills: ["Participation (certificate-confirmed)"],
+      certificateTitle: "Brand-O-Mania 2026 participation certificate",
       certificateFile: "certificates/certificate-brand-o-mania-2026.jpg",
       note: "The certificate records participation and does not list a specific role or skills."
     },
@@ -64,6 +65,7 @@ window.PORTFOLIO = {
       ],
       skills: ["Payment clearing", "Reconciliation", "Bill booking", "Invoice verification", "TCS documentation", "Financial statement analysis"],
       note: "Duties summarized from my resume; no quantified outcomes were provided.",
+      certificateTitle: "JBM internship experience letter",
       certificateFile: "assets/certificates/jbm-internship-experience-letter.pdf"
     },
     {
@@ -76,10 +78,12 @@ window.PORTFOLIO = {
       tasks: [
         "Completed a Bachelor of Commerce at the University of Delhi; the degree certificate records the examination year as 2024.",
         "The degree was awarded at the 2026 convocation; the certificate records Second Division.",
-        "Graduation certificate display — [PLACEHOLDER: add a redacted public copy or verification link]."
+        "The Bachelor of Commerce degree certificate is available in the document preview."
       ],
       skills: ["[PLACEHOLDER: add demonstrable skills]"],
-      note: "The supplied degree records Second Division. Its public image or verification link remains a placeholder."
+      note: "The supplied degree records Second Division. The certificate is included as an image preview.",
+      certificateTitle: "Bachelor of Commerce degree certificate",
+      certificateFile: "assets/certificates/du-bcom-degree.jpeg"
     }
   ],
   skills: [
