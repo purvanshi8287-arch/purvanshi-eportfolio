@@ -1610,3 +1610,86 @@ body[data-theme="light"] .site-footer { background: var(--surface); color: var(-
   .document-placeholder-action { font-size: 9px !important; }
   .experience-placeholder-preview { min-height: 210px; }
 }
+
+/* Left-to-right certificate slider */
+.certificate-exhibit { display: block; }
+.certificate-slider-shell {
+  display: grid;
+  grid-template-columns: 46px minmax(0, 1fr) 46px;
+  align-items: center;
+  gap: clamp(8px, 1.6vw, 18px);
+  margin-top: 26px;
+}
+.certificate-slider-track {
+  display: flex;
+  min-width: 0;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 12px 5px 20px;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 5px;
+  scroll-behavior: smooth;
+  overscroll-behavior-inline: contain;
+  scrollbar-color: color-mix(in srgb, var(--accent) 65%, transparent) transparent;
+  scrollbar-width: thin;
+}
+.certificate-slider-track::-webkit-scrollbar { height: 6px; }
+.certificate-slider-track::-webkit-scrollbar-track { background: transparent; }
+.certificate-slider-track::-webkit-scrollbar-thumb { border-radius: 99px; background: color-mix(in srgb, var(--accent) 65%, transparent); }
+.certificate-slider-card {
+  position: relative;
+  display: flex;
+  flex: 0 0 clamp(250px, 30vw, 350px);
+  min-height: 258px;
+  padding: 0;
+  overflow: hidden;
+  scroll-snap-align: start;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: radial-gradient(ellipse at 100% 0%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 48%), var(--surface);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 14px 35px #0002;
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+}
+.certificate-slider-card:hover { transform: translateY(-4px); border-color: color-mix(in srgb, var(--accent) 70%, var(--line)); box-shadow: 0 20px 45px #0003; }
+.certificate-slider-card:focus-visible, .certificate-slider-arrow:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 75%, white); outline-offset: 3px; }
+.certificate-slider-content { display: grid; width: 100%; align-content: start; gap: 13px; padding: 21px; }
+.certificate-slider-content .certificate-top { gap: 11px; }
+.certificate-slider-content .certificate-index { flex: 0 0 29px; width: 29px; height: 29px; color: var(--accent); border-color: color-mix(in srgb, var(--accent) 38%, var(--line)); }
+.certificate-slider-content .certificate-issuer { overflow: hidden; color: var(--muted); font-size: 8px; text-overflow: ellipsis; white-space: nowrap; }
+.certificate-slider-title { display: block; max-width: 28ch; font: 700 20px/1.25 var(--display); letter-spacing: -.035em; }
+.certificate-slider-detail { min-height: 34px; color: var(--muted); font-size: 10px; line-height: 1.6; }
+.certificate-slider-focus { color: var(--ink); font-size: 9px; line-height: 1.55; }
+.certificate-slider-open { align-self: end; margin-top: auto; padding-top: 7px; color: var(--accent); font-size: 9px; font-weight: 800; }
+.certificate-slider-arrow {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--ink);
+  font: 700 19px var(--sans);
+  cursor: pointer;
+  transition: background .2s ease, border-color .2s ease, color .2s ease, opacity .2s ease;
+}
+.certificate-slider-arrow:not(:disabled):hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 14%, var(--surface)); color: var(--accent); }
+.certificate-slider-arrow:disabled { opacity: .35; cursor: default; }
+.certificate-slider-status { display: flex; justify-content: space-between; gap: 12px; margin: 0 62px; color: var(--muted); font-size: 9px; }
+.certificate-slider-status strong { color: var(--accent); font-size: 12px; }
+@media (max-width: 700px) {
+  .certificate-slider-shell { grid-template-columns: 36px minmax(0, 1fr) 36px; gap: 6px; margin-top: 18px; }
+  .certificate-slider-arrow { width: 36px; height: 36px; font-size: 16px; }
+  .certificate-slider-track { gap: 12px; padding: 9px 4px 16px; }
+  .certificate-slider-card { flex-basis: min(78vw, 330px); min-height: 250px; }
+  .certificate-slider-content { gap: 11px; padding: 18px; }
+  .certificate-slider-title { font-size: 18px; }
+  .certificate-slider-status { margin-inline: 42px; font-size: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .certificate-slider-track { scroll-behavior: auto; }
+  .certificate-slider-card, .certificate-slider-arrow { transition: none; }
+}
