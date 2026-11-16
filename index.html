@@ -9,9 +9,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=35">
+  <link rel="stylesheet" href="styles.css?v=36">
   <script src="content.js?v=13" defer></script>
-  <script src="app.js?v=20" defer></script>
+  <script src="app.js?v=21" defer></script>
 </head>
 <body data-theme="dark">
   <a class="skip-link" href="#main">Skip to content</a>
@@ -193,9 +193,14 @@
 
     <section id="certificates" class="section section-shell certificates-section">
       <div class="section-label reveal"><span>07 / CERTIFICATES</span><span class="label-rule"></span><span>COURSES & COMPLETION RECORDS</span></div>
-      <div class="certificates-heading reveal"><div class="section-heading"><h2>Learning in orbit.<br><em>One certificate at a time.</em></h2></div><p class="section-subtitle">Select a certificate to open its record and see the course focus. Course topics are not proficiency claims.</p></div>
+      <div class="certificates-heading reveal"><div class="section-heading"><h2>Learning, in motion.<br><em>One certificate at a time.</em></h2></div><p class="section-subtitle">Browse from left to right, then select a certificate to open its record and course focus. Course topics are not proficiency claims.</p></div>
       <div class="certificate-exhibit reveal">
-        <div class="certificate-solar-wrap"><div class="certificate-solar-orbit solar-orbit-one" aria-hidden="true"></div><div class="certificate-solar-orbit solar-orbit-two" aria-hidden="true"></div><div class="certificate-sun" aria-hidden="true"><span>LEARNING</span><strong id="certificate-count">05</strong><small>records</small></div><div class="certificate-orbit-cards" id="certificate-orbit-cards" aria-label="Select a certificate"></div></div>
+        <div class="certificate-slider-shell">
+          <button class="certificate-slider-arrow" id="certificates-prev" type="button" aria-label="Show previous certificates" disabled>←</button>
+          <div class="certificate-slider-track" id="certificate-orbit-cards" role="region" aria-label="Certificates. Scroll left or right to browse." tabindex="0"></div>
+          <button class="certificate-slider-arrow" id="certificates-next" type="button" aria-label="Show next certificates">→</button>
+        </div>
+        <div class="certificate-slider-status"><span><strong id="certificate-count">05</strong> certificate records</span><span>Swipe or use arrows to browse</span></div>
       </div>
       <p class="certificate-disclaimer">Course records confirm completion. They do not establish a professional licence or independent proficiency.</p>
     </section>

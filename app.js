@@ -394,25 +394,45 @@
     if (typeof certificateDialog.showModal === "function") certificateDialog.showModal();
     else certificateDialog.setAttribute("open", "");
   };
-  const certificateOrbitPeriodSeconds = 28;
+  const certificateSlider = $("#certificate-orbit-cards");
   certificates.forEach((certificate, index) => {
-    const card = make("button", "certificate-orbit-card");
+    const card = make("button", "certificate-slider-card");
     card.type = "button";
-    card.style.setProperty("--orbit-delay", "-" + ((index * certificateOrbitPeriodSeconds) / Math.max(1, certificates.length)) + "s");
-    const orbitAngle = index * 360 / Math.max(1, certificates.length);
-    card.style.setProperty("--orbit-angle", orbitAngle + "deg");
-    card.style.setProperty("--orbit-angle-reverse", -orbitAngle + "deg");
     card.setAttribute("aria-label", "Open " + certificate.title + " certificate and course focus");
-    const contents = make("span", "certificate-orbit-content");
+    const contents = make("span", "certificate-slider-content");
     const top = make("span", "certificate-top");
-    top.append(make("span", "certificate-index", "0" + (index + 1)), make("span", "certificate-issuer", certificate.issuer || "Issuer — To Be Added"));
-    contents.append(top, make("strong", "certificate-orbit-title", certificate.orbitTitle || certificate.title || "Certificate — To Be Added"));
-    const focus = make("span", "certificate-orbit-focus", (certificate.focus || []).join(" · "));
-    contents.append(focus, make("span", "certificate-orbit-open", "Open certificate ↗"));
+    top.append(make("span", "certificate-index", String(index + 1).padStart(2, "0")), make("span", "certificate-issuer", certificate.issuer || "Issuer — To Be Added"));
+    contents.append(top, make("strong", "certificate-slider-title", certificate.title || "Certificate — To Be Added"));
+    contents.append(make("span", "certificate-slider-detail", certificate.detail || "Completion detail — To Be Added"));
+    const focus = make("span", "certificate-slider-focus", (certificate.focus || []).join(" · "));
+    contents.append(focus, make("span", "certificate-slider-open", "View certificate and course focus ↗"));
     card.append(contents);
     card.addEventListener("click", () => openCertificate(certificate));
-    $("#certificate-orbit-cards").append(card);
+    certificateSlider.append(card);
   });
+  const certificatePrevious = $("#certificates-prev");
+  const certificateNext = $("#certificates-next");
+  const updateCertificateSliderButtons = () => {
+    const maxScroll = certificateSlider.scrollWidth - certificateSlider.clientWidth;
+    certificatePrevious.disabled = certificateSlider.scrollLeft <= 3;
+    certificateNext.disabled = maxScroll <= 3 || certificateSlider.scrollLeft >= maxScroll - 3;
+  };
+  const moveCertificateSlider = (direction) => {
+    const firstCard = certificateSlider.querySelector(".certificate-slider-card");
+    const gap = parseFloat(getComputedStyle(certificateSlider).columnGap || getComputedStyle(certificateSlider).gap) || 0;
+    const distance = firstCard ? firstCard.getBoundingClientRect().width + gap : certificateSlider.clientWidth * 0.85;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) certificateSlider.scrollLeft += direction * distance;
+    else certificateSlider.scrollBy({ left: direction * distance, behavior: "smooth" });
+  };
+  certificatePrevious.addEventListener("click", () => moveCertificateSlider(-1));
+  certificateNext.addEventListener("click", () => moveCertificateSlider(1));
+  certificateSlider.addEventListener("scroll", () => window.requestAnimationFrame(updateCertificateSliderButtons), { passive: true });
+  certificateSlider.addEventListener("keydown", (event) => {
+    if (event.key === "ArrowRight") { event.preventDefault(); moveCertificateSlider(1); }
+    if (event.key === "ArrowLeft") { event.preventDefault(); moveCertificateSlider(-1); }
+  });
+  window.addEventListener("resize", updateCertificateSliderButtons);
+  updateCertificateSliderButtons();
   $("#certificate-dialog-close").addEventListener("click", () => certificateDialog.close());
   certificateDialog.addEventListener("click", (event) => {
     if (event.target === certificateDialog) certificateDialog.close();
