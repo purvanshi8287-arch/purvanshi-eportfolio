@@ -457,13 +457,10 @@
     certificateAutoplayButton.setAttribute("aria-pressed", String(hasOverflow && certificateAutoplayRequested));
     certificateSliderHint.textContent = !hasOverflow
       ? "All certificate records are visible"
-      : (certificateAutoplayRequested ? "Moves when visible · hover or focus to pause" : (certificateMotionPreference.matches ? "Autoplay off for reduced motion" : "Swipe or use arrows to browse"));
+      : (certificateAutoplayRequested ? "Moves when visible · use Pause to stop" : (certificateMotionPreference.matches ? "Autoplay off for reduced motion" : "Swipe or use arrows to browse"));
 
-    const focusOnSliderControls = certificateSlider.contains(document.activeElement)
-      || certificatePrevious === document.activeElement
-      || certificateNext === document.activeElement;
-    const isPausedByInteraction = certificateSliderArea.matches(":hover")
-      || focusOnSliderControls
+    const focusOnSliderCards = certificateSlider.contains(document.activeElement);
+    const isPausedByInteraction = focusOnSliderCards
       || certificateInteractionPaused
       || !certificateSliderInView
       || certificateDialog.open;
@@ -471,7 +468,7 @@
       certificateAutoplayTimer = window.setTimeout(() => {
         moveCertificateSlider(1);
         updateCertificateAutoplay();
-      }, 4600);
+      }, 3500);
     }
   };
   const pauseCertificateAutoplayBriefly = () => {
