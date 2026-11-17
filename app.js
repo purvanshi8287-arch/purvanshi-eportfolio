@@ -407,32 +407,121 @@
     const focus = make("span", "certificate-slider-focus", (certificate.focus || []).join(" · "));
     contents.append(focus, make("span", "certificate-slider-open", "View certificate and course focus ↗"));
     card.append(contents);
-    card.addEventListener("click", () => openCertificate(certificate));
+    card.addEventListener("click", () => {
+      openCertificate(certificate);
+      updateCertificateAutoplay();
+    });
     certificateSlider.append(card);
   });
   const certificatePrevious = $("#certificates-prev");
   const certificateNext = $("#certificates-next");
+  const certificateAutoplayButton = $("#certificates-toggle");
+  const certificateSliderHint = $(".certificate-slider-hint");
+  const certificateSliderArea = certificateSlider.closest(".certificate-exhibit");
+  const reducedMotionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let certificateAutoplayRequested = !reducedMotionPreference.matches;
+  let certificateAutoplayTimer = 0;
+  let certificateInteractionTimer = 0;
+  let certificateInteractionPaused = false;
   const updateCertificateSliderButtons = () => {
     const maxScroll = certificateSlider.scrollWidth - certificateSlider.clientWidth;
-    certificatePrevious.disabled = certificateSlider.scrollLeft <= 3;
-    certificateNext.disabled = maxScroll <= 3 || certificateSlider.scrollLeft >= maxScroll - 3;
+    certificatePrevious.disabled = maxScroll <= 3;
+    certificateNext.disabled = maxScroll <= 3;
   };
   const moveCertificateSlider = (direction) => {
     const firstCard = certificateSlider.querySelector(".certificate-slider-card");
     const gap = parseFloat(getComputedStyle(certificateSlider).columnGap || getComputedStyle(certificateSlider).gap) || 0;
     const distance = firstCard ? firstCard.getBoundingClientRect().width + gap : certificateSlider.clientWidth * 0.85;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) certificateSlider.scrollLeft += direction * distance;
-    else certificateSlider.scrollBy({ left: direction * distance, behavior: "smooth" });
+    const maxScroll = certificateSlider.scrollWidth - certificateSlider.clientWidth;
+    const currentPosition = certificateSlider.scrollLeft;
+    const behavior = reducedMotionPreference.matches ? "auto" : "smooth";
+    if (direction > 0 && currentPosition >= maxScroll - 3) {
+      certificateSlider.scrollTo({ left: 0, behavior });
+    } else if (direction < 0 && currentPosition <= 3) {
+      certificateSlider.scrollTo({ left: maxScroll, behavior });
+    } else if (reducedMotionPreference.matches) {
+      certificateSlider.scrollLeft += direction * distance;
+    } else {
+      certificateSlider.scrollBy({ left: direction * distance, behavior: "smooth" });
+    }
+  };
+  let certificateSliderInView = !("IntersectionObserver" in window);
+  const updateCertificateAutoplay = () => {
+    window.clearTimeout(certificateAutoplayTimer);
+    const hasOverflow = certificateSlider.scrollWidth - certificateSlider.clientWidth > 3;
+    certificateAutoplayButton.disabled = !hasOverflow;
+    certificateAutoplayButton.textContent = hasOverflow ? (certificateAutoplayRequested ? "Pause" : "Play") : "All shown";
+    certificateAutoplayButton.setAttribute("aria-label", !hasOverflow
+      ? "All certificate records are visible"
+      : (certificateAutoplayRequested ? "Pause automatic certificate movement" : "Start automatic certificate movement"));
+    certificateAutoplayButton.setAttribute("aria-pressed", String(hasOverflow && certificateAutoplayRequested));
+    certificateSliderHint.textContent = !hasOverflow
+      ? "All certificate records are visible"
+      : (certificateAutoplayRequested ? "Moves when visible · hover or focus to pause" : (reducedMotionPreference.matches ? "Autoplay off for reduced motion" : "Swipe or use arrows to browse"));
+
+    const focusOnSliderControls = certificateSlider.contains(document.activeElement)
+      || certificatePrevious === document.activeElement
+      || certificateNext === document.activeElement;
+    const isPausedByInteraction = certificateSliderArea.matches(":hover")
+      || focusOnSliderControls
+      || certificateInteractionPaused
+      || !certificateSliderInView
+      || certificateDialog.open;
+    if (hasOverflow && certificateAutoplayRequested && !document.hidden && !isPausedByInteraction) {
+      certificateAutoplayTimer = window.setTimeout(() => {
+        moveCertificateSlider(1);
+        updateCertificateAutoplay();
+      }, 4600);
+    }
+  };
+  const pauseCertificateAutoplayBriefly = () => {
+    certificateInteractionPaused = true;
+    window.clearTimeout(certificateInteractionTimer);
+    certificateInteractionTimer = window.setTimeout(() => {
+      certificateInteractionPaused = false;
+      updateCertificateAutoplay();
+    }, 6000);
+    updateCertificateAutoplay();
   };
   certificatePrevious.addEventListener("click", () => moveCertificateSlider(-1));
   certificateNext.addEventListener("click", () => moveCertificateSlider(1));
+  certificateAutoplayButton.addEventListener("click", () => {
+    certificateAutoplayRequested = !certificateAutoplayRequested;
+    certificateInteractionPaused = false;
+    window.clearTimeout(certificateInteractionTimer);
+    updateCertificateAutoplay();
+  });
   certificateSlider.addEventListener("scroll", () => window.requestAnimationFrame(updateCertificateSliderButtons), { passive: true });
   certificateSlider.addEventListener("keydown", (event) => {
-    if (event.key === "ArrowRight") { event.preventDefault(); moveCertificateSlider(1); }
-    if (event.key === "ArrowLeft") { event.preventDefault(); moveCertificateSlider(-1); }
+    if (event.key === "ArrowRight") { event.preventDefault(); moveCertificateSlider(1); pauseCertificateAutoplayBriefly(); }
+    if (event.key === "ArrowLeft") { event.preventDefault(); moveCertificateSlider(-1); pauseCertificateAutoplayBriefly(); }
   });
-  window.addEventListener("resize", updateCertificateSliderButtons);
+  certificateSliderArea.addEventListener("pointerdown", pauseCertificateAutoplayBriefly, { passive: true });
+  certificateSliderArea.addEventListener("wheel", pauseCertificateAutoplayBriefly, { passive: true });
+  certificateSliderArea.addEventListener("touchstart", pauseCertificateAutoplayBriefly, { passive: true });
+  certificateSliderArea.addEventListener("pointerenter", updateCertificateAutoplay);
+  certificateSliderArea.addEventListener("pointerleave", updateCertificateAutoplay);
+  certificateSliderArea.addEventListener("focusin", updateCertificateAutoplay);
+  certificateSliderArea.addEventListener("focusout", () => window.requestAnimationFrame(updateCertificateAutoplay));
+  certificateDialog.addEventListener("close", updateCertificateAutoplay);
+  document.addEventListener("visibilitychange", updateCertificateAutoplay);
+  if ("IntersectionObserver" in window) {
+    const certificateVisibilityObserver = new IntersectionObserver((entries) => {
+      certificateSliderInView = Boolean(entries[0] && entries[0].isIntersecting);
+      updateCertificateAutoplay();
+    }, { threshold: 0.08 });
+    certificateVisibilityObserver.observe(certificateSliderArea);
+  }
+  reducedMotionPreference.addEventListener?.("change", (event) => {
+    if (event.matches) certificateAutoplayRequested = false;
+    updateCertificateAutoplay();
+  });
+  window.addEventListener("resize", () => {
+    updateCertificateSliderButtons();
+    updateCertificateAutoplay();
+  });
   updateCertificateSliderButtons();
+  updateCertificateAutoplay();
   $("#certificate-dialog-close").addEventListener("click", () => certificateDialog.close());
   certificateDialog.addEventListener("click", (event) => {
     if (event.target === certificateDialog) certificateDialog.close();
