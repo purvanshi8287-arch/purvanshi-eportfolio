@@ -1193,15 +1193,15 @@ body[data-theme="dark"] .skills-section { background: #161E25; }
   color-scheme: light;
 }
 body[data-theme="dark"] {
-  --paper: #3C3438;
-  --surface: #592B3C;
+  --paper: #253858;
+  --surface: #1947A3;
   --ink: #FFFFFF;
-  --muted: #D8BFA3;
-  --line: #D8BFA34D;
-  --forest: #592B3C;
-  --forest-soft: #704A58;
-  --accent: #D8BFA3;
-  --gold: #F8F3EE;
+  --muted: #DCE7F5;
+  --line: #DCE7F54D;
+  --forest: #1947A3;
+  --forest-soft: #315B9F;
+  --accent: #DCE7F5;
+  --gold: #FFFFFF;
   color-scheme: dark;
 }
 html { scroll-padding-top: 96px; }
