@@ -418,8 +418,8 @@
   const certificateAutoplayButton = $("#certificates-toggle");
   const certificateSliderHint = $(".certificate-slider-hint");
   const certificateSliderArea = certificateSlider.closest(".certificate-exhibit");
-  const reducedMotionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-  let certificateAutoplayRequested = !reducedMotionPreference.matches;
+  const certificateMotionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let certificateAutoplayRequested = !certificateMotionPreference.matches;
   let certificateAutoplayTimer = 0;
   let certificateInteractionTimer = 0;
   let certificateInteractionPaused = false;
@@ -434,12 +434,12 @@
     const distance = firstCard ? firstCard.getBoundingClientRect().width + gap : certificateSlider.clientWidth * 0.85;
     const maxScroll = certificateSlider.scrollWidth - certificateSlider.clientWidth;
     const currentPosition = certificateSlider.scrollLeft;
-    const behavior = reducedMotionPreference.matches ? "auto" : "smooth";
+    const behavior = certificateMotionPreference.matches ? "auto" : "smooth";
     if (direction > 0 && currentPosition >= maxScroll - 3) {
       certificateSlider.scrollTo({ left: 0, behavior });
     } else if (direction < 0 && currentPosition <= 3) {
       certificateSlider.scrollTo({ left: maxScroll, behavior });
-    } else if (reducedMotionPreference.matches) {
+    } else if (certificateMotionPreference.matches) {
       certificateSlider.scrollLeft += direction * distance;
     } else {
       certificateSlider.scrollBy({ left: direction * distance, behavior: "smooth" });
@@ -457,7 +457,7 @@
     certificateAutoplayButton.setAttribute("aria-pressed", String(hasOverflow && certificateAutoplayRequested));
     certificateSliderHint.textContent = !hasOverflow
       ? "All certificate records are visible"
-      : (certificateAutoplayRequested ? "Moves when visible · hover or focus to pause" : (reducedMotionPreference.matches ? "Autoplay off for reduced motion" : "Swipe or use arrows to browse"));
+      : (certificateAutoplayRequested ? "Moves when visible · hover or focus to pause" : (certificateMotionPreference.matches ? "Autoplay off for reduced motion" : "Swipe or use arrows to browse"));
 
     const focusOnSliderControls = certificateSlider.contains(document.activeElement)
       || certificatePrevious === document.activeElement
@@ -512,7 +512,7 @@
     }, { threshold: 0.08 });
     certificateVisibilityObserver.observe(certificateSliderArea);
   }
-  reducedMotionPreference.addEventListener?.("change", (event) => {
+  certificateMotionPreference.addEventListener?.("change", (event) => {
     if (event.matches) certificateAutoplayRequested = false;
     updateCertificateAutoplay();
   });
