@@ -1739,3 +1739,24 @@ body[data-theme="light"] .site-footer { background: var(--surface); color: var(-
 .post-hero-content .experience-timeline-marker { box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 12%, transparent), 0 0 16px color-mix(in srgb, var(--gold) 45%, transparent); }
 .hero-cv-button { border-color: var(--gold) !important; background: var(--gold) !important; color: #17263A !important; }
 .experience-placeholder-preview-icon, .experience-placeholder-preview-label { color: var(--accent); }
+
+/* Make the opening hero reflect the light 60/30/10 palette too. */
+.hero-scroll-wrapper, .hero-stage { background: var(--paper); color: var(--ink); }
+.hero-stage-grid { background-image: linear-gradient(color-mix(in srgb, var(--gold) 10%, transparent) 1px, transparent 1px), linear-gradient(90deg, color-mix(in srgb, var(--gold) 10%, transparent) 1px, transparent 1px); }
+.hero-stage-glow { background: radial-gradient(ellipse at 49% 54%, color-mix(in srgb, var(--gold) 15%, transparent), transparent 58%), radial-gradient(ellipse at 90% 8%, color-mix(in srgb, var(--gold) 9%, transparent), transparent 34%); }
+.hero-giant-name { background: linear-gradient(180deg, var(--forest) 8%, color-mix(in srgb, var(--forest) 72%, var(--paper)) 45%, transparent 98%); }
+.hero-scroll-portrait::after { background: linear-gradient(180deg, transparent 70%, color-mix(in srgb, var(--paper) 97%, transparent) 100%); }
+.hero-portrait-glow { background: radial-gradient(ellipse, color-mix(in srgb, var(--gold) 28%, transparent), color-mix(in srgb, var(--gold) 12%, transparent) 38%, transparent 74%); }
+.hero-stage-coordinates, .hero-about-intro, .hero-scroll-cue { color: var(--muted); }
+.hero-open-to, .hero-stage-chip { border-color: color-mix(in srgb, var(--gold) 52%, var(--line)); background: color-mix(in srgb, var(--surface) 94%, transparent); color: var(--ink); }
+.hero-scroll-about h2 { color: var(--ink); }
+.hero-scroll-about h2 em, .hero-about-label { color: var(--accent); }
+.hero-about-subline { color: var(--ink); }
+.hero-about-actions a, .hero-about-reach button { border-color: var(--line); background: color-mix(in srgb, var(--surface) 88%, transparent); color: var(--ink); }
+.hero-about-actions a:hover { border-color: var(--accent); }
+.hero-about-actions .hero-cv-button { border-color: var(--gold); background: var(--gold); color: var(--forest); }
+.hero-about-reach { color: var(--muted); }
+.hero-about-reach a { color: var(--accent); text-decoration-color: color-mix(in srgb, var(--gold) 70%, transparent); }
+.hero-about-reach button { color: var(--ink); }
+.hero-interest-block > span { color: var(--muted); }
+.hero-interest-block .role-pill { border-color: var(--line); background: var(--surface); color: var(--ink); }
