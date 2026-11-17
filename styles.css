@@ -1193,15 +1193,15 @@ body[data-theme="dark"] .skills-section { background: #161E25; }
   color-scheme: light;
 }
 body[data-theme="dark"] {
-  --paper: #111C2B;
-  --surface: #1A2A3D;
-  --ink: #F7F3E9;
-  --muted: #B7B8B4;
-  --line: #FFFFFF20;
-  --forest: #10243B;
-  --forest-soft: #1A3552;
-  --accent: #D4AE61;
-  --gold: #DFC27A;
+  --paper: #3C3438;
+  --surface: #592B3C;
+  --ink: #FFFFFF;
+  --muted: #D8BFA3;
+  --line: #D8BFA34D;
+  --forest: #592B3C;
+  --forest-soft: #704A58;
+  --accent: #D8BFA3;
+  --gold: #F8F3EE;
   color-scheme: dark;
 }
 html { scroll-padding-top: 96px; }
@@ -1760,3 +1760,14 @@ body[data-theme="light"] .site-footer { background: var(--surface); color: var(-
 .hero-about-reach button { color: var(--ink); }
 .hero-interest-block > span { color: var(--muted); }
 .hero-interest-block .role-pill { border-color: var(--line); background: var(--surface); color: var(--ink); }
+.hero-transition-tail { border-top-color: color-mix(in srgb, var(--gold) 22%, transparent); background: var(--forest); }
+.hero-footer, .hero-transition-tail .interest-marquee, .hero-transition-tail .hero-proof-item > span, .hero-transition-tail .hero-proof-footnote { color: var(--muted); }
+.hero-footer a, .hero-footer i { color: var(--accent); }
+.hero-transition-tail .hero-proof-item strong { color: var(--gold); }
+.hero-open-to i { background: var(--gold); box-shadow: 0 0 0 4px color-mix(in srgb, var(--gold) 18%, transparent), 0 0 12px color-mix(in srgb, var(--gold) 55%, transparent); }
+body[data-theme="dark"] .hero-giant-name { background: linear-gradient(180deg, var(--gold) 8%, color-mix(in srgb, var(--gold) 66%, var(--paper)) 45%, transparent 98%); }
+body[data-theme="dark"] .main-nav a.is-current { color: var(--paper); }
+body[data-theme="dark"] .nav-resume, body[data-theme="dark"] .nav-resume span { color: var(--paper); }
+body[data-theme="dark"] .closing-cta .button-copper { color: var(--paper); }
+body[data-theme="dark"] .contact-card, body[data-theme="dark"] .site-footer { background: var(--surface); }
+body[data-theme="dark"] .project-status { background: color-mix(in srgb, var(--surface) 78%, var(--paper)); color: var(--gold); }
