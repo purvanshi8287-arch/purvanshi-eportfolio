@@ -584,8 +584,8 @@
   }));
 
   const themeButton = $("#theme-toggle");
-  let savedTheme = "dark";
-  try { savedTheme = localStorage.getItem("purvanshi-theme-v2") || "dark"; } catch (_) {}
+  let savedTheme = "light";
+  try { savedTheme = localStorage.getItem("purvanshi-theme-v3") || "light"; } catch (_) {}
   document.body.dataset.theme = savedTheme;
   const updateThemeButton = () => {
     const dark = document.body.dataset.theme === "dark";
@@ -596,7 +596,7 @@
   updateThemeButton();
   themeButton.addEventListener("click", () => {
     document.body.dataset.theme = document.body.dataset.theme === "dark" ? "light" : "dark";
-    try { localStorage.setItem("purvanshi-theme-v2", document.body.dataset.theme); } catch (_) {}
+    try { localStorage.setItem("purvanshi-theme-v3", document.body.dataset.theme); } catch (_) {}
     updateThemeButton();
   });
 
