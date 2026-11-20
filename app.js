@@ -625,7 +625,7 @@
       const p = reduced ? 1 : clamp01(-heroTop / heroScrollDistance);
       heroStage.style.setProperty("--hero-progress", p.toFixed(4));
 
-      const nameProgress = easeOutCubic(p / 0.35);
+      const nameProgress = easeOutCubic((p - 0.08) / 0.27);
       heroStage.style.setProperty("--name-opacity", String(1 - nameProgress));
       heroStage.style.setProperty("--name-blur", (12 * nameProgress).toFixed(2) + "px");
       heroStage.style.setProperty("--name-y", (-window.innerHeight * 0.05 * nameProgress).toFixed(1) + "px");

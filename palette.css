@@ -266,10 +266,12 @@ body[data-theme="dark"] .chat-message.user { background: var(--action); color: #
   }
 }
 
-/* Theme background shorthands reset background-clip; restore it so the name paints. */
-.hero-giant-name {
-  background-clip: text;
-  -webkit-background-clip: text;
+/* Use a solid, high-contrast fill so theme gradients cannot hide the name. */
+body[data-theme="light"] .hero-giant-name,
+body[data-theme="dark"] .hero-giant-name {
+  background-image: none !important;
+  color: var(--heading) !important;
+  -webkit-text-fill-color: var(--heading) !important;
 }
 
 /* The coordinate line repeats the two floating labels and caused them to collide. */
