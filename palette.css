@@ -265,3 +265,13 @@ body[data-theme="dark"] .chat-message.user { background: var(--action); color: #
     animation: none !important;
   }
 }
+
+/* Theme background shorthands reset background-clip; restore it so the name paints. */
+.hero-giant-name {
+  background-clip: text;
+  -webkit-background-clip: text;
+}
+
+/* The coordinate line repeats the two floating labels and caused them to collide. */
+.hero-stage-coordinates { display: none; }
+.hero-stage-chip { top: clamp(190px, 32vh, 300px); }
