@@ -241,3 +241,27 @@ body[data-theme="dark"] .assistant-avatar,
 body[data-theme="dark"] .guide-avatar,
 body[data-theme="dark"] .assistant-form button,
 body[data-theme="dark"] .chat-message.user { background: var(--action); color: #FFFFFF; }
+
+/* Keep Purvanshi fully readable, including for visitors who prefer less motion. */
+.hero-giant-name {
+  width: min(94vw, 1450px);
+  font-size: clamp(54px, 12.5vw, 240px);
+  letter-spacing: -.055em;
+}
+@media (max-width: 767px) {
+  .hero-giant-name { width: 96vw; font-size: clamp(44px, 12.4vw, 92px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-giant-name {
+    top: 20%;
+    left: 62%;
+    width: 32vw;
+    font-size: clamp(36px, 5.2vw, 78px) !important;
+    line-height: .9;
+    text-align: left;
+    opacity: 1 !important;
+    filter: none !important;
+    transform: none !important;
+    animation: none !important;
+  }
+}
